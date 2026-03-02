@@ -1,0 +1,35 @@
+// filename: clamming.yuml
+// author: Brigitte Bigi
+// contact: contact@sppas.org
+// summary: UML class diagram for Hyper Text Markup Language Maker of clamming.
+//
+// This file is part of ClammingPy: https://clammingpy.sourceforge.io
+//     Copyright (C) 2023-2025 Brigitte Bigi, CNRS,
+//     Laboratoire Parole et Langage, Aix-en-Provence, France
+//     Use of this software is governed by the GNU Affero Public License, version 3.
+//
+// Copy/paste the following at:
+// https://yuml.me/diagram/scruffy/class/draw
+// Or try with: https://github.com/jaime-olivares/yuml-diagram
+
+// -------------------
+// Class descriptions
+// -------------------
+
+[ClamInfo|--name:str;--args:list;--source:str;--docstring: src| get_name();set_name();get_args();set_args();get_source();set_source();get_docstring();set_docstring();]
+[ClamInfoMarkdown|--clam: ClamInfo|convert_name();convert_source();convert_docstring()|-extract_fieldname();-fieldname_variant();-ptype();-param();-raise();-return();-example();-plist();]
+[ClammingClassParser|--obj_src: str;--obj: Object|get_obj_clams();get_init_clams();get_fct_clams()|-inspect_class();-inspect_constructor();-inspect_functions()]
+[ClamsClass|+markdowner:Markdown;+lexer:PythonLexer;+formatter:HtmlFormatter|get_name();markdown();html()|--docstring_to_html();--claminfo_to_html()]
+[HTMLDocExport|software;copyright;url;icon;title;favicon;theme;statics;wexa_statics]
+[ClamsPack|--name: str;--clams: list()|get_name();markdown();html();html_index();html_export_clams();]
+[ClamsModules|markdown_export_packages();html_export_index();html_export_packages()]
+
+// -------------------
+// Class relations
+// -------------------
+
+[ClamInfoMarkdown]-1..1>[ClamInfo]
+[ClamsClass]-1..1>[ClammingClassParser]
+[ClamsPack]-1..*>[ClamsClass]
+[ClamsPack]-1..1>[HTMLDocExport]
+[ClamsModules]-1..*>[ClamsPack]

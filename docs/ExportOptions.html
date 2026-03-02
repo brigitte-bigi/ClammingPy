@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html>
+
+        <head>
+            
+            <title>ClammingPy doc</title>
+
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+            <meta name="description" content="Python Class Documentation of ExportOptions. Store the options and content for an export to documented files." />
+
+            <link rel="logo icon" href="./statics/clamming32x32.ico" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
+
+            <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+            <script>
+            (function () {
+              const usingFile = (window.location.protocol === 'file:');
+              const s = document.createElement('script');
+            
+              if (usingFile) {
+                s.src = './Whakerexa-2.0/wexa_statics/js/wexa.bundle.js';
+              } else {
+                s.type = 'module';
+                s.src = './Whakerexa-2.0/wexa_statics/js/wexa.js';
+              }
+            
+              s.onload = function () {
+                window.Wexa.onload.addLoadFunction(function () {
+                  const book = new window.Wexa.Book("main-content");
+                  book.fill_table(false);
+                });
+              };
+            
+              document.head.appendChild(s);
+            })();
+            </script>
+
+       </head>
+       
+       <body class="light">
+        <header>
+
+            <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+                Go to main content
+            </a>
+            <nav>
+                <ul>
+                    <li>
+                        <button id="btn-contrast" role="menuitem" class="print-off" onclick="window.Wexa.accessibility.switch_contrast_scheme()" aria-label="Contrast">
+                            <img class="nav-item-img" src="./Whakerexa-2.0/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="btn-theme" class="print-off" role="menuitem" onclick="window.Wexa.accessibility.switch_color_scheme()" aria-label="Theme" >
+                            <img class="nav-item-img" src="./Whakerexa-2.0/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        
+    <h1>ClammingPy 2.1</h1>
+        <p><img class="small-logo" src="./statics/clamming.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://sourceforge.net/projects/clamming/">https://sourceforge.net/projects/clamming/</a></p>
+    </header>
+    <nav id="nav-book" class="side-nav">
+    <h1>ClammingPy 2.1</h1>
+    <img class="small-logo center" src="./statics/clamming.png" alt=""/>
+        <p><a class="external-link" href="https://sourceforge.net/projects/clamming/">https://sourceforge.net/projects/clamming/</a></p>
+    <ul>
+<li><a role="button" tabindex="0" aria-disabled="true"> &crarr; Prev. Module</a></li>
+<li><a role="button" tabindex="0" href="ClamsModules.html"> &uarr; Prev. Class</a></li>
+<li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
+<li><a role="button" tabindex="0" aria-disabled="true"> &darr; Next Class</a></li>
+<li><a role="button" tabindex="0" href="tests.html"> &rdsh; Next Module</a></li>
+    </ul>
+    <h2>Table of Contents</h2>
+    <ul id="toc"></ul>
+    <hr>
+    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>
+</nav>
+    <main id="main-content">
+    <section id="#clamming">    <h1>Module clamming</h1>
+<section id="#ExportOptions">
+<h2>Class ExportOptions</h2>
+
+<section>
+<h3 id="#description_ExportOptions">Description</h3>
+    <article class="docstring">
+<p><em>Store the options and content for an export to documented files.</em></p>
+
+<p>ExportOptions is a data class, used to store options and content for
+exporting a documented file. It provides methods to set and get various
+information such as software name, copyright, icon, title, favicon, and
+theme. It also allows setting the names of the next and previous classes
+or modules for generating a table of contents (HTML only).</p>
+
+<h5>Example</h5>
+
+<div class="highlight"><pre><span></span><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">h</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="p">()</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">h</span><span class="o">.</span><span class="n">software</span> <span class="o">=</span> <span class="s2">&quot;Clamming&quot;</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">h</span><span class="o">.</span><span class="n">theme</span> <span class="o">=</span> <span class="s2">&quot;light&quot;</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">html_head</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">get_head</span><span class="p">()</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">html_nav</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">get_nav</span><span class="p">()</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">html_footer</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">get_footer</span><span class="p">()</span>
+</code></pre></div>
+
+    </article>
+</section>
+<section>
+<h3 id="#constructor_ExportOptions">Constructor</h3>
+    <article class="docstring">
+<p><em>Create a documentation export system for a ClamsPack.</em></p>
+
+<p>Main functionalities:</p>
+
+<ul>
+<li>Store options and content for exporting a standalone file;</li>
+<li>Set and get HTML information such as software name, copyright, icon, title, favicon, and theme;</li>
+<li>Set the names of the next and previous classes or modules for generating a table of contents.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a documentation export system for a ClamsPack.</span>
+
+<span class="sd">    Main functionalities:</span>
+
+<span class="sd">    - Store options and content for exporting a standalone file;</span>
+<span class="sd">    - Set and get HTML information such as software name, copyright, icon, title, favicon, and theme;</span>
+<span class="sd">    - Set the names of the next and previous classes or modules for generating a table of contents.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__readme</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__software</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_SOFTWARE</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__copyright</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_COPYRIGHT</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__url</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_URL</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__icon</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_ICON</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__title</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_TITLE</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__favicon</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_FAVICON</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__theme</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_THEME</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__statics</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_STATICS</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__wexa_statics</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_WEXA_STATICS</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__descr</span> <span class="o">=</span> <span class="s1">&#39;Python class documentation&#39;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__next_class</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__prev_class</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__next_pack</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__prev_pack</span> <span class="o">=</span> <span class="kc">None</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#public_fct_ExportOptions">Public functions</h3>
+<h4>get_add_readme</h4>
+
+    <article class="docstring">
+<p><em>Return whether the README of library is added or not.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_add_readme</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return whether the README of library is added or not.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__readme</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>set_add_readme</h4>
+
+    <article class="docstring">
+<p><em>Set whether the README of library is added or not.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>readme</strong>: (<em>bool</em>) whether the README is added or not.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_add_readme</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">readme</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set whether the README of library is added or not.</span>
+
+<span class="sd">        :param readme: (bool) whether the README is added or not.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__readme</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">readme</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_software</h4>
+
+    <article class="docstring">
+<p><em>Return the name of the software.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_software</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the name of the software.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__software</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>set_software</h4>
+
+    <article class="docstring">
+<p><em>Set a software name.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>name</strong>: (<em>str</em>) Name of the documented software</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>TypeError</em>: Given name is not a string</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_software</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="n">DEFAULT_SOFTWARE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set a software name.</span>
+
+<span class="sd">        :param name: (str) Name of the documented software</span>
+<span class="sd">        :raises: TypeError: Given name is not a string</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;str&#39; for the HTMLDocExport.software. Got </span><span class="si">{}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__software</span> <span class="o">=</span> <span class="n">name</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_url</h4>
+
+    <article class="docstring">
+<p><em>Return the url of the software.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the url of the software.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__url</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>set_url</h4>
+
+    <article class="docstring">
+<p><em>Set a software url.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>name</strong>: (<em>str</em>) URL of the documented software</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>TypeError</em>: Given name is not a string</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set a software url.</span>
+
+<span class="sd">        :param name: (str) URL of the documented software</span>
+<span class="sd">        :raises: TypeError: Given name is not a string</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;str&#39; for the HTMLDocExport.url. Got </span><span class="si">{}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__url</span> <span class="o">=</span> <span class="n">name</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_copyright</h4>
+
+    <article class="docstring">
+<p><em>Return the copyright of the HTML page.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_copyright</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the copyright of the HTML page.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__copyright</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>set_copyright</h4>
+
+    <article class="docstring">
+<p><em>Set a copyright text, added to the footer of the page.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>text</strong>: (<em>str</em>) Copyright of the documented software</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>TypeError</em>: Given text is not a string</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_copyright</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="n">DEFAULT_COPYRIGHT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set a copyright text, added to the footer of the page.</span>
+
+<span class="sd">        :param text: (str) Copyright of the documented software</span>
+<span class="sd">        :raises: TypeError: Given text is not a string</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;str&#39; for the HTMLDocExport.copyright. Got </span><span class="si">{}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__copyright</span> <span class="o">=</span> <span class="n">text</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_icon</h4>
+
+    <article class="docstring">
+<p><em>Return the icon filename of the software.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_icon</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the icon filename of the software.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__icon</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>set_icon</h4>
+
+    <article class="docstring">
+<p><em>Set an icon filename.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>name</strong>: (<em>str</em>) Filename of the icon of the documented software</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>TypeError</em>: Given name is not a string</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_icon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="n">DEFAULT_ICON</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set an icon filename.</span>
+
+<span class="sd">        :param name: (str) Filename of the icon of the documented software</span>
+<span class="sd">        :raises: TypeError: Given name is not a string</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;str&#39; for the HTMLDocExport.icon. Got </span><span class="si">{}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__icon</span> <span class="o">=</span> <span class="n">name</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_title</h4>
+
+    <article class="docstring">
+<p><em>Return the title of the HTML page.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the title of the HTML page.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__title</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>set_title</h4>
+
+    <article class="docstring">
+<p><em>Set a title to the output HTML pages.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>text</strong>: (<em>str</em>) Title of the HTML pages</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>TypeError</em>: Given text is not a string</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="n">DEFAULT_TITLE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set a title to the output HTML pages.</span>
+
+<span class="sd">        :param text: (str) Title of the HTML pages</span>
+<span class="sd">        :raises: TypeError: Given text is not a string</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;str&#39; for the HTMLDocExport.title. Got </span><span class="si">{}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__title</span> <span class="o">=</span> <span class="n">text</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_statics</h4>
+
+    <article class="docstring">
+<p><em>Return the static path of the CSS, JS, etc.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_statics</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the static path of the CSS, JS, etc.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__statics</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>set_statics</h4>
+
+    <article class="docstring">
+<p><em>Set the static path of the customs CSS, JS, etc.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>name</strong>: (<em>str</em>) Path of the static elements</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>TypeError</em>: Given name is not a string</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_statics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="n">DEFAULT_STATICS</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the static path of the customs CSS, JS, etc.</span>
+
+<span class="sd">        :param name: (str) Path of the static elements</span>
+<span class="sd">        :raises: TypeError: Given name is not a string</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;str&#39; for the HTMLDocExport.statics. Got </span><span class="si">{}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__statics</span> <span class="o">=</span> <span class="n">name</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_wexa_statics</h4>
+
+    <article class="docstring">
+<p><em>Return the static path of the CSS, JS, etc. of Whakerexa.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_wexa_statics</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the static path of the CSS, JS, etc. of Whakerexa. &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__wexa_statics</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>set_wexa_statics</h4>
+
+    <article class="docstring">
+<p><em>Set the static path of the customs CSS, JS, etc. of Whakerexa.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>name</strong>: (<em>str</em>) Path of the static elements</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>TypeError</em>: Given name is not a string</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_wexa_statics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="n">DEFAULT_WEXA_STATICS</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the static path of the customs CSS, JS, etc. of Whakerexa.</span>
+
+<span class="sd">        :param name: (str) Path of the static elements</span>
+<span class="sd">        :raises: TypeError: Given name is not a string</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;str&#39; for the HTMLDocExport.wexa_statics. Got </span><span class="si">{}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__wexa_statics</span> <span class="o">=</span> <span class="n">name</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_favicon</h4>
+
+    <article class="docstring">
+<p><em>Return the favicon filename of the HTML pages.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_favicon</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the favicon filename of the HTML pages.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__favicon</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>set_favicon</h4>
+
+    <article class="docstring">
+<p><em>Set a favicon to the output HTML pages.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>name</strong>: (<em>str</em>) Favicon of the HTML pages</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>TypeError</em>: Given name is not a string</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_favicon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="n">DEFAULT_FAVICON</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set a favicon to the output HTML pages.</span>
+
+<span class="sd">        :param name: (str) Favicon of the HTML pages</span>
+<span class="sd">        :raises: TypeError: Given name is not a string</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;str&#39; for the HTMLDocExport.favicon. Got </span><span class="si">{}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__favicon</span> <span class="o">=</span> <span class="n">name</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_theme</h4>
+
+    <article class="docstring">
+<p><em>Return the theme of the HTML page.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_theme</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the theme of the HTML page.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__theme</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>set_theme</h4>
+
+    <article class="docstring">
+<p><em>Set a theme name.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>name</strong>: (<em>str</em>) Name of the theme of the HTML pages</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>TypeError</em>: Given name is not a string</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_theme</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="n">DEFAULT_THEME</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set a theme name.</span>
+
+<span class="sd">        :param name: (str) Name of the theme of the HTML pages</span>
+<span class="sd">        :raises: TypeError: Given name is not a string</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;str&#39; for the HTMLDocExport.theme. Got </span><span class="si">{}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__theme</span> <span class="o">=</span> <span class="n">name</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_description</h4>
+
+    <article class="docstring">
+<p><em>Return the 160 chars description of the HTML page.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the 160 chars description of the HTML page.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__theme</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>set_description</h4>
+
+    <article class="docstring">
+<p><em>Set a 160 chars max description text.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>descr</strong>: (<em>str</em>) Description of the documented document</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>TypeError</em>: Given descr is not a string</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">descr</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set a 160 chars max description text.</span>
+
+<span class="sd">        :param descr: (str) Description of the documented document</span>
+<span class="sd">        :raises: TypeError: Given descr is not a string</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">descr</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;str&#39; for the HTMLDocExport.descr. Got </span><span class="si">{}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">descr</span><span class="p">))</span>
+    <span class="n">descr</span> <span class="o">=</span> <span class="n">descr</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="n">descr</span> <span class="o">=</span> <span class="n">descr</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="n">descr</span> <span class="o">=</span> <span class="n">descr</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">descr</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">90</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Given description is a little bit shorted than the 90 expected characters: </span><span class="si">{</span><span class="n">descr</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">descr</span> <span class="o">=</span> <span class="s1">&#39;Python Class Documentation of &#39;</span> <span class="o">+</span> <span class="n">descr</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">descr</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">160</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Given description is longer than 160 characters: </span><span class="si">{</span><span class="n">descr</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__descr</span> <span class="o">=</span> <span class="n">descr</span><span class="p">[:</span><span class="mi">160</span><span class="p">]</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_next_class</h4>
+
+    <article class="docstring">
+<p><em>Return the name of the next documented class.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_next_class</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the name of the next documented class.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__next_class</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>set_next_class</h4>
+
+    <article class="docstring">
+<p><em>Set the name of the next documented class.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>name</strong>: (<em>str</em>|None) Name of the next documented class</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>TypeError</em>: Given name is not a string</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_next_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the name of the next documented class.</span>
+
+<span class="sd">        :param name: (str|None) Name of the next documented class</span>
+<span class="sd">        :raises: TypeError: Given name is not a string</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;str&#39; or None for the HTMLDocExport.next_class. Got </span><span class="si">{}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__next_class</span> <span class="o">=</span> <span class="n">name</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_prev_class</h4>
+
+    <article class="docstring">
+<p><em>Return the name of the previous documented class, for the ToC.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_prev_class</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the name of the previous documented class, for the ToC.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__prev_class</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>set_prev_class</h4>
+
+    <article class="docstring">
+<p><em>Set the name of the previous documented class.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>name</strong>: (<em>str</em>|None) Name of the previous documented class</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>TypeError</em>: Given name is not a string</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_prev_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the name of the previous documented class.</span>
+
+<span class="sd">        :param name: (str|None) Name of the previous documented class</span>
+<span class="sd">        :raises: TypeError: Given name is not a string</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;str&#39; or None for the HTMLDocExport.prev_class. Got </span><span class="si">{}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__prev_class</span> <span class="o">=</span> <span class="n">name</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_next_module</h4>
+
+    <article class="docstring">
+<p><em>Return the name of the next documented module.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_next_module</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the name of the next documented module.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__next_pack</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>set_next_module</h4>
+
+    <article class="docstring">
+<p><em>Set the name of the next documented module.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>name</strong>: (<em>str</em>|None) Name of the next documented module</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>TypeError</em>: Given name is not a string</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_next_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the name of the next documented module.</span>
+
+<span class="sd">        :param name: (str|None) Name of the next documented module</span>
+<span class="sd">        :raises: TypeError: Given name is not a string</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;str&#39; or None for the HTMLDocExport.next_module. Got </span><span class="si">{}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__next_pack</span> <span class="o">=</span> <span class="n">name</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_prev_module</h4>
+
+    <article class="docstring">
+<p><em>Return the name of the previous documented module, for the ToC.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_prev_module</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the name of the previous documented module, for the ToC.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__prev_pack</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>set_prev_module</h4>
+
+    <article class="docstring">
+<p><em>Set the name of the previous documented module.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>name</strong>: (<em>str</em>|None) Name of the previous documented module</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>TypeError</em>: Given name is not a string</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_prev_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the name of the previous documented module.</span>
+
+<span class="sd">        :param name: (str|None) Name of the previous documented module</span>
+<span class="sd">        :raises: TypeError: Given name is not a string</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;str&#39; or None for the HTMLDocExport.prev_module. Got </span><span class="si">{}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__prev_pack</span> <span class="o">=</span> <span class="n">name</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_head</h4>
+
+    <article class="docstring">
+<p><em>Return the HTML 'head' of the page.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_head</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the HTML &#39;head&#39; of the page.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">HTML_HEAD</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">TITLE</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__title</span><span class="p">,</span> <span class="n">FAVICON</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__favicon</span><span class="p">,</span> <span class="n">THEME</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__theme</span><span class="p">,</span> <span class="n">STATICS</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__statics</span><span class="p">,</span> <span class="n">WEXA_STATICS</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__wexa_statics</span><span class="p">,</span> <span class="n">META_DESCRIPTION</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__descr</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_header</h4>
+
+    <article class="docstring">
+<p><em>Return the 'header' of the HTML->body of the page.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_header</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the &#39;header&#39; of the HTML-&gt;body of the page.&quot;&quot;&quot;</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;header&gt;&#39;</span><span class="p">)</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">HTML_BUTTONS_ACCESSIBILITY</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">WEXA_STATICS</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__wexa_statics</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__software</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;h1&gt;</span><span class="si">{SOFTWARE}</span><span class="s1">&lt;/h1&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">SOFTWARE</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__software</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__icon</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;        &lt;p&gt;&lt;img class=&quot;small-logo&quot; src=&quot;</span><span class="si">{STATICS}</span><span class="s1">/</span><span class="si">{ICON}</span><span class="s1">&quot; alt=&quot;Software logo&quot;/&gt;&lt;/p&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">STATICS</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__statics</span><span class="p">,</span> <span class="n">ICON</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__icon</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__url</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;        &lt;p&gt;&lt;a class=&quot;external-link&quot; href=&quot;</span><span class="si">{URL}</span><span class="s1">&quot;&gt;</span><span class="si">{URL}</span><span class="s1">&lt;/a&gt;&lt;/p&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">URL</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__url</span><span class="p">))</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;/header&gt;&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_nav</h4>
+
+    <article class="docstring">
+<p><em>Return the 'nav' of the HTML->body of the page.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_nav</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the &#39;nav&#39; of the HTML-&gt;body of the page.&quot;&quot;&quot;</span>
+    <span class="n">nav</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;nav id=&quot;nav-book&quot; class=&quot;side-nav&quot;&gt;&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__software</span> <span class="o">==</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_SOFTWARE</span><span class="p">:</span>
+        <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;h1&gt;Documentation&lt;/h1&gt;&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;h1&gt;</span><span class="si">{SOFTWARE}</span><span class="s1">&lt;/h1&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">SOFTWARE</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__software</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__icon</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;img class=&quot;small-logo center&quot; src=&quot;</span><span class="si">{STATICS}</span><span class="s1">/</span><span class="si">{ICON}</span><span class="s1">&quot; alt=&quot;&quot;/&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">STATICS</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__statics</span><span class="p">,</span> <span class="n">ICON</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__icon</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__url</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;        &lt;p&gt;&lt;a class=&quot;external-link&quot; href=&quot;</span><span class="si">{URL}</span><span class="s1">&quot;&gt;</span><span class="si">{URL}</span><span class="s1">&lt;/a&gt;&lt;/p&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">URL</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__url</span><span class="p">))</span>
+    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;ul&gt;&#39;</span><span class="p">)</span>
+    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">__nav_link</span><span class="p">(</span><span class="s1">&#39;&amp;crarr; Prev. Module&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__prev_pack</span><span class="p">))</span>
+    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">__nav_link</span><span class="p">(</span><span class="s1">&#39;&amp;uarr; Prev. Class&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__prev_class</span><span class="p">))</span>
+    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">__nav_link</span><span class="p">(</span><span class="s1">&#39;&amp;#8962; Index&#39;</span><span class="p">,</span> <span class="s1">&#39;index.html&#39;</span><span class="p">))</span>
+    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">__nav_link</span><span class="p">(</span><span class="s1">&#39;&amp;darr; Next Class&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__next_class</span><span class="p">))</span>
+    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">__nav_link</span><span class="p">(</span><span class="s1">&#39;&amp;rdsh; Next Module&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__next_pack</span><span class="p">))</span>
+    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;/ul&gt;&#39;</span><span class="p">)</span>
+    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;h2&gt;Table of Contents&lt;/h2&gt;&#39;</span><span class="p">)</span>
+    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;ul id=&quot;toc&quot;&gt;&lt;/ul&gt;&#39;</span><span class="p">)</span>
+    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;hr&gt;&#39;</span><span class="p">)</span>
+    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;p&gt;&lt;small&gt;Automatically created&lt;/small&gt;&lt;/p&gt;&lt;p&gt;&lt;small&gt;by &lt;a class=&quot;external-link&quot; href=&quot;https://clamming.sf.net&quot;&gt;ClammingPy&lt;/a&gt;&lt;/small&gt;&lt;/p&gt;&#39;</span><span class="p">)</span>
+    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;/nav&gt;&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">nav</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_footer</h4>
+
+    <article class="docstring">
+<p><em>Return the 'footer' of the HTML->body of the page.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_footer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the &#39;footer&#39; of the HTML-&gt;body of the page.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">HTML_FOOTER</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">COPYRIGHT</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__copyright</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#protected_fct_ExportOptions">Protected functions</h3>
+<h4>__nav_link</h4>
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">__nav_link</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">link</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">link</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="s1">&#39;aria-disabled=&quot;true&quot;&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="s1">&#39;href=&quot;</span><span class="si">{:s}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;&lt;li&gt;&lt;a role=&quot;button&quot; tabindex=&quot;0&quot; </span><span class="si">{LINK}</span><span class="s1">&gt; </span><span class="si">{TEXT}</span><span class="s1">&lt;/a&gt;&lt;/li&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">LINK</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">TEXT</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+</section>    </section>    </main>
+    
+            <footer>
+                <p class="copyright">Copyright (C) 2023-2025 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+            </footer>
+        
+</body>
+</html>

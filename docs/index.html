@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+
+        <head>
+            
+            <title>ClammingPy doc</title>
+
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+            <meta name="description" content="Python class documentation" />
+
+            <link rel="logo icon" href="./statics/clamming32x32.ico" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
+
+            <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+            <script>
+            (function () {
+              const usingFile = (window.location.protocol === 'file:');
+              const s = document.createElement('script');
+            
+              if (usingFile) {
+                s.src = './Whakerexa-2.0/wexa_statics/js/wexa.bundle.js';
+              } else {
+                s.type = 'module';
+                s.src = './Whakerexa-2.0/wexa_statics/js/wexa.js';
+              }
+            
+              s.onload = function () {
+                window.Wexa.onload.addLoadFunction(function () {
+                  const book = new window.Wexa.Book("main-content");
+                  book.fill_table(false);
+                });
+              };
+            
+              document.head.appendChild(s);
+            })();
+            </script>
+
+       </head>
+       
+       <body class="light">
+        <header>
+
+            <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+                Go to main content
+            </a>
+            <nav>
+                <ul>
+                    <li>
+                        <button id="btn-contrast" role="menuitem" class="print-off" onclick="window.Wexa.accessibility.switch_contrast_scheme()" aria-label="Contrast">
+                            <img class="nav-item-img" src="./Whakerexa-2.0/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="btn-theme" class="print-off" role="menuitem" onclick="window.Wexa.accessibility.switch_color_scheme()" aria-label="Theme" >
+                            <img class="nav-item-img" src="./Whakerexa-2.0/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        
+    <h1>ClammingPy 2.1</h1>
+        <p><img class="small-logo" src="./statics/clamming.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://sourceforge.net/projects/clamming/">https://sourceforge.net/projects/clamming/</a></p>
+    </header>
+    <nav id="nav-book" class="side-nav">
+    <h1>ClammingPy 2.1</h1>
+    <img class="small-logo center" src="./statics/clamming.png" alt=""/>
+        <p><a class="external-link" href="https://sourceforge.net/projects/clamming/">https://sourceforge.net/projects/clamming/</a></p>
+    <ul>
+<li><a role="button" tabindex="0" aria-disabled="true"> &crarr; Prev. Module</a></li>
+<li><a role="button" tabindex="0" aria-disabled="true"> &uarr; Prev. Class</a></li>
+<li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
+<li><a role="button" tabindex="0" aria-disabled="true"> &darr; Next Class</a></li>
+<li><a role="button" tabindex="0" aria-disabled="true"> &rdsh; Next Module</a></li>
+    </ul>
+    <h2>Table of Contents</h2>
+    <ul id="toc"></ul>
+    <hr>
+    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>
+</nav>
+    <main id="main-content">
+    <section id="readme">
+<h1>ClammingPy Description</h1>
+
+<h2>Overview</h2>
+
+<blockquote>
+  <p>ClammingPy is a Light Python-API Documentation in Markdown and accessible HTML</p>
+</blockquote>
+
+<h3>Typical use</h3>
+
+<p>You have a Python API you documented with docstrings, and you want to share documentation in either Markdown or HTML.
+ClammingPy is the documentation generator you may need: it is generating Markdown or HTML from the docstrings within the source code of any Python library.</p>
+
+<blockquote>
+  <p>ClammingPy generates HTML-5 with a high level of WCAG 2.1 conformity.</p>
+</blockquote>
+
+<h3>Features</h3>
+
+<p>Python modules are usually documented using docstrings. They typically use plain text markup formats such as reStructuredText (reST, the markup used for writing the official Python documentation) and/or Markdown.
+<code>ClammingPy</code> is a Python, free, open-source, self-hosted library to export a Python class or module into a Markdown and/or HTML files, for documentation purpose. Contrariwise to other documentation tools, docstrings are analyzed with <strong>flexibility rather than completeness...</strong></p>
+
+<blockquote>
+  <p>Both ReST and Epydoc field styles are supported. It means that either ':field:' or '@field:' can be used indifferently, with upper- or lower- cases.</p>
+</blockquote>
+
+<p>Two very useful reST non-standard field items can also be used in the docstrings: <code>:example:</code> and <code>:code:</code>. 
+Finally, some variants in field names are supported:</p>
+
+<ul>
+<li><code>:return:</code> or <code>:returns:</code> are both interpreted the same way;</li>
+<li><code>:raise:</code> or <code>:raises:</code> or <code>:catch:</code> or <code>:except:</code> are all interpreted the same way.</li>
+</ul>
+
+<h3>Main advantages</h3>
+
+<ul>
+<li>easily customizable: it's a pure python library in Object-Oriented Programming</li>
+<li>open-source: easily add new features and functionalities </li>
+<li>scalable: no limit to support numerous modules</li>
+<li>inclusive: the documentation is highly WCAG 2.1 compliant</li>
+</ul>
+
+<h2>Install ClammingPy</h2>
+
+<p>Get it here: <a href="https://sourceforge.net/projects/clamming/">https://sourceforge.net/projects/clamming/</a>.</p>
+
+<p>ClammingPy requires Whakerexa to be installed; it can be downloaded from: <a href="https://whakerexa.sourceforge.io">https://whakerexa.sourceforge.io</a>.</p>
+
+<h3>From pypi</h3>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;</span> <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">ClammingPy</span>
+</code></pre></div>
+
+<h3>From the repo:</h3>
+
+<p>Download the repository and unpack it. ClammingPy tool includes the following folders and files:</p>
+
+<ol>
+<li><code>clamming</code>: the source code of <code>ClammingPy</code> library</li>
+<li><code>docs</code>: the documentation of clamming library in HTML</li>
+<li><code>tests</code>: unittest of <code>Clamming</code> library</li>
+<li><code>sample</code>: a sample class <code>Vehicle</code> to illustrate <code>clamming</code> use</li>
+<li><code>makedoc.py</code>: create the ClammingPy documentation, using <code>clamming</code> library</li>
+<li><code>etc</code>: etcetera!</li>
+</ol>
+
+<h3>From the package:</h3>
+
+<p>Install it in your python environment from the local wheel with:</p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;</span> <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">dist</span><span class="o">/&lt;</span><span class="n">clamming</span><span class="o">.</span><span class="n">whl</span><span class="o">&gt;</span>
+</code></pre></div>
+
+<h2>Quick start</h2>
+
+<h3>Documenting a single class</h3>
+
+<p>The <code>sample</code> folder contains a Python class example and the simplest solution to get access to the documentation either in Markdown or HTML. The <code>Vehicle</code> class is illustrating the supported format and its flexibility. Try it with:</p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;</span> <span class="n">cd</span> <span class="n">sample</span>
+<span class="o">&gt;</span> <span class="n">python</span> <span class="n">makedoc_vehicle</span><span class="o">.</span><span class="n">py</span> <span class="o">&gt;</span> <span class="n">vehicle</span><span class="o">.</span><span class="n">html</span>
+<span class="o">&gt;</span> <span class="n">python</span> <span class="n">makedoc_vehicle</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">md</span> <span class="o">&gt;</span> <span class="n">vehicle</span><span class="o">.</span><span class="n">md</span>
+</code></pre></div>
+
+<p>or with the main program:</p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;</span> <span class="n">python</span> <span class="n">main</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">c</span> <span class="n">Vehicle</span> <span class="o">-</span><span class="n">m</span> <span class="n">sample</span><span class="o">.</span><span class="n">vehicle</span>
+<span class="o">&gt;</span> <span class="n">python</span> <span class="n">main</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">c</span> <span class="n">Vehicle</span> <span class="o">-</span><span class="n">m</span> <span class="n">sample</span><span class="o">.</span><span class="n">vehicle</span> <span class="o">--</span><span class="n">md</span>
+</code></pre></div>
+
+<p>In the same way, the documentation of any Python class can be extracted with, for example:</p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;</span> <span class="n">python</span> <span class="n">main</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">c</span> <span class="n">TestCase</span> <span class="o">-</span><span class="n">m</span> <span class="n">unittest</span> <span class="o">--</span><span class="n">md</span>
+<span class="o">&gt;</span> <span class="n">python</span> <span class="n">main</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">c</span> <span class="n">BaseHTTPRequestHandler</span> <span class="o">-</span><span class="n">m</span> <span class="n">http</span><span class="o">.</span><span class="n">server</span> <span class="o">--</span><span class="n">md</span>
+</code></pre></div>
+
+<p>When using the <code>ClammingPy</code> library directly, the documented files can be obtained with the following Python code:</p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">clamming</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">Vehicle</span>  <span class="c1"># Or any other Python class to be documented</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">parser</span> <span class="o">=</span> <span class="n">clamming</span><span class="o">.</span><span class="n">ClammingClassParser</span><span class="p">(</span><span class="n">Vehicle</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">clams</span> <span class="o">=</span> <span class="n">clamming</span><span class="o">.</span><span class="n">ClamsClass</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">clams</span><span class="o">.</span><span class="n">html</span><span class="p">())</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">clams</span><span class="o">.</span><span class="n">markdown</span><span class="p">())</span>
+</code></pre></div>
+
+<h3>Documenting all classes of a module</h3>
+
+<p>Below are two examples with the main program:</p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;</span> <span class="n">python</span> <span class="n">main</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">m</span> <span class="n">clamming</span> <span class="o">&gt;</span> <span class="n">clamming</span><span class="o">.</span><span class="n">html</span>
+<span class="o">&gt;</span> <span class="n">python</span> <span class="n">main</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">m</span> <span class="n">http</span><span class="o">.</span><span class="n">server</span> <span class="o">--</span><span class="n">md</span> <span class="o">|</span> <span class="n">grep</span> <span class="s2">&quot;### Class &quot;</span>
+<span class="c1">### Class `HTTPServer`</span>
+<span class="c1">### Class `ThreadingHTTPServer`</span>
+<span class="c1">### Class `BaseHTTPRequestHandler`</span>
+<span class="c1">### Class `SimpleHTTPRequestHandler`</span>
+<span class="c1">### Class `CGIHTTPRequestHandler`</span>
+</code></pre></div>
+
+<p>The following Python code allows to generate the documentation of <code>clamming</code>
+module in Mardown format or in HTML format as a standalone content:</p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">clamming</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">clams_pack</span> <span class="o">=</span> <span class="n">clamming</span><span class="o">.</span><span class="n">ClamsPack</span><span class="p">(</span><span class="n">clamming</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">clams_pack</span><span class="o">.</span><span class="n">markdown</span><span class="p">())</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">clams_pack</span><span class="o">.</span><span class="n">html</span><span class="p">())</span>
+</code></pre></div>
+
+<p>Here is a summary of the main steps to generate an HTML documentation, in a bunch of HTML files:</p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;</span> <span class="o">&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">clamming</span>
+<span class="o">&gt;&gt;</span> <span class="o">&gt;</span>  <span class="c1"># Options for HTML exportation</span>
+<span class="o">&gt;&gt;</span> <span class="o">&gt;</span> <span class="n">html_export</span> <span class="o">=</span> <span class="n">clamming</span><span class="o">.</span><span class="n">ExportOptions</span><span class="p">()</span>
+<span class="o">&gt;&gt;</span> <span class="o">&gt;</span> <span class="n">html_export</span><span class="o">.</span><span class="n">software</span> <span class="o">=</span> <span class="s1">&#39;ClammingPy &#39;</span> <span class="o">+</span> <span class="n">clamming</span><span class="o">.</span><span class="n">__version__</span>
+<span class="o">&gt;&gt;</span> <span class="o">&gt;</span>  <span class="c1"># Create an HTML page for each class of the module</span>
+<span class="o">&gt;&gt;</span> <span class="o">&gt;</span> <span class="n">clams_pack</span> <span class="o">=</span> <span class="n">clamming</span><span class="o">.</span><span class="n">ClamsPack</span><span class="p">(</span><span class="n">clamming</span><span class="p">)</span>
+<span class="o">&gt;&gt;</span> <span class="o">&gt;</span> <span class="n">clams_pack</span><span class="o">.</span><span class="n">html_export_clams</span><span class="p">(</span><span class="s2">&quot;docs&quot;</span><span class="p">,</span> <span class="n">html_export</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>Documenting all classes of a list of modules</h3>
+
+<p>There is an all-in-one function to generate the HTML documentation of a list of packages. It requires to define the followings:</p>
+
+<ol>
+<li>The list of ClamsPack instances of the modules to be documented;</li>
+<li>The HTMLDocExport allowing to fix the HTML options for files exportation.</li>
+</ol>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;</span> <span class="o">&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">clamming</span>
+<span class="o">&gt;&gt;</span> <span class="o">&gt;</span>  <span class="c1"># List of modules to be documented.</span>
+<span class="o">&gt;&gt;</span> <span class="o">&gt;</span> <span class="n">packages</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="o">&gt;&gt;</span> <span class="o">&gt;</span> <span class="n">packages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clamming</span><span class="p">)</span>
+<span class="o">&gt;&gt;</span> <span class="o">&gt;</span>  <span class="c1"># Options for HTML exportation</span>
+<span class="o">&gt;&gt;</span> <span class="o">&gt;</span> <span class="n">html_export</span> <span class="o">=</span> <span class="n">clamming</span><span class="o">.</span><span class="n">ExportOptions</span><span class="p">()</span>
+<span class="o">&gt;&gt;</span> <span class="o">&gt;</span> <span class="n">html_export</span><span class="o">.</span><span class="n">wexa_statics</span> <span class="o">=</span> <span class="s1">&#39;../Whakerexa-1.0/wexa_statics&#39;</span>
+<span class="o">&gt;&gt;</span> <span class="o">&gt;</span> <span class="n">html_export</span><span class="o">.</span><span class="n">software</span> <span class="o">=</span> <span class="s1">&#39;ClammingPy &#39;</span> <span class="o">+</span> <span class="n">clamming</span><span class="o">.</span><span class="n">__version__</span>
+<span class="o">&gt;&gt;</span> <span class="o">&gt;</span>  <span class="c1"># Export documentation to HTML files into the &quot;docs&quot; folder.</span>
+<span class="o">&gt;&gt;</span> <span class="o">&gt;</span> <span class="n">m</span> <span class="o">=</span> <span class="n">clamming</span><span class="o">.</span><span class="n">ClamsModules</span><span class="p">(</span><span class="n">packages</span><span class="p">)</span>
+<span class="o">&gt;&gt;</span> <span class="o">&gt;</span> <span class="n">m</span><span class="o">.</span><span class="n">html_export_packages</span><span class="p">(</span><span class="s2">&quot;docs&quot;</span><span class="p">,</span> <span class="n">html_export</span><span class="p">)</span>
+<span class="o">&gt;&gt;</span> <span class="o">&gt;</span>  <span class="c1"># Export documentation to Markdown files into the &quot;docs&quot; folder.</span>
+<span class="o">&gt;&gt;</span> <span class="o">&gt;</span> <span class="n">m</span><span class="o">.</span><span class="n">markdown_export_packages</span><span class="p">(</span><span class="s2">&quot;docs&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>See <code>makedoc.py</code> Python script for details.</p>
+
+<blockquote>
+  <p>See the ClammingPy documentation in <code>docs</code> folder for extended usages.</p>
+</blockquote>
+
+<h2>Browse the documentation</h2>
+
+<p>Documentation is available in the <code>docs</code> folder and inline.
+For the local use, download and unpack Whakerexa &gt;= 2.0 into the <code>docs</code> folder.</p>
+
+<h2>How to cite ClamminPy</h2>
+
+<p>By using ClammingPy, you are encouraged to mention it in your publications 
+or products, in accordance with the best practices of the AGPL license.</p>
+
+<p>Use one of the following reference to cite ClammingPy:</p>
+
+<blockquote>
+  <p>Brigitte Bigi. ClammingPy - Light Python-API Documentation in Markdown and HTML,
+  Version 2.1. 2025. <a href="https://hal.science/hal-04392103">https://hal.science/hal-04392103</a></p>
+</blockquote>
+
+<h2>Projects using ClammingPy</h2>
+
+<ul>
+<li>WhakerPy: <a href="https://whakerpy.sourceforge.io">https://whakerpy.sourceforge.io</a></li>
+<li>WhakerKit: <a href="https://whakerkit.sourceforge.io">https://whakerkit.sourceforge.io</a></li>
+<li>AudiooPy: <a href="https://audioopy.sourceforge.io">https://audioopy.sourceforge.io</a></li>
+<li>PyMancala: <a href="https://pymancala.sf.net">https://pymancala.sf.net</a></li>
+<li>SPPAS: <a href="https://sppas.org/api/index.html">https://sppas.org/api/index.html</a></li>
+<li><em>contact the author if you want to add a project here</em></li>
+</ul>
+
+<h2>Help / How to contribute</h2>
+
+<p>If you plan to contribute to the code or to report a bug, please send an e-mail to the author.
+Any and all constructive comments are welcome.</p>
+
+<h2>License/Copyright</h2>
+
+<p>See the accompanying LICENSE and AUTHORS files for the full list of contributors.</p>
+
+<p>Copyright (C) 2023-2025 - <a href="https://sppas.org/bigi/">Brigitte Bigi</a> - <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#99;&#111;&#x6e;t&#x61;&#99;&#116;&#x40;&#115;&#x70;&#112;&#97;&#115;&#46;&#x6f;&#114;&#103;">&#99;&#111;&#x6e;t&#x61;&#99;&#116;&#x40;&#115;&#x70;&#112;&#97;&#115;&#46;&#x6f;&#114;&#103;</a>, CNRS,
+Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+
+<p>This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.</p>
+
+<p>This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.</p>
+
+<p>You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see <a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.</p>
+    </section>
+<h1>List of packages:</h1>
+      <h2>clamming</h2>
+      <p><a href='clamming.html'>Get documentation</a></p>
+      <h2>tests</h2>
+      <p><a href='tests.html'>Get documentation</a></p>
+    </main>
+    
+            <footer>
+                <p class="copyright">Copyright (C) 2023-2025 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+            </footer>
+        
+</body>
+</html>

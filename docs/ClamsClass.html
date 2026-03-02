@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+
+        <head>
+            
+            <title>ClammingPy doc</title>
+
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+            <meta name="description" content="Python Class Documentation of ClamsClass. Convert a parsed class object into Markdown or HTML content." />
+
+            <link rel="logo icon" href="./statics/clamming32x32.ico" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
+
+            <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+            <script>
+            (function () {
+              const usingFile = (window.location.protocol === 'file:');
+              const s = document.createElement('script');
+            
+              if (usingFile) {
+                s.src = './Whakerexa-2.0/wexa_statics/js/wexa.bundle.js';
+              } else {
+                s.type = 'module';
+                s.src = './Whakerexa-2.0/wexa_statics/js/wexa.js';
+              }
+            
+              s.onload = function () {
+                window.Wexa.onload.addLoadFunction(function () {
+                  const book = new window.Wexa.Book("main-content");
+                  book.fill_table(false);
+                });
+              };
+            
+              document.head.appendChild(s);
+            })();
+            </script>
+
+       </head>
+       
+       <body class="light">
+        <header>
+
+            <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+                Go to main content
+            </a>
+            <nav>
+                <ul>
+                    <li>
+                        <button id="btn-contrast" role="menuitem" class="print-off" onclick="window.Wexa.accessibility.switch_contrast_scheme()" aria-label="Contrast">
+                            <img class="nav-item-img" src="./Whakerexa-2.0/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="btn-theme" class="print-off" role="menuitem" onclick="window.Wexa.accessibility.switch_color_scheme()" aria-label="Theme" >
+                            <img class="nav-item-img" src="./Whakerexa-2.0/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        
+    <h1>ClammingPy 2.1</h1>
+        <p><img class="small-logo" src="./statics/clamming.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://sourceforge.net/projects/clamming/">https://sourceforge.net/projects/clamming/</a></p>
+    </header>
+    <nav id="nav-book" class="side-nav">
+    <h1>ClammingPy 2.1</h1>
+    <img class="small-logo center" src="./statics/clamming.png" alt=""/>
+        <p><a class="external-link" href="https://sourceforge.net/projects/clamming/">https://sourceforge.net/projects/clamming/</a></p>
+    <ul>
+<li><a role="button" tabindex="0" aria-disabled="true"> &crarr; Prev. Module</a></li>
+<li><a role="button" tabindex="0" href="ClammingClassParser.html"> &uarr; Prev. Class</a></li>
+<li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
+<li><a role="button" tabindex="0" href="ClamsPack.html"> &darr; Next Class</a></li>
+<li><a role="button" tabindex="0" href="tests.html"> &rdsh; Next Module</a></li>
+    </ul>
+    <h2>Table of Contents</h2>
+    <ul id="toc"></ul>
+    <hr>
+    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>
+</nav>
+    <main id="main-content">
+    <section id="#clamming">    <h1>Module clamming</h1>
+<section id="#ClamsClass">
+<h2>Class ClamsClass</h2>
+
+<section>
+<h3 id="#description_ClamsClass">Description</h3>
+    <article class="docstring">
+<p><em>Convert a parsed class object into Markdown or HTML content.</em></p>
+
+<h5>Example</h5>
+
+<div class="highlight"><pre><span></span><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">clamming</span> <span class="o">=</span> <span class="n">ClammingClassParser</span><span class="p">(</span><span class="n">Vehicle</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">clams</span> <span class="o">=</span> <span class="n">ClamsClass</span><span class="p">(</span><span class="n">clamming</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">md</span> <span class="o">=</span> <span class="n">clams</span><span class="o">.</span><span class="n">markdown</span><span class="p">()</span>
+</code></pre></div>
+
+    </article>
+</section>
+<section>
+<h3 id="#constructor_ClamsClass">Constructor</h3>
+    <article class="docstring">
+<p><em>Create documentation from the given parsed class object.</em></p>
+
+<p>HTML conversion depends on external libraries. It could be disabled
+if any of them is missing. If not, customizing the HTML export can
+be done by assigning different values to members or by changing their
+optional parameters.</p>
+
+<p>See <code>Pygments</code> documentation:
+<a href="https://pygments.org/docs/formatters/#HtmlFormatter">HtmlFormatter</a>
+and
+<a href="https://pygments.org/docs/lexers/#pygments.lexers.python.PythonLexer">Lexer</a></p>
+
+<h5>Example</h5>
+
+<div class="highlight"><pre><span></span><code> <span class="o">&gt;&gt;&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">markdowner</span> <span class="o">=</span> <span class="n">markdown2</span><span class="o">.</span><span class="n">Markdown</span><span class="p">()</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span> <span class="o">=</span> <span class="n">pygments_formatter</span><span class="o">.</span><span class="n">HtmlFormatter</span><span class="p">(</span><span class="o">**</span><span class="n">ClamsClass</span><span class="o">.</span><span class="n">HTML_FORMATTER_ARGS</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">lexer</span> <span class="o">=</span> <span class="n">pygments_lexers</span><span class="o">.</span><span class="n">PythonLexer</span><span class="p">()</span>
+</code></pre></div>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>parsed_obj</strong>: A parsed object.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parsed_obj</span><span class="p">:</span> <span class="n">ClammingClassParser</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create documentation from the given parsed class object.</span>
+
+<span class="sd">    HTML conversion depends on external libraries. It could be disabled</span>
+<span class="sd">    if any of them is missing. If not, customizing the HTML export can</span>
+<span class="sd">    be done by assigning different values to members or by changing their</span>
+<span class="sd">    optional parameters.</span>
+
+<span class="sd">    See `Pygments` documentation:</span>
+<span class="sd">    [HtmlFormatter](https://pygments.org/docs/formatters/#HtmlFormatter)</span>
+<span class="sd">    and</span>
+<span class="sd">    [Lexer](https://pygments.org/docs/lexers/#pygments.lexers.python.PythonLexer)</span>
+
+<span class="sd">    :example:</span>
+<span class="sd">    &gt;&gt;&gt; self.markdowner = markdown2.Markdown()</span>
+<span class="sd">    &gt;&gt;&gt; self.formatter = pygments_formatter.HtmlFormatter(**ClamsClass.HTML_FORMATTER_ARGS)</span>
+<span class="sd">    &gt;&gt;&gt; self.lexer = pygments_lexers.PythonLexer()</span>
+
+<span class="sd">    :param parsed_obj: A parsed object.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__utils</span> <span class="o">=</span> <span class="n">ClamUtils</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__info_class_name</span> <span class="o">=</span> <span class="n">parsed_obj</span><span class="o">.</span><span class="n">get_obj_clams</span><span class="p">()</span><span class="o">.</span><span class="n">name</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__info_class_description</span> <span class="o">=</span> <span class="n">parsed_obj</span><span class="o">.</span><span class="n">get_obj_clams</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__info_short_description</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__info_class_name</span> <span class="o">+</span> <span class="s1">&#39;. &#39;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__info_class_description</span><span class="o">.</span><span class="n">docstring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__info_class_description</span><span class="o">.</span><span class="n">docstring</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__info_short_description</span> <span class="o">+=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__info_constructor</span> <span class="o">=</span> <span class="n">parsed_obj</span><span class="o">.</span><span class="n">init_clams</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__info_public_fcts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">fct_name</span> <span class="ow">in</span> <span class="n">parsed_obj</span><span class="o">.</span><span class="n">fct_clams</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">fct_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__info_public_fcts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parsed_obj</span><span class="o">.</span><span class="n">fct_clams</span><span class="p">[</span><span class="n">fct_name</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__info_private_fcts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">fct_name</span> <span class="ow">in</span> <span class="n">parsed_obj</span><span class="o">.</span><span class="n">fct_clams</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">fct_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">and</span> <span class="n">fct_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__info_private_fcts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parsed_obj</span><span class="o">.</span><span class="n">fct_clams</span><span class="p">[</span><span class="n">fct_name</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__info_protected_fcts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">fct_name</span> <span class="ow">in</span> <span class="n">parsed_obj</span><span class="o">.</span><span class="n">fct_clams</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">fct_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">and</span> <span class="n">fct_name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__info_protected_fcts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parsed_obj</span><span class="o">.</span><span class="n">fct_clams</span><span class="p">[</span><span class="n">fct_name</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__info_overloads</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">fct_name</span> <span class="ow">in</span> <span class="n">parsed_obj</span><span class="o">.</span><span class="n">fct_clams</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">fct_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">and</span> <span class="n">fct_name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__info_overloads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parsed_obj</span><span class="o">.</span><span class="n">fct_clams</span><span class="p">[</span><span class="n">fct_name</span><span class="p">])</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#public_fct_ClamsClass">Public functions</h3>
+<h4>get_name</h4>
+
+    <article class="docstring">
+<p><em>Return the name of the documented class.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the name of the documented class.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__info_class_name</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_short_description</h4>
+
+    <article class="docstring">
+<p><em>Return the 160 chars max description of the documented class.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_short_description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the 160 chars max description of the documented class.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__info_short_description</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>markdown</h4>
+
+    <article class="docstring">
+<p><em>Get Markdown content of the parsed object.</em></p>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>str</em>) Content in Markdown format</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">markdown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get Markdown content of the parsed object.</span>
+
+<span class="sd">        :return: (str) Content in Markdown format</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">md</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;## Class `</span><span class="si">{:s}</span><span class="s1">`</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__info_class_name</span><span class="p">))</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__info_class_description</span><span class="o">.</span><span class="n">docstring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;### Description</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">convert_docstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__info_class_description</span><span class="o">.</span><span class="n">docstring</span><span class="p">))</span>
+        <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__info_constructor</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;### Constructor</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ClamInfoMarkdown</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__info_constructor</span><span class="p">)))</span>
+        <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__info_public_fcts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;### Public functions</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__info_public_fcts</span><span class="p">:</span>
+            <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ClamInfoMarkdown</span><span class="p">(</span><span class="n">info</span><span class="p">)))</span>
+        <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__info_private_fcts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;### Private functions</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__info_private_fcts</span><span class="p">:</span>
+            <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ClamInfoMarkdown</span><span class="p">(</span><span class="n">info</span><span class="p">)))</span>
+        <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__info_protected_fcts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;### Protected functions</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__info_protected_fcts</span><span class="p">:</span>
+            <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ClamInfoMarkdown</span><span class="p">(</span><span class="n">info</span><span class="p">)))</span>
+        <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__info_overloads</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;### Overloads</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__info_overloads</span><span class="p">:</span>
+            <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ClamInfoMarkdown</span><span class="p">(</span><span class="n">info</span><span class="p">)))</span>
+        <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">md</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>html</h4>
+
+    <article class="docstring">
+<p><em>Get HTML content of the parsed object.</em></p>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>str</em>) Content in HTML format</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>ImportError</em>: if one of the requirements is not installed</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">html</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get HTML content of the parsed object.</span>
+
+<span class="sd">        :return: (str) Content in HTML format</span>
+<span class="sd">        :raises: ImportError: if one of the requirements is not installed</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__utils</span><span class="o">.</span><span class="n">markdowner</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Markdown to HTML conversion is disabled.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">hd</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">cid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__info_class_name</span>
+    <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;section id=&quot;#</span><span class="si">{:s}</span><span class="s1">&quot;&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cid</span><span class="p">))</span>
+    <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;h2&gt;Class </span><span class="si">{:s}</span><span class="s1">&lt;/h2&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__info_class_name</span><span class="p">))</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__info_class_description</span><span class="o">.</span><span class="n">docstring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;section&gt;&#39;</span><span class="p">)</span>
+        <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;h3 id=&quot;#description_</span><span class="si">{:s}</span><span class="s1">&quot;&gt;Description&lt;/h3&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cid</span><span class="p">))</span>
+        <span class="n">_html</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__docstring_to_html</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__info_class_description</span><span class="o">.</span><span class="n">docstring</span><span class="p">)</span>
+        <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ClamsClass</span><span class="o">.</span><span class="n">_docstring_article</span><span class="p">(</span><span class="n">_html</span><span class="p">))</span>
+        <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;/section&gt;&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__info_constructor</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;section&gt;&#39;</span><span class="p">)</span>
+        <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;h3 id=&quot;#constructor_</span><span class="si">{:s}</span><span class="s1">&quot;&gt;Constructor&lt;/h3&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cid</span><span class="p">))</span>
+        <span class="n">_html</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__claminfo_to_html</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__info_constructor</span><span class="p">,</span> <span class="n">with_name</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_html</span><span class="p">)</span>
+        <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;/section&gt;&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__info_public_fcts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;section&gt;&#39;</span><span class="p">)</span>
+        <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;h3 id=&quot;#public_fct_</span><span class="si">{:s}</span><span class="s1">&quot;&gt;Public functions&lt;/h3&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cid</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__info_public_fcts</span><span class="p">:</span>
+            <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__claminfo_to_html</span><span class="p">(</span><span class="n">info</span><span class="p">))</span>
+        <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;/section&gt;&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__info_private_fcts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;section&gt;&#39;</span><span class="p">)</span>
+        <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;h3 id=&quot;#private_fct_</span><span class="si">{:s}</span><span class="s1">&quot;&gt;Private functions&lt;/h3&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cid</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__info_private_fcts</span><span class="p">:</span>
+            <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__claminfo_to_html</span><span class="p">(</span><span class="n">info</span><span class="p">))</span>
+        <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;/section&gt;&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__info_protected_fcts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;section&gt;&#39;</span><span class="p">)</span>
+        <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;h3 id=&quot;#protected_fct_</span><span class="si">{:s}</span><span class="s1">&quot;&gt;Protected functions&lt;/h3&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cid</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__info_protected_fcts</span><span class="p">:</span>
+            <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__claminfo_to_html</span><span class="p">(</span><span class="n">info</span><span class="p">))</span>
+        <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;/section&gt;&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__info_overloads</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;section&gt;&#39;</span><span class="p">)</span>
+        <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;h3 id=&quot;#overloads_</span><span class="si">{:s}</span><span class="s1">&quot;&gt;Overloads&lt;/h3&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cid</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__info_overloads</span><span class="p">:</span>
+            <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__claminfo_to_html</span><span class="p">(</span><span class="n">info</span><span class="p">))</span>
+        <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;/section&gt;&#39;</span><span class="p">)</span>
+    <span class="n">hd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;/section&gt;&#39;</span><span class="p">)</span>
+    <span class="n">html_result</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">hd</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">html_result</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&lt;p&gt;&lt;/p&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#private_fct_ClamsClass">Private functions</h3>
+<h4>_source_accordion</h4>
+
+    <article class="docstring">
+<p><em>Return the given content embedded into a details element.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>header_content</strong>: (<em>str</em>) Content of the collapsed part</li>
+<li><strong>main_content</strong>: (<em>str</em>) Content of the expanded part</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>str</em>) HTML-5 of an article</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_source_accordion</span><span class="p">(</span><span class="n">header_content</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">main_content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the given content embedded into a details element.</span>
+
+<span class="sd">        :param header_content: (str) Content of the collapsed part</span>
+<span class="sd">        :param main_content: (str) Content of the expanded part</span>
+<span class="sd">        :return: (str) HTML-5 of an article</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;details&gt;&#39;</span><span class="p">)</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;summary&gt;&#39;</span><span class="p">)</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">header_content</span><span class="p">)</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;/summary&gt;&#39;</span><span class="p">)</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">main_content</span><span class="p">)</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;/details&gt;&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>_docstring_article</h4>
+
+    <article class="docstring">
+<p><em>Return the given content embedded into an article.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>content</strong>: Content of the article</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>str</em>) HTML-5 of an article</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_docstring_article</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the given content embedded into an article.</span>
+
+<span class="sd">        :param content: Content of the article</span>
+<span class="sd">        :return: (str) HTML-5 of an article</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;article class=&quot;docstring&quot;&gt;&#39;</span><span class="p">)</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;/article&gt;&#39;</span><span class="p">)</span>
+    <span class="n">html_result</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">html_result</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&lt;p&gt;&lt;/p&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#protected_fct_ClamsClass">Protected functions</h3>
+<h4>__docstring_to_html</h4>
+
+    <article class="docstring">
+<p><em>Return the HTML of the given docstring.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>docstring</strong>: (<em>str</em>)</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>str</em>) HTML</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__docstring_to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docstring</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the HTML of the given docstring.</span>
+
+<span class="sd">        :param docstring: (str)</span>
+<span class="sd">        :return: (str) HTML</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">_md</span> <span class="o">=</span> <span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">convert_docstring</span><span class="p">(</span><span class="n">docstring</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__utils</span><span class="o">.</span><span class="n">markdown_to_html</span><span class="p">(</span><span class="n">_md</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>__claminfo_to_html</h4>
+
+    <article class="docstring">
+<p><em>Return the HTML of the given ClamInfo instance.</em></p>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>str</em>) HTML</li>
+</ul>
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>claminfo</strong></li>
+<li><strong>with_name</strong></li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__claminfo_to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">claminfo</span><span class="p">:</span> <span class="n">ClamInfo</span><span class="p">,</span> <span class="n">with_name</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the HTML of the given ClamInfo instance.</span>
+
+<span class="sd">        :return: (str) HTML</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">with_name</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;h4&gt;</span><span class="si">{:s}</span><span class="s1">&lt;/h4&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">claminfo</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">claminfo</span><span class="o">.</span><span class="n">args</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s1">&#39;self&#39;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;self&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">claminfo</span><span class="o">.</span><span class="n">docstring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_html</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__docstring_to_html</span><span class="p">(</span><span class="n">claminfo</span><span class="o">.</span><span class="n">docstring</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="s1">&#39;&lt;h5&gt;Parameters&lt;/h5&gt;&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_html</span><span class="p">:</span>
+            <span class="n">_md</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">##### Parameters</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">_md</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;- **</span><span class="si">{:s}</span><span class="s1">**&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="p">])</span>
+            <span class="n">_html</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__utils</span><span class="o">.</span><span class="n">markdown_convert</span><span class="p">(</span><span class="n">_md</span><span class="p">)</span>
+        <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ClamsClass</span><span class="o">.</span><span class="n">_docstring_article</span><span class="p">(</span><span class="n">_html</span><span class="p">))</span>
+        <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">claminfo</span><span class="o">.</span><span class="n">source</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">_html</span> <span class="o">=</span> <span class="n">ClamUtils</span><span class="p">()</span><span class="o">.</span><span class="n">source_to_html</span><span class="p">(</span><span class="n">claminfo</span><span class="o">.</span><span class="n">source</span><span class="p">)</span>
+        <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ClamsClass</span><span class="o">.</span><span class="n">_source_accordion</span><span class="p">(</span><span class="s1">&#39;View Source&#39;</span><span class="p">,</span> <span class="n">_html</span><span class="p">))</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">html_result</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">html_result</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&lt;p&gt;&lt;/p&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+</section>    </section>    </main>
+    
+            <footer>
+                <p class="copyright">Copyright (C) 2023-2025 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+            </footer>
+        
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+        <head>
+            
+            <title>ClammingPy doc</title>
+
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+            <meta name="description" content="Python class documentation" />
+
+            <link rel="logo icon" href="./statics/clamming32x32.ico" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
+
+            <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+            <script>
+            (function () {
+              const usingFile = (window.location.protocol === 'file:');
+              const s = document.createElement('script');
+            
+              if (usingFile) {
+                s.src = './Whakerexa-2.0/wexa_statics/js/wexa.bundle.js';
+              } else {
+                s.type = 'module';
+                s.src = './Whakerexa-2.0/wexa_statics/js/wexa.js';
+              }
+            
+              s.onload = function () {
+                window.Wexa.onload.addLoadFunction(function () {
+                  const book = new window.Wexa.Book("main-content");
+                  book.fill_table(false);
+                });
+              };
+            
+              document.head.appendChild(s);
+            })();
+            </script>
+
+       </head>
+       
+       <body class="light">
+        <header>
+
+            <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+                Go to main content
+            </a>
+            <nav>
+                <ul>
+                    <li>
+                        <button id="btn-contrast" role="menuitem" class="print-off" onclick="window.Wexa.accessibility.switch_contrast_scheme()" aria-label="Contrast">
+                            <img class="nav-item-img" src="./Whakerexa-2.0/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="btn-theme" class="print-off" role="menuitem" onclick="window.Wexa.accessibility.switch_color_scheme()" aria-label="Theme" >
+                            <img class="nav-item-img" src="./Whakerexa-2.0/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        
+    <h1>ClammingPy 2.1</h1>
+        <p><img class="small-logo" src="./statics/clamming.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://sourceforge.net/projects/clamming/">https://sourceforge.net/projects/clamming/</a></p>
+    </header>
+    <nav id="nav-book" class="side-nav">
+    <h1>ClammingPy 2.1</h1>
+    <img class="small-logo center" src="./statics/clamming.png" alt=""/>
+        <p><a class="external-link" href="https://sourceforge.net/projects/clamming/">https://sourceforge.net/projects/clamming/</a></p>
+    <ul>
+<li><a role="button" tabindex="0" aria-disabled="true"> &crarr; Prev. Module</a></li>
+<li><a role="button" tabindex="0" aria-disabled="true"> &uarr; Prev. Class</a></li>
+<li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
+<li><a role="button" tabindex="0" aria-disabled="true"> &darr; Next Class</a></li>
+<li><a role="button" tabindex="0" href="tests.html"> &rdsh; Next Module</a></li>
+    </ul>
+    <h2>Table of Contents</h2>
+    <ul id="toc"></ul>
+    <hr>
+    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>
+</nav>
+    <main id="main-content">
+    <section id="#clamming">
+    <h1>clamming module</h1>
+    <section id="readme">
+
+<pre>
+
+-----------------------------------------------------------------------------
+
+  ██████╗ ██╗       █████╗  ███╗   ███╗ ███╗   ███╗ ██╗ ███╗   ██╗  ██████╗
+ ██╔════╝ ██║      ██╔══██╗ ████╗ ████║ ████╗ ████║ ██║ ████╗  ██║ ██╔════╝ 
+ ██║      ██║      ███████║ ██╔████╔██║ ██╔████╔██║ ██║ ██╔██╗ ██║ ██║  ███╗
+ ██║      ██║      ██╔══██║ ██║╚██╔╝██║ ██║╚██╔╝██║ ██║ ██║╚██╗██║ ██║   ██║  
+ ╚██████╗ ███████╗ ██║  ██║ ██║ ╚═╝ ██║ ██║ ╚═╝ ██║ ██║ ██║ ╚████║ ╚██████╔╝
+  ╚═════╝ ╚══════╝ ╚═╝  ╚═╝ ╚═╝     ╚═╝ ╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝  ╚═════╝                                                                              
+
+            a Python library to generate accessible documentation
+
+            Copyright (C) 2023-2025, Brigitte Bigi, CNRS
+            Laboratoire Parole et Langage, Aix-en-Provence, France
+-----------------------------------------------------------------------------
+</pre>
+<h2>Usage</h2>
+
+<h3>Documenting a single class</h3>
+
+<p>The documented files can be obtained with the following Python code:</p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">clamming</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">Vehicle</span>  <span class="c1"># Or any other Python class to be documented</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">parser</span> <span class="o">=</span> <span class="n">clamming</span><span class="o">.</span><span class="n">ClammingClassParser</span><span class="p">(</span><span class="n">Vehicle</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">clams</span> <span class="o">=</span> <span class="n">clamming</span><span class="o">.</span><span class="n">ClamsClass</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">clams</span><span class="o">.</span><span class="n">html</span><span class="p">())</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">clams</span><span class="o">.</span><span class="n">markdown</span><span class="p">())</span>
+</code></pre></div>
+
+<h3>Documenting all classes of a module</h3>
+
+<p>The following Python code allows to generate the documentation of <code>clamming</code>
+module in Mardown format or in HTML format as a standalone content:</p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">clamming</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">clams_pack</span> <span class="o">=</span> <span class="n">clamming</span><span class="o">.</span><span class="n">ClamsPack</span><span class="p">(</span><span class="n">clamming</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">clams_pack</span><span class="o">.</span><span class="n">markdown</span><span class="p">())</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">clams_pack</span><span class="o">.</span><span class="n">html</span><span class="p">())</span>
+</code></pre></div>
+
+<p>The exportation can be customized:</p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">clamming</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="c1"># Options for exportation</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">html_export</span> <span class="o">=</span> <span class="n">clamming</span><span class="o">.</span><span class="n">ExportOptions</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">html_export</span><span class="o">.</span><span class="n">software</span> <span class="o">=</span> <span class="s1">&#39;ClammingPy &#39;</span> <span class="o">+</span> <span class="n">clamming</span><span class="o">.</span><span class="n">__version__</span>
+</code></pre></div>
+
+<h3>Documenting all classes of a list of modules</h3>
+
+<p>There is an all-in-one class allowing to generate the documentation of a list of packages. </p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">clamming</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">tests</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="c1"># List of modules to be documented.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">packages</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">packages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clamming</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">packages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tests</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="c1"># Options for exportation</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">export</span> <span class="o">=</span> <span class="n">clamming</span><span class="o">.</span><span class="n">ExportOptions</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">export</span><span class="o">.</span><span class="n">wexa_statics</span> <span class="o">=</span> <span class="s1">&#39;../Whakerexa-2.0/wexa_statics&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">export</span><span class="o">.</span><span class="n">software</span> <span class="o">=</span> <span class="s1">&#39;ClammingPy &#39;</span> <span class="o">+</span> <span class="n">clamming</span><span class="o">.</span><span class="n">__version__</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="c1"># Export documentation to HTML files into the &quot;docs&quot; folder.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">m</span> <span class="o">=</span> <span class="n">clamming</span><span class="o">.</span><span class="n">ClamsModules</span><span class="p">(</span><span class="n">packages</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">m</span><span class="o">.</span><span class="n">html_export_packages</span><span class="p">(</span><span class="s2">&quot;docs&quot;</span><span class="p">,</span> <span class="n">export</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="c1"># Export documentation to Markdown files into the &quot;docs&quot; folder.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">m</span><span class="o">.</span><span class="n">markdown_export_packages</span><span class="p">(</span><span class="s2">&quot;docs&quot;</span><span class="p">,</span> <span class="n">export</span><span class="p">)</span>
+</code></pre></div>
+
+<h2>License/Copyright</h2>
+
+<p>Copyright (C) 2023-2025 - <a href="https://sppas.org/bigi/">Brigitte Bigi</a> - <a href="&#x6d;&#97;i&#x6c;&#x74;&#x6f;&#58;&#99;&#111;&#x6e;&#x74;&#97;&#x63;&#x74;&#64;&#115;&#112;&#112;&#97;&#115;&#x2e;&#111;&#114;&#x67;">&#99;&#111;&#x6e;&#x74;&#97;&#x63;&#x74;&#64;&#115;&#112;&#112;&#97;&#115;&#x2e;&#111;&#114;&#x67;</a>, CNRS,
+Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+
+<p>This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.</p>
+
+<p>This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.</p>
+
+<p>You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see <a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.</p>
+
+    </section>
+
+<h2>List of classes</h2>
+
+        <section class="cards-panel">
+        <article class="card">
+            <header><span>1</span></header>
+            <main>
+                <h3>ClamUtils</h3>
+            </main>
+            <footer>
+                <a role="button" href="ClamUtils.html">Read me →</a>
+            </footer>
+        </article>
+        <article class="card">
+            <header><span>2</span></header>
+            <main>
+                <h3>ClamInfo</h3>
+            </main>
+            <footer>
+                <a role="button" href="ClamInfo.html">Read me →</a>
+            </footer>
+        </article>
+        <article class="card">
+            <header><span>3</span></header>
+            <main>
+                <h3>ClamInfoMarkdown</h3>
+            </main>
+            <footer>
+                <a role="button" href="ClamInfoMarkdown.html">Read me →</a>
+            </footer>
+        </article>
+        <article class="card">
+            <header><span>4</span></header>
+            <main>
+                <h3>ClammingClassParser</h3>
+            </main>
+            <footer>
+                <a role="button" href="ClammingClassParser.html">Read me →</a>
+            </footer>
+        </article>
+        <article class="card">
+            <header><span>5</span></header>
+            <main>
+                <h3>ClamsClass</h3>
+            </main>
+            <footer>
+                <a role="button" href="ClamsClass.html">Read me →</a>
+            </footer>
+        </article>
+        <article class="card">
+            <header><span>6</span></header>
+            <main>
+                <h3>ClamsPack</h3>
+            </main>
+            <footer>
+                <a role="button" href="ClamsPack.html">Read me →</a>
+            </footer>
+        </article>
+        <article class="card">
+            <header><span>7</span></header>
+            <main>
+                <h3>ClamsModules</h3>
+            </main>
+            <footer>
+                <a role="button" href="ClamsModules.html">Read me →</a>
+            </footer>
+        </article>
+        <article class="card">
+            <header><span>8</span></header>
+            <main>
+                <h3>ExportOptions</h3>
+            </main>
+            <footer>
+                <a role="button" href="ExportOptions.html">Read me →</a>
+            </footer>
+        </article>
+        </section>
+    </section>    </main>
+    
+            <footer>
+                <p class="copyright">Copyright (C) 2023-2025 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+            </footer>
+        
+</body>
+</html>

@@ -1,0 +1,165 @@
+# test_exportoptions.py
+#
+# This file is part of ClammingPy tool.
+# (C) 2023-2025 Brigitte Bigi, CNRS, Laboratoire Parole et Langage,
+# Aix-en-Provence, France.
+#
+# Use of this software is governed by the GNU Public License, version 3.
+#
+# ClammingPy is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# ClammingPy is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with ClammingPy.
+# If not, see <https://www.gnu.org/licenses/licenses.en.html>.
+#
+# This banner notice must not be removed.
+# ---------------------------------------------------------------------------
+
+import unittest
+
+from clamming.exportoptions import ExportOptions
+
+# ---------------------------------------------------------------------------
+
+
+class TestHTMLDocExport(unittest.TestCase):
+
+    def test_instantiate(self):
+        opts_export = ExportOptions()
+        self.assertTrue(opts_export._ExportOptions__readme)
+        self.assertEqual(opts_export._ExportOptions__software, ExportOptions.DEFAULT_SOFTWARE)
+        self.assertEqual(opts_export._ExportOptions__url, ExportOptions.DEFAULT_URL)
+        self.assertEqual(opts_export._ExportOptions__title, ExportOptions.DEFAULT_TITLE)
+        self.assertEqual(opts_export._ExportOptions__favicon, 'clamming32x32.ico')
+        # self.assertEqual(opts_export.theme, 'light')
+        self.assertIsNone(opts_export._ExportOptions__next_class)
+        self.assertIsNone(opts_export._ExportOptions__prev_class)
+        self.assertIsNone(opts_export._ExportOptions__next_pack)
+        self.assertIsNone(opts_export._ExportOptions__prev_pack)
+
+    # ----------------------------------------------------------------------------
+
+    def test_getters_setters_properties(self):
+        opts_export = ExportOptions()
+        opts_export.readme = False
+        opts_export.software = 'Clamming'
+        opts_export.url = 'https://clamming.sf.net'
+        opts_export.title = 'HTML Export'
+        opts_export.favicon = 'favicon.ico'
+        opts_export.theme = 'dark'
+        opts_export.next_class = 'NextClass'
+        opts_export.prev_class = 'PrevClass'
+        opts_export.next_module = 'NextModule'
+        opts_export.prev_module = 'PrevModule'
+
+        self.assertFalse(opts_export.readme)
+        self.assertEqual(opts_export.software, 'Clamming')
+        self.assertEqual(opts_export.url, 'https://clamming.sf.net')
+        self.assertEqual(opts_export.title, 'HTML Export')
+        self.assertEqual(opts_export.favicon, 'favicon.ico')
+        self.assertEqual(opts_export.theme, 'dark')
+        self.assertEqual(opts_export.next_class, 'NextClass')
+        self.assertEqual(opts_export.prev_class, 'PrevClass')
+        self.assertEqual(opts_export.next_module, 'NextModule')
+        self.assertEqual(opts_export.prev_module, 'PrevModule')
+
+        opts_export.next_class = None
+        opts_export.prev_class = None
+        opts_export.next_module = None
+        opts_export.prev_module = None
+
+        self.assertIsNone(opts_export.next_class)
+        self.assertIsNone(opts_export.prev_class)
+        self.assertIsNone(opts_export.next_module)
+        self.assertIsNone(opts_export.prev_module)
+
+        with self.assertRaises(TypeError):
+            opts_export.software = None
+        with self.assertRaises(TypeError):
+            opts_export.title = None
+        with self.assertRaises(TypeError):
+            opts_export.favicon = None
+        with self.assertRaises(TypeError):
+            opts_export.theme = None
+
+        with self.assertRaises(TypeError):
+            opts_export.next_class = 123
+        with self.assertRaises(TypeError):
+            opts_export.prev_class = 123
+        with self.assertRaises(TypeError):
+            opts_export.next_module = 123
+        with self.assertRaises(TypeError):
+            opts_export.prev_module = 123
+
+        opts_export.readme = 1
+        self.assertTrue(opts_export.readme)
+        opts_export.readme = 0
+        self.assertFalse(opts_export.readme)
+
+    # ----------------------------------------------------------------------------
+
+    def test_get_head(self):
+        opts_export = ExportOptions()
+        opts_export.title = 'HTML Export'
+        opts_export.favicon = 'favicon.ico'
+        opts_export.theme = 'dark'
+        expected_head ="""<head>
+            
+            <title>HTML Export</title>
+
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+            <meta name="description" content="Python class documentation" />
+
+            <link rel="logo icon" href="./statics/favicon.ico" />
+            <link rel="stylesheet" href="./wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
+
+            <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+            <script>
+            (function () {
+              const usingFile = (window.location.protocol === 'file:');
+              const s = document.createElement('script');
+            
+              if (usingFile) {
+                s.src = './wexa_statics/js/wexa.bundle.js';
+              } else {
+                s.type = 'module';
+                s.src = './wexa_statics/js/wexa.js';
+              }
+            
+              s.onload = function () {
+                window.Wexa.onload.addLoadFunction(function () {
+                  const book = new window.Wexa.Book("main-content");
+                  book.fill_table(false);
+                });
+              };
+            
+              document.head.appendChild(s);
+            })();
+            </script>
+
+       </head>"""
+        actual_head = opts_export.get_head().strip()
+        self.assertTrue(actual_head.startswith(expected_head.strip()))
+        self.assertTrue(actual_head.strip().endswith("</head>"))
+
+    # ----------------------------------------------------------------------------
+
+    def test_get_header(self):
+        opts_export = ExportOptions()
+        expected_header = '\n            <header>\n                <a role="button" class="skip" href="#main-content" aria-label="Go to main content">\n                Go to main content\n                </a>'
+        # self.assertTrue(opts_export.get_header().startswith(expected_header))
+

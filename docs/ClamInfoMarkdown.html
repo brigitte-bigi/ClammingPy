@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html>
+
+        <head>
+            
+            <title>ClammingPy doc</title>
+
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+            <meta name="description" content="Python Class Documentation of ClamInfoMarkdown. Convert and store ClamInfo data into Markdown format." />
+
+            <link rel="logo icon" href="./statics/clamming32x32.ico" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
+
+            <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+            <script>
+            (function () {
+              const usingFile = (window.location.protocol === 'file:');
+              const s = document.createElement('script');
+            
+              if (usingFile) {
+                s.src = './Whakerexa-2.0/wexa_statics/js/wexa.bundle.js';
+              } else {
+                s.type = 'module';
+                s.src = './Whakerexa-2.0/wexa_statics/js/wexa.js';
+              }
+            
+              s.onload = function () {
+                window.Wexa.onload.addLoadFunction(function () {
+                  const book = new window.Wexa.Book("main-content");
+                  book.fill_table(false);
+                });
+              };
+            
+              document.head.appendChild(s);
+            })();
+            </script>
+
+       </head>
+       
+       <body class="light">
+        <header>
+
+            <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+                Go to main content
+            </a>
+            <nav>
+                <ul>
+                    <li>
+                        <button id="btn-contrast" role="menuitem" class="print-off" onclick="window.Wexa.accessibility.switch_contrast_scheme()" aria-label="Contrast">
+                            <img class="nav-item-img" src="./Whakerexa-2.0/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="btn-theme" class="print-off" role="menuitem" onclick="window.Wexa.accessibility.switch_color_scheme()" aria-label="Theme" >
+                            <img class="nav-item-img" src="./Whakerexa-2.0/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        
+    <h1>ClammingPy 2.1</h1>
+        <p><img class="small-logo" src="./statics/clamming.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://sourceforge.net/projects/clamming/">https://sourceforge.net/projects/clamming/</a></p>
+    </header>
+    <nav id="nav-book" class="side-nav">
+    <h1>ClammingPy 2.1</h1>
+    <img class="small-logo center" src="./statics/clamming.png" alt=""/>
+        <p><a class="external-link" href="https://sourceforge.net/projects/clamming/">https://sourceforge.net/projects/clamming/</a></p>
+    <ul>
+<li><a role="button" tabindex="0" aria-disabled="true"> &crarr; Prev. Module</a></li>
+<li><a role="button" tabindex="0" href="ClamInfo.html"> &uarr; Prev. Class</a></li>
+<li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
+<li><a role="button" tabindex="0" href="ClammingClassParser.html"> &darr; Next Class</a></li>
+<li><a role="button" tabindex="0" href="tests.html"> &rdsh; Next Module</a></li>
+    </ul>
+    <h2>Table of Contents</h2>
+    <ul id="toc"></ul>
+    <hr>
+    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>
+</nav>
+    <main id="main-content">
+    <section id="#clamming">    <h1>Module clamming</h1>
+<section id="#ClamInfoMarkdown">
+<h2>Class ClamInfoMarkdown</h2>
+
+<section>
+<h3 id="#description_ClamInfoMarkdown">Description</h3>
+    <article class="docstring">
+<p><em>Convert and store ClamInfo data into Markdown format.</em></p>
+
+<p>Docstrings are analyzed with <strong>flexibility rather than completeness...
+it's the choice here.</strong></p>
+
+<blockquote>
+  <p>Both ReST and Epydoc field styles are supported. :field: or @field: can be used indifferently, with upper- or lower- cases.</p>
+</blockquote>
+
+<p>Two very useful non-standard field list are added:
+<code>:example:</code> and <code>:code:</code></p>
+
+<p>Finally, some variants in field names are supported:</p>
+
+<ul>
+<li>:return: or :returns: are both interpreted the same way;</li>
+<li>:raise: or :raises: or :catch: or :except: are all interpreted the same way.</li>
+</ul>
+
+    </article>
+</section>
+<section>
+<h3 id="#constructor_ClamInfoMarkdown">Constructor</h3>
+    <article class="docstring">
+<p><em>Create a ClamInfoMarkdown converter.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>clam</strong>: (ClamInfo)</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>TypeError</em>: The given argument is not a ClamInfo.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clam</span><span class="p">:</span> <span class="n">ClamInfo</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a ClamInfoMarkdown converter.</span>
+
+<span class="sd">    :param clam: (ClamInfo)</span>
+<span class="sd">    :raises: TypeError: The given argument is not a ClamInfo.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">clam</span><span class="p">,</span> <span class="n">ClamInfo</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;ClamInfo&#39; for the ClamInfoMarkdown.clam, got </span><span class="si">{:s}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">clam</span><span class="p">))))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__clam</span> <span class="o">=</span> <span class="n">clam</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#public_fct_ClamInfoMarkdown">Public functions</h3>
+<h4>name</h4>
+
+    <article class="docstring">
+<p><em>Return the name into Markdown format.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@property</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the name into Markdown format.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__clam</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>args</h4>
+
+    <article class="docstring">
+<p><em>Return the list of arguments.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@property</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the list of arguments.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__clam</span><span class="o">.</span><span class="n">args</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>source</h4>
+
+    <article class="docstring">
+<p><em>Return the source code in Markdown format.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@property</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the source code in Markdown format.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_source</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__clam</span><span class="o">.</span><span class="n">source</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>docstring</h4>
+
+    <article class="docstring">
+<p><em>Return the docstring in Markdown format.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@property</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">docstring</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the docstring in Markdown format.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_docstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__clam</span><span class="o">.</span><span class="n">docstring</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>convert_name</h4>
+
+    <article class="docstring">
+<p><em>Convert the given name into markdown.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>name</strong>: (<em>str</em>) Name of a function or class</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>str</em>) The name in Markdown</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_name</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert the given name into markdown.</span>
+
+<span class="sd">        :param name: (str) Name of a function or class</span>
+<span class="sd">        :return: (str) The name in Markdown</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s1">&#39;#### </span><span class="si">{:s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>convert_source</h4>
+
+    <article class="docstring">
+<p><em>Convert source code into markdown.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>source</strong>: (<em>str</em>) Source code of a function or class or anything</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>str</em>) The source in Markdown</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_source</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert source code into markdown.</span>
+
+<span class="sd">        :param source: (str) Source code of a function or class or anything</span>
+<span class="sd">        :return: (str) The source in Markdown</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">source</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">code</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">```python&#39;</span><span class="p">)</span>
+    <span class="n">code</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+    <span class="n">code</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;```</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>convert_docstring</h4>
+
+    <article class="docstring">
+<p><em>Convert reStructuredText of a docstring to Markdown.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>docstring</strong>: (<em>str</em>) The docstring of any source code.</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>str</em>) Docstring in Markdown.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_docstring</span><span class="p">(</span><span class="n">docstring</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert reStructuredText of a docstring to Markdown.</span>
+
+<span class="sd">        :param docstring: (str) The docstring of any source code.</span>
+<span class="sd">        :return: (str) Docstring in Markdown.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">docstring</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">md</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">is_field_section</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">docstring</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)):</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">is_field_section</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">text</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
+            <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;*</span><span class="si">{:s}</span><span class="s1">*&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">text</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">text</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="p">):</span>
+            <span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span> <span class="o">=</span> <span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">_extract_fieldname</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">fieldname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">is_field_section</span> <span class="o">!=</span> <span class="n">fieldname</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">is_field_section</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">MARKDOWN_SECTION</span><span class="p">[</span><span class="n">fieldname</span><span class="p">])</span>
+                <span class="n">is_field_section</span> <span class="o">=</span> <span class="n">fieldname</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">fieldname</span> <span class="o">==</span> <span class="s1">&#39;param&#39;</span><span class="p">:</span>
+                        <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">_param</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+                    <span class="k">elif</span> <span class="n">fieldname</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;raise&#39;</span><span class="p">,</span> <span class="s1">&#39;raises&#39;</span><span class="p">):</span>
+                        <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">_raise</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+                    <span class="k">elif</span> <span class="n">fieldname</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;return&#39;</span><span class="p">,</span> <span class="s1">&#39;returns&#39;</span><span class="p">):</span>
+                        <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">_return</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+                    <span class="k">elif</span> <span class="n">fieldname</span> <span class="o">==</span> <span class="s1">&#39;example&#39;</span><span class="p">:</span>
+                        <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">_example</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+                    <span class="k">elif</span> <span class="n">fieldname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">_plist</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+                <span class="n">is_field_section</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">elif</span> <span class="n">text</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;&gt;&gt;&gt;&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">is_field_section</span> <span class="o">!=</span> <span class="s1">&#39;example&#39;</span><span class="p">:</span>
+                <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">MARKDOWN_SECTION</span><span class="p">[</span><span class="s1">&#39;example&#39;</span><span class="p">])</span>
+            <span class="n">is_field_section</span> <span class="o">=</span> <span class="s1">&#39;example&#39;</span>
+            <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">_example</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">is_field_section</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">md</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_field_section</span> <span class="o">==</span> <span class="s1">&#39;example&#39;</span><span class="p">:</span>
+                <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">_example</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">md</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:s}</span><span class="s1"> </span><span class="si">{:s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">md</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">text</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">md</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#private_fct_ClamInfoMarkdown">Private functions</h3>
+<h4>_extract_fieldname</h4>
+
+    <article class="docstring">
+<p><em>Extract a supposed field name from the given text.</em></p>
+
+<p>Text field can be of type <code>@field:</code> (epydoc) or <code>:field:</code> (reST).</p>
+
+<p>Some examples of supported input text and the returned tuple:</p>
+
+<ul>
+<li>"@param name: THE name" returns ("name", "THE name")</li>
+<li>:param name: THE name" returns ("name", "THE name")</li>
+<li>":example:" returns ("example", "")</li>
+<li>":return: Something" returns ("return", "Something")</li>
+<li>"Something here" returns (None, "Something here")</li>
+</ul>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>text</strong>: (<em>str</em>) Any line of text starting by a field.</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(field_name, description)</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_extract_fieldname</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract a supposed field name from the given text.</span>
+
+<span class="sd">         Text field can be of type `@field:` (epydoc) or `:field:` (reST).</span>
+
+<span class="sd">         Some examples of supported input text and the returned tuple:</span>
+
+<span class="sd">         - &quot;@param name: THE name&quot; returns (&quot;name&quot;, &quot;THE name&quot;)</span>
+<span class="sd">         - :param name: THE name&quot; returns (&quot;name&quot;, &quot;THE name&quot;)</span>
+<span class="sd">         - &quot;:example:&quot; returns (&quot;example&quot;, &quot;&quot;)</span>
+<span class="sd">         - &quot;:return: Something&quot; returns (&quot;return&quot;, &quot;Something&quot;)</span>
+<span class="sd">         - &quot;Something here&quot; returns (None, &quot;Something here&quot;)</span>
+
+<span class="sd">        :param text: (str) Any line of text starting by a field.</span>
+<span class="sd">        :return: (field_name, description)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">sep_whitespace</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">sep_whitespace</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">sep_dots</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">sep_dots</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">sep_whitespace</span><span class="p">,</span> <span class="n">sep_dots</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="n">field_name</span> <span class="o">=</span> <span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">_fieldname_variant</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">pos</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">IGNORE_FIELDS</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pos</span> <span class="o">==</span> <span class="n">sep_whitespace</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">pos</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">pos</span> <span class="o">+</span> <span class="mi">2</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">MARKDOWN_SECTION</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">field_name</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>_fieldname_variant</h4>
+
+    <article class="docstring">
+<p><em>Return the corresponding normalized field.</em></p>
+
+<p>Some examples of supported input text and the returned string:</p>
+
+<ul>
+<li>"return" returns "return"</li>
+<li>"Returns" returns "return"</li>
+<li>"ANYTHING returns "anything"</li>
+</ul>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>name</strong>: (<em>str</em>) A supposed field-name or one of the variants</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>str</em>) normalized field</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_fieldname_variant</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the corresponding normalized field.</span>
+
+<span class="sd">        Some examples of supported input text and the returned string:</span>
+
+<span class="sd">        - &quot;return&quot; returns &quot;return&quot;</span>
+<span class="sd">        - &quot;Returns&quot; returns &quot;return&quot;</span>
+<span class="sd">        - &quot;ANYTHING returns &quot;anything&quot;</span>
+
+<span class="sd">        :param name: (str) A supposed field-name or one of the variants</span>
+<span class="sd">        :return: (str) normalized field</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">VARIANT_FIELDS</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">VARIANT_FIELDS</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">name</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>_ptype</h4>
+
+    <article class="docstring">
+<p><em>Surround an indicated python type with *".</em></p>
+
+<p>Some examples of supported input text and the returned string:</p>
+
+<ul>
+<li>"(str)" returns "(<em>str</em>)"</li>
+<li>"(str,int)" returns "(<em>str</em>,<em>int</em>)"</li>
+<li>"list(str)" returns "list(<em>str</em>)"</li>
+<li>"(list[str])" returns "(<em>list</em>[<em>str</em>])"</li>
+<li>"(any)" returns "(any)"</li>
+<li>"some text" returns "some text"</li>
+<li>" (some text) " returns "(some text)"</li>
+</ul>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>text</strong>: (<em>str</em>) Text to be analyzed to emphasize python types</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>str</em>) analyzed text</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_ptype</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Surround an indicated python type with *&quot;.</span>
+
+<span class="sd">        Some examples of supported input text and the returned string:</span>
+
+<span class="sd">        - &quot;(str)&quot; returns &quot;(*str*)&quot;</span>
+<span class="sd">        - &quot;(str,int)&quot; returns &quot;(*str*,*int*)&quot;</span>
+<span class="sd">        - &quot;list(str)&quot; returns &quot;list(*str*)&quot;</span>
+<span class="sd">        - &quot;(list[str])&quot; returns &quot;(*list*[*str*])&quot;</span>
+<span class="sd">        - &quot;(any)&quot; returns &quot;(any)&quot;</span>
+<span class="sd">        - &quot;some text&quot; returns &quot;some text&quot;</span>
+<span class="sd">        - &quot; (some text) &quot; returns &quot;(some text)&quot;</span>
+
+<span class="sd">        :param text: (str) Text to be analyzed to emphasize python types</span>
+<span class="sd">        :return: (str) analyzed text</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s1">&#39;(&#39;</span> <span class="ow">in</span> <span class="n">text</span> <span class="ow">and</span> <span class="s1">&#39;)&#39;</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">e</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">:</span>
+            <span class="n">parenthesis</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">b</span><span class="p">:</span><span class="n">e</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">py_type</span> <span class="ow">in</span> <span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">PY_TYPES</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">py_type</span> <span class="ow">in</span> <span class="n">parenthesis</span><span class="p">:</span>
+                    <span class="n">parenthesis</span> <span class="o">=</span> <span class="n">parenthesis</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">py_type</span><span class="p">,</span> <span class="s1">&#39;*</span><span class="si">{:s}</span><span class="s1">*&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">py_type</span><span class="p">))</span>
+            <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{:s}{:s}{:s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="p">[:</span><span class="n">b</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">parenthesis</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">text</span><span class="p">[</span><span class="n">e</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">text</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>_param</h4>
+
+    <article class="docstring">
+<p><em>Make param text a list item and surround the param name with '</em><em>'.</em></p>
+
+<p>Some examples of supported input text and the returned string:</p>
+
+<ul>
+<li>"name: THE name" returns "- <strong>name</strong>: THE name"</li>
+<li>"name: (str) THE name" returns "- <strong>name</strong>: (<em>str</em>) THE name"</li>
+<li>"name: (str|int) THE name" returns "- <strong>name</strong>: (<em>str</em>|<em>int</em>) THE name"</li>
+<li>"THE name" returns "THE name"</li>
+</ul>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>text</strong>: (<em>str</em>) Any line of text that started by a param field.</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>analyzed text with surrounded field</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_param</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make param text a list item and surround the param name with &#39;**&#39;.</span>
+
+<span class="sd">         Some examples of supported input text and the returned string:</span>
+
+<span class="sd">         - &quot;name: THE name&quot; returns &quot;- **name**: THE name&quot;</span>
+<span class="sd">         - &quot;name: (str) THE name&quot; returns &quot;- **name**: (*str*) THE name&quot;</span>
+<span class="sd">         - &quot;name: (str|int) THE name&quot; returns &quot;- **name**: (*str*|*int*) THE name&quot;</span>
+<span class="sd">         - &quot;THE name&quot; returns &quot;THE name&quot;</span>
+
+<span class="sd">        :param text: (str) Any line of text that started by a param field.</span>
+<span class="sd">        :return: analyzed text with surrounded field</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="s1">&#39;:&#39;</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+        <span class="n">sep_dots</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+        <span class="n">param_name</span> <span class="o">=</span> <span class="n">text</span><span class="p">[:</span><span class="n">sep_dots</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">param_descr</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">sep_dots</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">param_descr</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;- **</span><span class="si">{:s}</span><span class="s1">**: </span><span class="si">{:s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param_name</span><span class="p">,</span> <span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">_ptype</span><span class="p">(</span><span class="n">param_descr</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;- **</span><span class="si">{:s}</span><span class="s1">**&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">_ptype</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>_raise</h4>
+
+    <article class="docstring">
+<p><em>Make raise text a list item.</em></p>
+
+<p>Some examples of supported input text and the returned string:</p>
+
+<ul>
+<li>"THE error" returns "- THE error"</li>
+<li>"ValueError: THE problem" returns "- <strong>ValueError</strong>: THE problem"</li>
+</ul>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>text</strong>: (<em>str</em>) Any line of text that started by a raise field.</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>analyzed text with surrounded exception name</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_raise</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make raise text a list item.</span>
+
+<span class="sd">        Some examples of supported input text and the returned string:</span>
+
+<span class="sd">         - &quot;THE error&quot; returns &quot;- THE error&quot;</span>
+<span class="sd">         - &quot;ValueError: THE problem&quot; returns &quot;- **ValueError**: THE problem&quot;</span>
+
+<span class="sd">        :param text: (str) Any line of text that started by a raise field.</span>
+<span class="sd">        :return: analyzed text with surrounded exception name</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="s1">&#39;:&#39;</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+        <span class="n">sep_dots</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+        <span class="n">raise_tag</span> <span class="o">=</span> <span class="n">text</span><span class="p">[:</span><span class="n">sep_dots</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">raise_descr</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">sep_dots</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">raise_descr</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;- *</span><span class="si">{:s}</span><span class="s1">*: </span><span class="si">{:s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">raise_tag</span><span class="p">,</span> <span class="n">raise_descr</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;- *</span><span class="si">{:s}</span><span class="s1">*&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">raise_tag</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">text</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>_return</h4>
+
+    <article class="docstring">
+<p><em>Make return text a list item.</em></p>
+
+<p>Some examples of supported input text and the returned string:</p>
+
+<ul>
+<li>"THE name" returns "- THE name"</li>
+<li>"(str|int) THE name" returns "- (<em>str</em>|<em>int</em>) THE name"</li>
+<li>"tag: THE name" returns "- <strong>tag</strong>: THE name"</li>
+<li>"tag:" returns "- <strong>tag</strong>"</li>
+</ul>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>text</strong>: (<em>str</em>) Any line of text that started by a return field.</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>analyzed text with surrounded tag</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_return</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make return text a list item.</span>
+
+<span class="sd">        Some examples of supported input text and the returned string:</span>
+
+<span class="sd">         - &quot;THE name&quot; returns &quot;- THE name&quot;</span>
+<span class="sd">         - &quot;(str|int) THE name&quot; returns &quot;- (*str*|*int*) THE name&quot;</span>
+<span class="sd">         - &quot;tag: THE name&quot; returns &quot;- **tag**: THE name&quot;</span>
+<span class="sd">         - &quot;tag:&quot; returns &quot;- **tag**&quot;</span>
+
+<span class="sd">        :param text: (str) Any line of text that started by a return field.</span>
+<span class="sd">        :return: analyzed text with surrounded tag</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="s1">&#39;:&#39;</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+        <span class="n">sep_dots</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+        <span class="n">return_tag</span> <span class="o">=</span> <span class="n">text</span><span class="p">[:</span><span class="n">sep_dots</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">return_descr</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">sep_dots</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">return_descr</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;- **</span><span class="si">{:s}</span><span class="s1">**: </span><span class="si">{:s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">return_tag</span><span class="p">,</span> <span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">_ptype</span><span class="p">(</span><span class="n">return_descr</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;- **</span><span class="si">{:s}</span><span class="s1">**&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">return_tag</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;- </span><span class="si">{:s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ClamInfoMarkdown</span><span class="o">.</span><span class="n">_ptype</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>_example</h4>
+
+    <article class="docstring">
+<p><em>Make example text a &gt;&gt;&gt; item.</em></p>
+
+<p>Some examples of supported input text and the returned string:</p>
+
+<ul>
+<li>">&gt;&gt;print('Hello')" returns "    &gt;&gt;&gt; print('Hello')"</li>
+<li>"print('Hello')" returns "    &gt;&gt;&gt; print('Hello')"</li>
+</ul>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>text</strong>: (<em>str</em>) Any line of code in an example section.</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>analyzed text with ">&gt;&gt;" pre-pended</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_example</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make example text a &gt;&gt;&gt; item.</span>
+
+<span class="sd">        Some examples of supported input text and the returned string:</span>
+
+<span class="sd">         - &quot;&gt;&gt;&gt;print(&#39;Hello&#39;)&quot; returns &quot;    &gt;&gt;&gt; print(&#39;Hello&#39;)&quot;</span>
+<span class="sd">         - &quot;print(&#39;Hello&#39;)&quot; returns &quot;    &gt;&gt;&gt; print(&#39;Hello&#39;)&quot;</span>
+
+<span class="sd">        :param text: (str) Any line of code in an example section.</span>
+<span class="sd">        :return: analyzed text with &quot;&gt;&gt;&gt;&quot; pre-pended</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">text</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;&gt;&gt;&gt;&#39;</span><span class="p">):</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">return</span> <span class="s1">&#39;    &gt;&gt;&gt; </span><span class="si">{:s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;    &gt; </span><span class="si">{:s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>_plist</h4>
+
+    <article class="docstring">
+<p><em>Turn an indicated field list into a list item.</em></p>
+
+<p>Some examples of supported input text and the returned string:</p>
+
+<ul>
+<li>":Author: someone" returns "- <strong>Author</strong>: someone"</li>
+<li>":Author: " returns "- <strong>Author</strong>"</li>
+<li>"Author: no " returns "Author: no"</li>
+</ul>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>text</strong>: (<em>str</em>) Any line of text that started by any field.</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>analyzed text with surrounded field</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_plist</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Turn an indicated field list into a list item.</span>
+
+<span class="sd">        Some examples of supported input text and the returned string:</span>
+
+<span class="sd">         - &quot;:Author: someone&quot; returns &quot;- **Author**: someone&quot;</span>
+<span class="sd">         - &quot;:Author: &quot; returns &quot;- **Author**&quot;</span>
+<span class="sd">         - &quot;Author: no &quot; returns &quot;Author: no&quot;</span>
+
+<span class="sd">        :param text: (str) Any line of text that started by any field.</span>
+<span class="sd">        :return: analyzed text with surrounded field</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">text</span>
+    <span class="k">if</span> <span class="n">text</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="s1">&#39;:&#39;</span> <span class="ow">in</span> <span class="n">text</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">e</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">descr</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">e</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">descr</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;- **</span><span class="si">{:s}</span><span class="s1">**: </span><span class="si">{:s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">descr</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;- **</span><span class="si">{:s}</span><span class="s1">**&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">text</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#overloads_ClamInfoMarkdown">Overloads</h3>
+<h4>__str__</h4>
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{:s}</span><span class="se">\n</span><span class="si">{:s}</span><span class="se">\n</span><span class="si">{:s}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">docstring</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+</section>    </section>    </main>
+    
+            <footer>
+                <p class="copyright">Copyright (C) 2023-2025 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+            </footer>
+        
+</body>
+</html>
