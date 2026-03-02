@@ -4,7 +4,7 @@
 :contact: contact@sppas.org
 :summary: Create documentation of a module into Markdown or HTML.
 
-.. _This file is part of ClammingPy: https://clamming.sourceforge.io
+.. _This file is part of ClammingPy: https://brigitte-bigi.github.io/ClammingPy/
 ..
     -------------------------------------------------------------------------
 

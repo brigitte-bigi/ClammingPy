@@ -629,14 +629,14 @@ def convert_docstring(docstring: str) -> str:
         return ''
     md = list()
     is_field_section = ''
-    for (i, line) in enumerate(docstring.split('\n')):
+    for i, line in enumerate(docstring.split('\n')):
         text = line.strip()
         if len(text) == 0:
             is_field_section = ''
         if i == 0 and text.endswith('.'):
             md.append('*{:s}*'.format(text))
         elif text.startswith(':') or text.startswith('@'):
-            (fieldname, text) = ClamInfoMarkdown._extract_fieldname(text)
+            fieldname, text = ClamInfoMarkdown._extract_fieldname(text)
             if fieldname is not None:
                 if is_field_section != fieldname:
                     if len(is_field_section) > 0:

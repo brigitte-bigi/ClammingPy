@@ -3,7 +3,7 @@
 # Usage: python makedoc.py
 #
 # This file is part of ClammingPy tool.
-# Copyright (C) 2023-2025 Brigitte Bigi, CNRS,
+# Copyright (C) 2023-2026 Brigitte Bigi, CNRS,
 # Laboratoire Parole et Langage, Aix-en-Provence, France.
 #
 # Use of this software is governed by the GNU Affero Public License, version 3.
@@ -35,7 +35,7 @@ from clamming import ExportOptions
 
 # ###########################################################################
 # Fix the default path to the "wexa_statics" folder of Whakerexa/
-WEXA = './Whakerexa-2.0/wexa_statics'
+WEXA = './Whakerexa-2.1/wexa_statics'
 # ###########################################################################
 
 
@@ -74,7 +74,7 @@ packages.append(tests)
 # ----------------------------
 opts_export = ExportOptions()
 opts_export.software = 'ClammingPy ' + clamming.__version__
-opts_export.url = 'https://sourceforge.net/projects/clamming/'
+opts_export.url = 'https://github.com/brigitte-bigi/ClammingPy/'
 opts_export.copyright = clamming.__copyright__
 opts_export.title = 'ClammingPy doc'
 # ... statics is the relative path to a folder with custom CSS, JS, etc.

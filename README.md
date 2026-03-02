@@ -35,7 +35,7 @@ Finally, some variants in field names are supported:
 
 ## Install ClammingPy
 
-Get it here: <https://sourceforge.net/projects/clamming/>.
+Get it here: <https://github.com/brigitte-bigi/ClammingPy>.
 
 ClammingPy requires Whakerexa to be installed; it can be downloaded from: <https://whakerexa.sourceforge.io>.
 
@@ -182,7 +182,8 @@ Use one of the following reference to cite ClammingPy:
 
 ## Projects using ClammingPy
 
-- WhakerPy: <https://whakerpy.sourceforge.io>
+- Auto-CS: <https://brigitte-bigi.github.io/auto-cs/>
+- WhakerPy: <https://brigitte-bigi.github.io/WhakerPy/>
 - WhakerKit: <https://whakerkit.sourceforge.io>
 - AudiooPy: <https://audioopy.sourceforge.io>
 - PyMancala: <https://pymancala.sf.net>
@@ -200,7 +201,7 @@ Any and all constructive comments are welcome.
 
 See the accompanying LICENSE and AUTHORS files for the full list of contributors.
 
-Copyright (C) 2023-2025 - [Brigitte Bigi](https://sppas.org/bigi/) - <contact@sppas.org>, CNRS,
+Copyright (C) 2023-2026 - [Brigitte Bigi](https://sppas.org/bigi/) - <contact@sppas.org>, CNRS,
 Laboratoire Parole et Langage, Aix-en-Provence, France
 
 This program is free software: you can redistribute it and/or modify

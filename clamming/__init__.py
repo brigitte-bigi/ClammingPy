@@ -4,11 +4,11 @@
 :contact: contact@sppas.org
 :summary: Generate documentation in Markdown or HTML.
 
-.. _This file is part of ClammingPy: https://clamming.sourceforge.io
+.. _This file is part of ClammingPy: https://brigitte-bigi.github.io/ClammingPy/
 ..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2023-2025 Brigitte Bigi, CNRS
+    Copyright (C) 2023-2026 Brigitte Bigi, CNRS
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
     This program is free software: you can redistribute it and/or modify
@@ -40,8 +40,8 @@ from .clamsmodules import ClamsModules
 from .exportoptions import ExportOptions
 
 __author__ = "Brigitte Bigi"
-__copyright__ = "Copyright (C) 2023-2025 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France"
-__version__ = "2.1"
+__copyright__ = "Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France"
+__version__ = "2.2"
 __all__ = (
     "ClamUtils",
     "ClamInfo",

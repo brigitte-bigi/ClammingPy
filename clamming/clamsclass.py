@@ -4,7 +4,7 @@
 :contact: contact@sppas.org
 :summary: Convert a parsed class object into Markdown or HTML content.
 
-.. _This file is part of ClammingPy: https://clamming.sourceforge.io
+.. _This file is part of ClammingPy: https://brigitte-bigi.github.io/ClammingPy/
 ..
     -------------------------------------------------------------------------
 

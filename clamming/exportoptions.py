@@ -4,7 +4,7 @@
 :contact: contact@sppas.org
 :summary: Store the options and content for an export.
 
-.. _This file is part of ClammingPy: https://clamming.sourceforge.io
+.. _This file is part of ClammingPy: https://brigitte-bigi.github.io/ClammingPy/
 ..
     -------------------------------------------------------------------------
 

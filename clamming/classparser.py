@@ -4,7 +4,7 @@
 :contact: contact@sppas.org
 :summary: Inspect a python class and store relevant information for further doc.
 
-.. _This file is part of ClammingPy: https://clamming.sourceforge.io
+.. _This file is part of ClammingPy: https://brigitte-bigi.github.io/ClammingPy/
 ..
     -------------------------------------------------------------------------
 

@@ -15,7 +15,7 @@ PACKAGE_NAME=`pwd`/${PROGRAM_NAME}-${PROGRAM_VERSION}.zip
 echo "Create release for ClammingPy-"$PROGRAM_VERSION
 
 echo "Create documentation"
-#.venv/bin/python makedoc.py
+.venv/bin/python makedoc.py
 
 echo "Delete any __pycache__ folder"
   for pycache in `find . -name "__pycache__"`;
@@ -38,4 +38,4 @@ echo "Create wheel"
 .venv/bin/python -m build
 
 # transfert to pypi.org:
-# .venv/bin/twine upload -r pypi dist/clammingpy-2.0-py3-none-any.whl
+# .venv/bin/twine upload -r pypi dist/clammingpy-2.2-py3-none-any.whl
