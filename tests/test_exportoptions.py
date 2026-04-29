@@ -106,6 +106,14 @@ class TestHTMLDocExport(unittest.TestCase):
 
     # ----------------------------------------------------------------------------
 
+    def test_lang_setter(self):
+        opts_export = ExportOptions()
+        self.assertEqual(opts_export.lang, "en")
+        opts_export.lang = "fr"
+        self.assertEqual(opts_export.lang, "fr")
+        with self.assertRaises(TypeError):
+            opts_export.lang = 42
+
     def test_get_head(self):
         opts_export = ExportOptions()
         opts_export.title = 'HTML Export'
@@ -160,6 +168,87 @@ class TestHTMLDocExport(unittest.TestCase):
 
     def test_get_header(self):
         opts_export = ExportOptions()
-        expected_header = '\n            <header>\n                <a role="button" class="skip" href="#main-content" aria-label="Go to main content">\n                Go to main content\n                </a>'
-        # self.assertTrue(opts_export.get_header().startswith(expected_header))
+        header = opts_export.get_header()
+        self.assertIn("<header>", header)
+        self.assertIn("</header>", header)
+        self.assertIn("main-content", header)
+
+    def test_get_header_with_software_icon_url(self):
+        opts_export = ExportOptions()
+        opts_export.software = "MySoftware"
+        opts_export.icon = "logo.png"
+        opts_export.url = "https://example.com"
+        header = opts_export.get_header()
+        self.assertIn("MySoftware", header)
+        self.assertIn("logo.png", header)
+        self.assertIn("https://example.com", header)
+
+    def test_get_nav(self):
+        opts_export = ExportOptions()
+        nav = opts_export.get_nav()
+        self.assertIn("<nav", nav)
+        self.assertIn("</nav>", nav)
+        self.assertIn("index.html", nav)
+
+    def test_get_nav_with_prev_next(self):
+        opts_export = ExportOptions()
+        opts_export.next_class = "NextClass.html"
+        opts_export.prev_class = "PrevClass.html"
+        opts_export.next_module = "NextModule.html"
+        opts_export.prev_module = "PrevModule.html"
+        nav = opts_export.get_nav()
+        self.assertIn("NextClass.html", nav)
+        self.assertIn("PrevClass.html", nav)
+        self.assertIn("NextModule.html", nav)
+        self.assertIn("PrevModule.html", nav)
+
+    def test_get_nav_disabled_links(self):
+        opts_export = ExportOptions()
+        nav = opts_export.get_nav()
+        self.assertIn('aria-disabled="true"', nav)
+
+    def test_get_footer(self):
+        opts_export = ExportOptions()
+        opts_export.copyright = "© 2025 Me"
+        footer = opts_export.get_footer()
+        self.assertIn("<footer>", footer)
+        self.assertIn("© 2025 Me", footer)
+
+    def test_get_statics_setters(self):
+        opts_export = ExportOptions()
+        opts_export.statics = "./my_statics"
+        self.assertEqual(opts_export.statics, "./my_statics")
+        opts_export.wexa_statics = "./my_wexa"
+        self.assertEqual(opts_export.wexa_statics, "./my_wexa")
+        with self.assertRaises(TypeError):
+            opts_export.statics = 123
+        with self.assertRaises(TypeError):
+            opts_export.wexa_statics = 123
+
+    def test_copyright_setter(self):
+        opts_export = ExportOptions()
+        opts_export.copyright = "© 2025"
+        self.assertEqual(opts_export.copyright, "© 2025")
+        with self.assertRaises(TypeError):
+            opts_export.copyright = 42
+
+    def test_icon_setter(self):
+        opts_export = ExportOptions()
+        opts_export.icon = "icon.png"
+        self.assertEqual(opts_export.icon, "icon.png")
+        with self.assertRaises(TypeError):
+            opts_export.icon = 42
+
+    def test_description_setter(self):
+        opts_export = ExportOptions()
+        long_descr = "A" * 100
+        opts_export.description = long_descr
+        self.assertLessEqual(len(opts_export.description), 160)
+        with self.assertRaises(TypeError):
+            opts_export.description = 123
+
+    def test_description_too_long_truncated(self):
+        opts_export = ExportOptions()
+        opts_export.description = "A" * 200
+        self.assertEqual(len(opts_export.description), 160)
 

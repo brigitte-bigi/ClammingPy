@@ -4,7 +4,7 @@
 :contact: contact@sppas.org
 :summary: Convert a parsed class object into Markdown or HTML content.
 
-.. _This file is part of ClammingPy: https://brigitte-bigi.github.io/ClammingPy/
+.. _This file is part of ClammingPy: https://clamming.sourceforge.io
 ..
     -------------------------------------------------------------------------
 
@@ -202,7 +202,7 @@ class ClamsClass:
         if len(self.__info_constructor.name) > 0:
             hd.append("<section>")
             hd.append('<h3 id="#constructor_{:s}">Constructor</h3>'.format(cid))
-            _html = self.__claminfo_to_html(self.__info_constructor, with_name=False)
+            _html = self.__claminfo_to_html(self.__info_constructor, with_name=True)
             hd.append(_html)
             hd.append("</section>")
 

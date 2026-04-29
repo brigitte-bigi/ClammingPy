@@ -4,11 +4,11 @@
 :contact: contact@sppas.org
 :summary: Create documentation of a module into Markdown or HTML.
 
-.. _This file is part of ClammingPy: https://brigitte-bigi.github.io/ClammingPy/
+.. _This file is part of ClammingPy: https://clamming.sourceforge.io
 ..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2023-2025 Brigitte Bigi, CNRS,
+    Copyright (C) 2023-2026 Brigitte Bigi, CNRS,
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
     This program is free software: you can redistribute it and/or modify
@@ -76,7 +76,7 @@ class ClamsPack:
             for class_name in pack.__all__:
                 # Turn class_name into an instance name
                 class_inst = ClamUtils.get_class(class_name, self.__pack.__name__)
-                if class_inst is not None:
+                if class_inst is not None and inspect.isclass(class_inst) is True and class_inst.__module__ != "builtins":
                     # Parse the object and store collected information = clamming
                     clammer = ClammingClassParser(class_inst)
                     # Store the collected clams
@@ -257,7 +257,7 @@ class ClamsPack:
         # The module file index: links to each class file
         with codecs.open(out_html, "w", "utf-8") as fp:
             fp.write("<!DOCTYPE html>\n")
-            fp.write("<html>\n")
+            fp.write('<html lang="{:s}">\n'.format(exporter.lang))
             fp.write(exporter.get_head())
             fp.write("<body class=\"{:s}\">\n".format(exporter.get_theme()))
             fp.write("    {:s}\n".format(exporter.get_header()))
@@ -278,7 +278,7 @@ class ClamsPack:
         """
         with codecs.open(out_html, "w", "utf-8") as fp:
             fp.write("<!DOCTYPE html>\n")
-            fp.write("<html>\n")
+            fp.write('<html lang="{:s}">\n'.format(exporter.lang))
             fp.write(exporter.get_head())
             fp.write("<body class=\"{:s}\">\n".format(exporter.get_theme()))
             fp.write("    {:s}\n".format(exporter.get_header()))

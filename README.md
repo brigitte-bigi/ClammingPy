@@ -35,7 +35,7 @@ Finally, some variants in field names are supported:
 
 ## Install ClammingPy
 
-Get it here: <https://github.com/brigitte-bigi/ClammingPy>.
+Get it here: <https://sourceforge.net/projects/clamming/>.
 
 ClammingPy requires Whakerexa to be installed; it can be downloaded from: <https://whakerexa.sourceforge.io>.
 
@@ -182,12 +182,11 @@ Use one of the following reference to cite ClammingPy:
 
 ## Projects using ClammingPy
 
-- Auto-CS: <https://brigitte-bigi.github.io/auto-cs/>
-- WhakerPy: <https://brigitte-bigi.github.io/WhakerPy/>
+- WhakerPy: <https://whakerpy.sourceforge.io>
 - WhakerKit: <https://whakerkit.sourceforge.io>
 - AudiooPy: <https://audioopy.sourceforge.io>
 - PyMancala: <https://pymancala.sf.net>
-- SPPAS: <https://sppas.org/api/index.html>
+- sppas: <https://sppas.org/api/index.html>
 - *contact the author if you want to add a project here*
 
 

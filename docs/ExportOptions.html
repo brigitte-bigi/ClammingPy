@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
         <head>
             
@@ -10,11 +10,11 @@
             <meta name="description" content="Python Class Documentation of ExportOptions. Store the options and content for an export to documented files." />
 
             <link rel="logo icon" href="./statics/clamming32x32.ico" />
-            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/wexa.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/layout.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/book.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/menu.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/code.css" type="text/css" />
             <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
 
             <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
@@ -24,10 +24,10 @@
               const s = document.createElement('script');
             
               if (usingFile) {
-                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.bundle.js';
+                s.src = './Whakerexa-2.0/wexa_statics/js/wexa.bundle.js';
               } else {
                 s.type = 'module';
-                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.js';
+                s.src = './Whakerexa-2.0/wexa_statics/js/wexa.js';
               }
             
               s.onload = function () {
@@ -50,28 +50,28 @@
                 Go to main content
             </a>
             <nav>
-                <ul>
-                    <li>
+                <ul role="menubar">
+                    <li role="none">
                         <button id="btn-contrast" role="menuitem" class="print-off" onclick="window.Wexa.accessibility.switch_contrast_scheme()" aria-label="Contrast">
-                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+                            <img class="nav-item-img" src="./Whakerexa-2.0/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
                         </button>
                     </li>
-                    <li>
+                    <li role="none">
                         <button id="btn-theme" class="print-off" role="menuitem" onclick="window.Wexa.accessibility.switch_color_scheme()" aria-label="Theme" >
-                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+                            <img class="nav-item-img" src="./Whakerexa-2.0/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
                         </button>
                     </li>
                 </ul>
             </nav>
         
-    <h1>ClammingPy 2.1</h1>
+    <h1>ClammingPy 2.2</h1>
         <p><img class="small-logo" src="./statics/clamming.png" alt="Software logo"/></p>
-        <p><a class="external-link" href="https://github.com/brigitte-bigi/ClammingPy/">https://github.com/brigitte-bigi/ClammingPy/</a></p>
+        <p><a class="external-link" href="https://sourceforge.net/projects/clamming/">https://sourceforge.net/projects/clamming/</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
-    <h1>ClammingPy 2.1</h1>
+    <h1>ClammingPy 2.2</h1>
     <img class="small-logo center" src="./statics/clamming.png" alt=""/>
-        <p><a class="external-link" href="https://github.com/brigitte-bigi/ClammingPy/">https://github.com/brigitte-bigi/ClammingPy/</a></p>
+        <p><a class="external-link" href="https://sourceforge.net/projects/clamming/">https://sourceforge.net/projects/clamming/</a></p>
     <ul>
 <li><a role="button" tabindex="0" aria-disabled="true"> &crarr; Prev. Module</a></li>
 <li><a role="button" tabindex="0" href="ClamsModules.html"> &uarr; Prev. Class</a></li>
@@ -114,6 +114,8 @@ or modules for generating a table of contents (HTML only).</p>
 </section>
 <section>
 <h3 id="#constructor_ExportOptions">Constructor</h3>
+<h4>__init__</h4>
+
     <article class="docstring">
 <p><em>Create a documentation export system for a ClamsPack.</em></p>
 
@@ -150,6 +152,7 @@ View Source
     <span class="bp">self</span><span class="o">.</span><span class="n">__title</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_TITLE</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__favicon</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_FAVICON</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__theme</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_THEME</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__lang</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_LANG</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__statics</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_STATICS</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__wexa_statics</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_WEXA_STATICS</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__descr</span> <span class="o">=</span> <span class="s1">&#39;Python class documentation&#39;</span>
@@ -746,6 +749,65 @@ View Source
     </details>
 
 
+<h4>get_lang</h4>
+
+    <article class="docstring">
+<p><em>Return the language code of the HTML pages.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_lang</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the language code of the HTML pages.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lang</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>set_lang</h4>
+
+    <article class="docstring">
+<p><em>Set the language code of the HTML pages.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>name</strong>: (<em>str</em>) BCP 47 language tag, e.g. 'en', 'fr', 'es'</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>TypeError</em>: Given name is not a string</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_lang</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="n">DEFAULT_LANG</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the language code of the HTML pages.</span>
+
+<span class="sd">        :param name: (str) BCP 47 language tag, e.g. &#39;en&#39;, &#39;fr&#39;, &#39;es&#39;</span>
+<span class="sd">        :raises: TypeError: Given name is not a string</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;str&#39; for the ExportOptions.lang. Got </span><span class="si">{}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__lang</span> <span class="o">=</span> <span class="n">name</span>
+</code></pre></div>
+
+    </details>
+
+
 <h4>get_description</h4>
 
     <article class="docstring">
@@ -760,7 +822,7 @@ View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the 160 chars description of the HTML page.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__theme</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__descr</span>
 </code></pre></div>
 
     </details>

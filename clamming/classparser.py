@@ -4,11 +4,11 @@
 :contact: contact@sppas.org
 :summary: Inspect a python class and store relevant information for further doc.
 
-.. _This file is part of ClammingPy: https://brigitte-bigi.github.io/ClammingPy/
+.. _This file is part of ClammingPy: https://clamming.sourceforge.io
 ..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2023-2025 Brigitte Bigi, CNRS,
+    Copyright (C) 2023-2026 Brigitte Bigi, CNRS,
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
     This program is free software: you can redistribute it and/or modify
@@ -62,11 +62,10 @@ class ClammingClassParser:
 
         """
         # Get the text of the source code for an object
-        if isinstance(obj, object) is False:
-            raise TypeError("Expected a class object for clamming.")
+        if inspect.isclass(obj) is False or obj.__module__ == "builtins":
+            raise TypeError("Expected a class object for clamming but not a built-in one.")
         try:
             self.__obj_src = textwrap.dedent(inspect.getsource(obj))
-            #self.__obj_src = inspect.getsource(obj)
             self.__obj = obj
         except TypeError:
             raise TypeError("Expected a class object for clamming but not a built-in one.")

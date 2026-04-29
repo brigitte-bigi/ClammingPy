@@ -24,7 +24,7 @@ not the changes themselves.
 ### Naming
 
 - General class names are in Pascal Case. Example: `class WorkerOnSomething:`.
-- Integrated class names are in CamelCase. Example: `class clamsWorkerOnSomething:`
+- SPPAS integrated class names are in CamelCase. Example: `class sppasWorkerOnSomething:`
 - Function names are Snake Cases: all words lowercase separated by underscores. Example `def work_hard():`
 - Variable names and objects are Snake Cases: all words lowercase separated by underscores,
    and must express their use more than their type. Example `work_hard = True`. Exceptions: 
@@ -137,7 +137,7 @@ Example:
 
 See ClammingPy for additional details and examples: <https://clamming.sourceforge.io/>.
 
-### Justification for Style Adaptations
+### Explanation for Style Adaptations
 
 **The author of this project has a visual impairment, and these modifications 
 to standard coding guidelines are aimed at enhancing code readability and 

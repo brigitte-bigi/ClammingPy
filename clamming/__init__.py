@@ -4,7 +4,7 @@
 :contact: contact@sppas.org
 :summary: Generate documentation in Markdown or HTML.
 
-.. _This file is part of ClammingPy: https://brigitte-bigi.github.io/ClammingPy/
+.. _This file is part of ClammingPy: https://clamming.sourceforge.io
 ..
     -------------------------------------------------------------------------
 

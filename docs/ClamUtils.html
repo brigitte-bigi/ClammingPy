@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
         <head>
             
@@ -10,11 +10,11 @@
             <meta name="description" content="Python Class Documentation of ClamUtils. Some utilities for ClammingPy." />
 
             <link rel="logo icon" href="./statics/clamming32x32.ico" />
-            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/wexa.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/layout.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/book.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/menu.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.0/wexa_statics/css/code.css" type="text/css" />
             <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
 
             <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
@@ -24,10 +24,10 @@
               const s = document.createElement('script');
             
               if (usingFile) {
-                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.bundle.js';
+                s.src = './Whakerexa-2.0/wexa_statics/js/wexa.bundle.js';
               } else {
                 s.type = 'module';
-                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.js';
+                s.src = './Whakerexa-2.0/wexa_statics/js/wexa.js';
               }
             
               s.onload = function () {
@@ -50,28 +50,28 @@
                 Go to main content
             </a>
             <nav>
-                <ul>
-                    <li>
+                <ul role="menubar">
+                    <li role="none">
                         <button id="btn-contrast" role="menuitem" class="print-off" onclick="window.Wexa.accessibility.switch_contrast_scheme()" aria-label="Contrast">
-                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+                            <img class="nav-item-img" src="./Whakerexa-2.0/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
                         </button>
                     </li>
-                    <li>
+                    <li role="none">
                         <button id="btn-theme" class="print-off" role="menuitem" onclick="window.Wexa.accessibility.switch_color_scheme()" aria-label="Theme" >
-                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+                            <img class="nav-item-img" src="./Whakerexa-2.0/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
                         </button>
                     </li>
                 </ul>
             </nav>
         
-    <h1>ClammingPy 2.1</h1>
+    <h1>ClammingPy 2.2</h1>
         <p><img class="small-logo" src="./statics/clamming.png" alt="Software logo"/></p>
-        <p><a class="external-link" href="https://github.com/brigitte-bigi/ClammingPy/">https://github.com/brigitte-bigi/ClammingPy/</a></p>
+        <p><a class="external-link" href="https://sourceforge.net/projects/clamming/">https://sourceforge.net/projects/clamming/</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
-    <h1>ClammingPy 2.1</h1>
+    <h1>ClammingPy 2.2</h1>
     <img class="small-logo center" src="./statics/clamming.png" alt=""/>
-        <p><a class="external-link" href="https://github.com/brigitte-bigi/ClammingPy/">https://github.com/brigitte-bigi/ClammingPy/</a></p>
+        <p><a class="external-link" href="https://sourceforge.net/projects/clamming/">https://sourceforge.net/projects/clamming/</a></p>
     <ul>
 <li><a role="button" tabindex="0" aria-disabled="true"> &crarr; Prev. Module</a></li>
 <li><a role="button" tabindex="0" aria-disabled="true"> &uarr; Prev. Class</a></li>
@@ -98,6 +98,8 @@
 </section>
 <section>
 <h3 id="#constructor_ClamUtils">Constructor</h3>
+<h4>__init__</h4>
+
     <article class="docstring">
 <p><em>Create a ClamUtils instance.</em></p>
 
@@ -114,7 +116,7 @@ View Source
     <span class="bp">self</span><span class="o">.</span><span class="n">lexer</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">HTML</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">markdowner</span> <span class="o">=</span> <span class="n">markdown2</span><span class="o">.</span><span class="n">Markdown</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">markdowner</span> <span class="o">=</span> <span class="n">markdown2</span><span class="o">.</span><span class="n">Markdown</span><span class="p">(</span><span class="n">extras</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tables&#39;</span><span class="p">,</span> <span class="s1">&#39;fenced-code-blocks&#39;</span><span class="p">,</span> <span class="s1">&#39;strike&#39;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span> <span class="o">=</span> <span class="n">pygments_formatter</span><span class="o">.</span><span class="n">HtmlFormatter</span><span class="p">(</span><span class="o">**</span><span class="n">ClamUtils</span><span class="o">.</span><span class="n">HTML_FORMATTER_ARGS</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lexer</span> <span class="o">=</span> <span class="n">pygments_lexers</span><span class="o">.</span><span class="n">PythonLexer</span><span class="p">()</span>
 </code></pre></div>

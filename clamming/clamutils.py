@@ -4,7 +4,7 @@
 :contact: contact@sppas.org
 :summary: Utilities for working with CLAMS data.
 
-.. _This file is part of ClammingPy: https://brigitte-bigi.github.io/ClammingPy/
+.. _This file is part of ClammingPy: https://clamming.sourceforge.io
 ..
     -------------------------------------------------------------------------
 
@@ -73,7 +73,7 @@ class ClamUtils:
 
         if len(HTML) == 0:
             # Use markdown2 library to convert docstrings
-            self.markdowner = markdown2.Markdown()
+            self.markdowner = markdown2.Markdown(extras=["tables", "fenced-code-blocks", "strike"])
             # Use pygments library to convert source code
             # https://pygments.org/docs/formatters/#HtmlFormatter
             self.formatter = pygments_formatter.HtmlFormatter(**ClamUtils.HTML_FORMATTER_ARGS)

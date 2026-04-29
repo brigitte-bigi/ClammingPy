@@ -23,6 +23,7 @@
 # This banner notice must not be removed.
 # ---------------------------------------------------------------------------
 
+import os
 import unittest
 
 import clamming
@@ -52,11 +53,11 @@ class TestClamsPack(unittest.TestCase):
         md = p.markdown()
         self.assertTrue(md.startswith("# clamming module"))
         self.assertTrue(md.endswith(" ~\n"))
-        self.assertTrue("## Class `ClammingClassParser`" in md)
-        self.assertTrue("## Class `ClamsClass`" in md)
-        self.assertTrue("## Class `ClamsPack`" in md)
-        self.assertTrue("## Class `ClamInfo`" in md)
-        self.assertTrue("## Class `ClamInfoMarkdown`" in md)
+        self.assertIn("## Class `ClammingClassParser`", md)
+        self.assertIn("## Class `ClamsClass`", md)
+        self.assertIn("## Class `ClamsPack`", md)
+        self.assertIn("## Class `ClamInfo`", md)
+        self.assertIn("## Class `ClamInfoMarkdown`", md)
 
     # -----------------------------------------------------------------------
 
@@ -65,26 +66,66 @@ class TestClamsPack(unittest.TestCase):
         html = p.html()
         self.assertTrue(html.startswith("<h1>clamming module</h1>"))
         self.assertTrue(html.endswith(" ~</p>\n"))
-        self.assertTrue("<h2>Class ClammingClassParser</h2>" in html)
-        self.assertTrue("<h2>Class ClamsClass</h2>" in html)
-        self.assertTrue("<h2>Class ClamsPack</h2>" in html)
-        self.assertTrue("<h2>Class ClamInfo</h2>" in html)
-        self.assertTrue("<h2>Class ClamInfoMarkdown</h2>" in html)
+        self.assertIn("<h2>Class ClammingClassParser</h2>", html)
+        self.assertIn("<h2>Class ClamsClass</h2>", html)
+        self.assertIn("<h2>Class ClamsPack</h2>", html)
+        self.assertIn("<h2>Class ClamInfo</h2>", html)
+        self.assertIn("<h2>Class ClamInfoMarkdown</h2>", html)
 
     # -----------------------------------------------------------------------
 
     def test_html_index(self):
         p = ClamsPack(clamming)
         html_index = p.html_index()
-        self.assertTrue("#ClamInfo" in html_index)
-        self.assertTrue("#ClamInfoMarkdown" in html_index)
-        self.assertTrue("#ClamsPack" in html_index)
+        self.assertIn("#ClamInfo", html_index)
+        self.assertIn("#ClamInfoMarkdown", html_index)
+        self.assertIn("#ClamsPack", html_index)
         html_index = p.html_index(path_name="")
-        self.assertTrue('href="ClamInfo.html"' in html_index)
+        self.assertIn('href="ClamInfo.html"', html_index)
 
     # -----------------------------------------------------------------------
 
-    def test_html_export(self):
+    def test_readme_property(self):
+        p = ClamsPack(clamming)
+        readme = p.readme
+        self.assertIsInstance(readme, str)
+
+    def test_markdown_with_exporter_readme_false(self):
+        p = ClamsPack(clamming)
+        exporter = ExportOptions()
+        exporter.readme = False
+        md = p.markdown(exporter=exporter)
+        self.assertTrue(md.startswith("# clamming module"))
+
+    def test_markdown_with_exporter_readme_true(self):
+        p = ClamsPack(clamming)
+        exporter = ExportOptions()
+        exporter.readme = True
+        md = p.markdown(exporter=exporter)
+        self.assertTrue(md.startswith("# clamming module"))
+
+    def test_html_with_exporter_readme_false(self):
+        p = ClamsPack(clamming)
+        exporter = ExportOptions()
+        exporter.readme = False
+        html = p.html(exporter=exporter)
+        self.assertTrue(html.startswith("<h1>clamming module</h1>"))
+
+    def test_html_with_exporter_readme_true(self):
+        p = ClamsPack(clamming)
+        exporter = ExportOptions()
+        exporter.readme = True
+        html = p.html(exporter=exporter)
+        self.assertTrue(html.startswith("<h1>clamming module</h1>"))
+
+    def test_html_index_with_exporter(self):
+        p = ClamsPack(clamming)
+        exporter = ExportOptions()
+        html_index = p.html_index(exporter=exporter)
+        self.assertIn("clamming", html_index)
+
+    def test_html_export_clams(self):
+        import tempfile
         p = ClamsPack(clamming)
         h = ExportOptions()
         h.software = "Clamming"
@@ -92,6 +133,9 @@ class TestClamsPack(unittest.TestCase):
         h.theme = "light"
         h.favicon = "clamming32x32.ico"
         h.copyright = clamming.__copyright__
-
-        # p.html_export_clams("", h)
+        with tempfile.TemporaryDirectory() as tmpdir:
+            out = p.html_export_clams(tmpdir, h)
+            self.assertGreater(len(out), 0)
+            for f in out:
+                self.assertTrue(os.path.exists(f))
 

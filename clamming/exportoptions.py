@@ -4,7 +4,7 @@
 :contact: contact@sppas.org
 :summary: Store the options and content for an export.
 
-.. _This file is part of ClammingPy: https://brigitte-bigi.github.io/ClammingPy/
+.. _This file is part of ClammingPy: https://clamming.sourceforge.io
 ..
     -------------------------------------------------------------------------
 
@@ -112,13 +112,13 @@ class ExportOptions:
                 Go to main content
             </a>
             <nav>
-                <ul>
-                    <li>
+                <ul role="menubar">
+                    <li role="none">
                         <button id="btn-contrast" role="menuitem" class="print-off" onclick="window.Wexa.accessibility.switch_contrast_scheme()" aria-label="Contrast">
                             <img class="nav-item-img" src="{WEXA_STATICS}/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
                         </button>
                     </li>
-                    <li>
+                    <li role="none">
                         <button id="btn-theme" class="print-off" role="menuitem" onclick="window.Wexa.accessibility.switch_color_scheme()" aria-label="Theme" >
                             <img class="nav-item-img" src="{WEXA_STATICS}/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
                         </button>
@@ -149,6 +149,7 @@ class ExportOptions:
     DEFAULT_TITLE = ""
     DEFAULT_FAVICON = "clamming32x32.ico"
     DEFAULT_THEME = "light"
+    DEFAULT_LANG = "en"
 
     # ----------------------------------------------------------------------------
 
@@ -172,6 +173,7 @@ class ExportOptions:
         self.__title = ExportOptions.DEFAULT_TITLE
         self.__favicon = ExportOptions.DEFAULT_FAVICON
         self.__theme = ExportOptions.DEFAULT_THEME
+        self.__lang = ExportOptions.DEFAULT_LANG
         self.__statics = ExportOptions.DEFAULT_STATICS
         self.__wexa_statics = ExportOptions.DEFAULT_WEXA_STATICS
         self.__descr = "Python class documentation"
@@ -380,9 +382,29 @@ class ExportOptions:
 
     # ----------------------------------------------------------------------------
 
+    def get_lang(self) -> str:
+        """Return the language code of the HTML pages."""
+        return self.__lang
+
+    def set_lang(self, name: str = DEFAULT_LANG) -> NoReturn:
+        """Set the language code of the HTML pages.
+
+        :param name: (str) BCP 47 language tag, e.g. 'en', 'fr', 'es'
+        :raises: TypeError: Given name is not a string
+
+        """
+        if isinstance(name, (str, bytes)) is False:
+            raise TypeError("Expected a 'str' for the ExportOptions.lang. Got {} instead."
+                            "".format(name))
+        self.__lang = name
+
+    lang = property(get_lang, set_lang)
+
+    # ----------------------------------------------------------------------------
+
     def get_description(self) -> str:
         """Return the 160 chars description of the HTML page."""
-        return self.__theme
+        return self.__descr
 
     def set_description(self, descr: str = "") -> NoReturn:
         """Set a 160 chars max description text.

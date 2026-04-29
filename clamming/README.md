@@ -76,7 +76,7 @@ There is an all-in-one class allowing to generate the documentation of a list of
 
 ## License/Copyright
 
-Copyright (C) 2023-2025 - [Brigitte Bigi](https://sppas.org/bigi/) - <contact@sppas.org>, CNRS,
+Copyright (C) 2023-2026 - [Brigitte Bigi](https://sppas.org/bigi/) - <contact@sppas.org>, CNRS,
 Laboratoire Parole et Langage, Aix-en-Provence, France
 
 This program is free software: you can redistribute it and/or modify

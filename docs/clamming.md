@@ -22,7 +22,7 @@ def __init__(self):
     self.lexer = None
     self.formatter = None
     if len(HTML) == 0:
-        self.markdowner = markdown2.Markdown()
+        self.markdowner = markdown2.Markdown(extras=['tables', 'fenced-code-blocks', 'strike'])
         self.formatter = pygments_formatter.HtmlFormatter(**ClamUtils.HTML_FORMATTER_ARGS)
         self.lexer = pygments_lexers.PythonLexer()
 ```
@@ -1130,8 +1130,8 @@ def __init__(self, obj: Any):
     :raises TypeError: if the object is a built-in class.
 
     """
-    if isinstance(obj, object) is False:
-        raise TypeError('Expected a class object for clamming.')
+    if inspect.isclass(obj) is False or obj.__module__ == 'builtins':
+        raise TypeError('Expected a class object for clamming but not a built-in one.')
     try:
         self.__obj_src = textwrap.dedent(inspect.getsource(obj))
         self.__obj = obj
@@ -1480,7 +1480,7 @@ def html(self) -> str:
     if len(self.__info_constructor.name) > 0:
         hd.append('<section>')
         hd.append('<h3 id="#constructor_{:s}">Constructor</h3>'.format(cid))
-        _html = self.__claminfo_to_html(self.__info_constructor, with_name=False)
+        _html = self.__claminfo_to_html(self.__info_constructor, with_name=True)
         hd.append(_html)
         hd.append('</section>')
     if len(self.__info_public_fcts) > 0:
@@ -1690,7 +1690,7 @@ def __init__(self, pack: Any):
     try:
         for class_name in pack.__all__:
             class_inst = ClamUtils.get_class(class_name, self.__pack.__name__)
-            if class_inst is not None:
+            if class_inst is not None and inspect.isclass(class_inst) is True and (class_inst.__module__ != 'builtins'):
                 clammer = ClammingClassParser(class_inst)
                 self.__clams.append(ClamsClass(clammer))
     except AttributeError:
@@ -1900,7 +1900,7 @@ def __module_index(self, out_html, exporter):
         """
     with codecs.open(out_html, 'w', 'utf-8') as fp:
         fp.write('<!DOCTYPE html>\n')
-        fp.write('<html>\n')
+        fp.write('<html lang="{:s}">\n'.format(exporter.lang))
         fp.write(exporter.get_head())
         fp.write('<body class="{:s}">\n'.format(exporter.get_theme()))
         fp.write('    {:s}\n'.format(exporter.get_header()))
@@ -1926,7 +1926,7 @@ def __module_class(self, out_html, exporter, content):
         """
     with codecs.open(out_html, 'w', 'utf-8') as fp:
         fp.write('<!DOCTYPE html>\n')
-        fp.write('<html>\n')
+        fp.write('<html lang="{:s}">\n'.format(exporter.lang))
         fp.write(exporter.get_head())
         fp.write('<body class="{:s}">\n'.format(exporter.get_theme()))
         fp.write('    {:s}\n'.format(exporter.get_header()))
@@ -2061,7 +2061,7 @@ def html_export_index(self, path_name: str, exporter: ExportOptions, readme: str
         os.mkdir(path_name)
     with codecs.open(out, 'w', 'utf-8') as fp:
         fp.write('<!DOCTYPE html>\n')
-        fp.write('<html>\n')
+        fp.write('<html lang="{:s}">\n'.format(exporter.lang))
         fp.write(exporter.get_head())
         fp.write('<body class="{:s}">\n'.format(exporter.get_theme()))
         fp.write('    {:s}\n'.format(exporter.get_header()))
@@ -2192,6 +2192,7 @@ def __init__(self):
     self.__title = ExportOptions.DEFAULT_TITLE
     self.__favicon = ExportOptions.DEFAULT_FAVICON
     self.__theme = ExportOptions.DEFAULT_THEME
+    self.__lang = ExportOptions.DEFAULT_LANG
     self.__statics = ExportOptions.DEFAULT_STATICS
     self.__wexa_statics = ExportOptions.DEFAULT_WEXA_STATICS
     self.__descr = 'Python class documentation'
@@ -2565,12 +2566,48 @@ def set_theme(self, name: str=DEFAULT_THEME) -> NoReturn:
 
 - *TypeError*: Given name is not a string
 
+#### get_lang
+
+```python
+def get_lang(self) -> str:
+    """Return the language code of the HTML pages."""
+    return self.__lang
+```
+
+*Return the language code of the HTML pages.*
+
+#### set_lang
+
+```python
+def set_lang(self, name: str=DEFAULT_LANG) -> NoReturn:
+    """Set the language code of the HTML pages.
+
+        :param name: (str) BCP 47 language tag, e.g. 'en', 'fr', 'es'
+        :raises: TypeError: Given name is not a string
+
+        """
+    if isinstance(name, (str, bytes)) is False:
+        raise TypeError("Expected a 'str' for the ExportOptions.lang. Got {} instead.".format(name))
+    self.__lang = name
+```
+
+*Set the language code of the HTML pages.*
+
+##### Parameters
+
+- **name**: (*str*) BCP 47 language tag, e.g. 'en', 'fr', 'es'
+
+
+##### Raises
+
+- *TypeError*: Given name is not a string
+
 #### get_description
 
 ```python
 def get_description(self) -> str:
     """Return the 160 chars description of the HTML page."""
-    return self.__theme
+    return self.__descr
 ```
 
 *Return the 160 chars description of the HTML page.*
@@ -2847,4 +2884,4 @@ def __nav_link(text: str, link: str | None) -> str:
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 2.1 ~
+~ Created using [Clamming](https://clamming.sf.net) version 2.2 ~

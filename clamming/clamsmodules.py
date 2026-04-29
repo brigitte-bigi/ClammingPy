@@ -4,7 +4,7 @@
 :contact: contact@sppas.org
 :summary: Create documentation of a list of modules into Markdown or HTML.
 
-.. _This file is part of ClammingPy: https://brigitte-bigi.github.io/ClammingPy/
+.. _This file is part of ClammingPy: https://clamming.sourceforge.io
 ..
     -------------------------------------------------------------------------
 
@@ -113,7 +113,7 @@ class ClamsModules:
 
         with codecs.open(out, "w", "utf-8") as fp:
             fp.write("<!DOCTYPE html>\n")
-            fp.write("<html>\n")
+            fp.write('<html lang="{:s}">\n'.format(exporter.lang))
             fp.write(exporter.get_head())
             fp.write("<body class=\"{:s}\">\n".format(exporter.get_theme()))
             fp.write("    {:s}\n".format(exporter.get_header()))

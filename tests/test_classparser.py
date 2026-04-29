@@ -52,6 +52,38 @@ class SomeClass:
     def lowerise(self) -> str:
         return self.name.lower()
 
+    def _private_method(self):
+        pass
+
+    def __overload_method(self):
+        pass
+
+    def __str__(self):
+        return self.name
+
+
+class ClassWithoutDocstring:
+    def __init__(self):
+        self.value = 0
+
+    def get_value(self):
+        return self.value
+
+
+class ClassWithoutConstructor:
+    """A class with no __init__."""
+
+    def compute(self) -> int:
+        return 42
+
+
+class ClassWithAsync:
+    """A class with an async method."""
+
+    async def fetch(self):
+        """Fetch something asynchronously."""
+        return None
+
 # ---------------------------------------------------------------------------
 
 
@@ -63,3 +95,53 @@ class TestClassParser(unittest.TestCase):
 
         parser = ClammingClassParser(SomeOtherClass)
         self.assertEqual(parser.init_clams.name, "__init__")
+
+    def test_class_parser_invalid(self):
+        with self.assertRaises(TypeError):
+            ClammingClassParser("not a class")
+        with self.assertRaises(TypeError):
+            ClammingClassParser(int)
+
+    def test_properties(self):
+        parser = ClammingClassParser(SomeClass)
+        self.assertEqual(parser.obj_clams.name, "SomeClass")
+        self.assertIsNotNone(parser.obj_clams.docstring)
+        self.assertEqual(parser.init_clams.name, "__init__")
+        self.assertIn("name", parser.init_clams.args)
+        self.assertIsInstance(parser.fct_clams, dict)
+        self.assertIn("lowerise", parser.fct_clams)
+
+    def test_class_docstring_parsed(self):
+        parser = ClammingClassParser(SomeClass)
+        self.assertIn("short description", parser.obj_clams.docstring)
+
+    def test_class_without_docstring(self):
+        parser = ClammingClassParser(ClassWithoutDocstring)
+        self.assertIsNone(parser.obj_clams.docstring)
+
+    def test_class_without_constructor(self):
+        parser = ClammingClassParser(ClassWithoutConstructor)
+        self.assertEqual(parser.init_clams.name, "")
+
+    def test_fct_clams_excludes_init(self):
+        parser = ClammingClassParser(SomeClass)
+        self.assertNotIn("__init__", parser.fct_clams)
+
+    def test_fct_clams_includes_all_methods(self):
+        parser = ClammingClassParser(SomeClass)
+        self.assertIn("lowerise", parser.fct_clams)
+        self.assertIn("_private_method", parser.fct_clams)
+        self.assertIn("__str__", parser.fct_clams)
+
+    def test_fct_clams_claminfo_fields(self):
+        parser = ClammingClassParser(SomeClass)
+        lowerise = parser.fct_clams["lowerise"]
+        self.assertEqual(lowerise.name, "lowerise")
+        self.assertIn("self", lowerise.args)
+        self.assertIsInstance(lowerise.source, str)
+        self.assertTrue(len(lowerise.source) > 0)
+
+    def test_async_function_detected(self):
+        parser = ClammingClassParser(ClassWithAsync)
+        self.assertIn("fetch", parser.fct_clams)
+        self.assertEqual(parser.fct_clams["fetch"].docstring, "Fetch something asynchronously.")
