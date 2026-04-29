@@ -5,7 +5,6 @@ __pycache__
 build
 dist
 Clamming.egg-info
-Whakerexa-*
 /.venv/bin/activate
 /.venv/bin/activate.csh
 /.venv/bin/activate.fish
