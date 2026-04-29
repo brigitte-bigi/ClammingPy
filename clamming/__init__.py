@@ -41,7 +41,7 @@ from .exportoptions import ExportOptions
 
 __author__ = "Brigitte Bigi"
 __copyright__ = "Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France"
-__version__ = "2.2"
+__version__ = "2.3"
 __all__ = (
     "ClamUtils",
     "ClamInfo",

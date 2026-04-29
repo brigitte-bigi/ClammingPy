@@ -35,7 +35,7 @@ Finally, some variants in field names are supported:
 
 ## Install ClammingPy
 
-Get it here: <https://sourceforge.net/projects/clamming/>.
+Get it here: <https://github.com/brigitte-bigi/ClammingPy>.
 
 ClammingPy requires Whakerexa to be installed; it can be downloaded from: <https://whakerexa.sourceforge.io>.
 
@@ -169,7 +169,7 @@ Documentation is available in the `docs` folder and inline.
 For the local use, download and unpack Whakerexa >= 2.0 into the `docs` folder.
 
 
-## How to cite ClamminPy
+## How to cite ClammingPy
 
 By using ClammingPy, you are encouraged to mention it in your publications 
 or products, in accordance with the best practices of the AGPL license.

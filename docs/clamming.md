@@ -2884,4 +2884,4 @@ def __nav_link(text: str, link: str | None) -> str:
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 2.2 ~
+~ Created using [Clamming](https://clamming.sf.net) version 2.3 ~

@@ -15,7 +15,7 @@ PACKAGE_NAME=`pwd`/${PROGRAM_NAME}-${PROGRAM_VERSION}.zip
 echo "Create release for ClammingPy-"$PROGRAM_VERSION
 
 echo "Create documentation"
-#python makedoc.py
+python makedoc.py
 
 echo "Delete any __pycache__ folder"
   for pycache in `find . -name "__pycache__"`;
