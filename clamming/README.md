@@ -64,7 +64,7 @@ There is an all-in-one class allowing to generate the documentation of a list of
 >>> packages.append(tests)
 >>> # Options for exportation
 >>> export = clamming.ExportOptions()
->>> export.wexa_statics = '../Whakerexa-2.0/wexa_statics'
+>>> export.wexa_statics = '../Whakerexa-3.2/wexa_statics'
 >>> export.software = 'ClammingPy ' + clamming.__version__
 >>> # Export documentation to HTML files into the "docs" folder.
 >>> m = clamming.ClamsModules(packages)

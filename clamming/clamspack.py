@@ -193,11 +193,11 @@ class ClamsPack:
         for i in range(len(self.__clams)):
             clams = self.__clams[i]
             out.append('        <article class="card">')
-            out.append('            <header><span>{:d}</span></header>'.format(i + 1))
-            out.append('            <main>')
+            out.append('            <div class="card-header"><span>{:d}</span></div>'.format(i + 1))
+            out.append('            <div class="card-body">')
             out.append('                <h3>{:s}</h3>'.format(clams.name))
-            out.append('            </main>')
-            out.append('            <footer>')
+            out.append('            </div>')
+            out.append('            <div class="card-footer">')
             if path_name is not None:
                 # External link
                 out.append('                <a role="button" href="{:s}">Read me →</a>'
@@ -206,7 +206,7 @@ class ClamsPack:
                 # Local link
                 out.append('                <a role="button" href="#{:s}">Read me →</a>'
                            ''.format(clams.name))
-            out.append('            </footer>')
+            out.append('            </div>')
             out.append('        </article>')
 
         out.append("        </section>")
@@ -257,9 +257,9 @@ class ClamsPack:
         # The module file index: links to each class file
         with codecs.open(out_html, "w", "utf-8") as fp:
             fp.write("<!DOCTYPE html>\n")
-            fp.write('<html lang="{:s}">\n'.format(exporter.lang))
+            fp.write('<html lang="{:s}" class="{:s}">\n'.format(exporter.lang, exporter.get_root_class()))
             fp.write(exporter.get_head())
-            fp.write("<body class=\"{:s}\">\n".format(exporter.get_theme()))
+            fp.write("<body>\n")
             fp.write("    {:s}\n".format(exporter.get_header()))
             fp.write("    {:s}\n".format(exporter.get_nav()))
             fp.write("    <main id=\"main-content\">\n")
@@ -278,9 +278,9 @@ class ClamsPack:
         """
         with codecs.open(out_html, "w", "utf-8") as fp:
             fp.write("<!DOCTYPE html>\n")
-            fp.write('<html lang="{:s}">\n'.format(exporter.lang))
+            fp.write('<html lang="{:s}" class="{:s}">\n'.format(exporter.lang, exporter.get_root_class()))
             fp.write(exporter.get_head())
-            fp.write("<body class=\"{:s}\">\n".format(exporter.get_theme()))
+            fp.write("<body>\n")
             fp.write("    {:s}\n".format(exporter.get_header()))
             fp.write("    {:s}\n".format(exporter.get_nav()))
             fp.write("    <main id=\"main-content\">\n")

@@ -71,35 +71,43 @@ class ExportOptions:
             <meta name="description" content="{META_DESCRIPTION}" />
 
             <link rel="logo icon" href="{STATICS}/{FAVICON}" />
-            <link rel="stylesheet" href="{WEXA_STATICS}/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="{WEXA_STATICS}/css/wexa.css" type="text/css" media="screen" />
+            <link rel="stylesheet" href="{WEXA_STATICS}/css/print.css" type="text/css" media="print" />
             <link rel="stylesheet" href="{WEXA_STATICS}/css/layout.css" type="text/css" />
-            <link rel="stylesheet" href="{WEXA_STATICS}/css/book.css" type="text/css" />
             <link rel="stylesheet" href="{WEXA_STATICS}/css/menu.css" type="text/css" />
             <link rel="stylesheet" href="{WEXA_STATICS}/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="{WEXA_STATICS}/css/extras/book.css" type="text/css" />
             <link rel="stylesheet" href="{STATICS}/clamming.css" type="text/css" />
 
-            <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+            <!-- Whakerexa JS loader: bundle on file://, ES6 modules on http(s) -->
             <script>
             (function () {{
               const usingFile = (window.location.protocol === 'file:');
-              const s = document.createElement('script');
-            
-              if (usingFile) {{
-                s.src = '{WEXA_STATICS}/js/wexa.bundle.js';
-              }} else {{
-                s.type = 'module';
-                s.src = '{WEXA_STATICS}/js/wexa.js';
+              if (usingFile === false) {{
+                return;
               }}
-            
+              const s = document.createElement('script');
+              s.src = '{WEXA_STATICS}/js/wexa.bundle.js';
+
               s.onload = function () {{
                 window.Wexa.onload.addLoadFunction(function () {{
                   const book = new window.Wexa.Book("main-content");
                   book.fill_table(false);
                 }});
               }};
-            
+
               document.head.appendChild(s);
             }})();
+            </script>
+
+            <!-- The Book extra is not part of the 'wexa.js' API: it is imported apart -->
+            <script type="module">
+              if (window.location.protocol !== 'file:') {{
+                await import('{WEXA_STATICS}/js/wexa.js');
+                const {{ Book }} = await import('{WEXA_STATICS}/js/extras/book.js');
+                const book = new Book("main-content");
+                book.fill_table(false);
+              }}
             </script>
 
        </head>
@@ -111,19 +119,9 @@ class ExportOptions:
             <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
                 Go to main content
             </a>
-            <nav>
-                <ul role="menubar">
-                    <li role="none">
-                        <button id="btn-contrast" role="menuitem" class="print-off" onclick="window.Wexa.accessibility.switch_contrast_scheme()" aria-label="Contrast">
-                            <img class="nav-item-img" src="{WEXA_STATICS}/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
-                        </button>
-                    </li>
-                    <li role="none">
-                        <button id="btn-theme" class="print-off" role="menuitem" onclick="window.Wexa.accessibility.switch_color_scheme()" aria-label="Theme" >
-                            <img class="nav-item-img" src="{WEXA_STATICS}/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
-                        </button>
-                    </li>
-                </ul>
+            <nav class="nav-wexa top" aria-label="Accessibility">
+                <button id="btn-contrast" class="menuitem accessibility print-off" aria-label="Contrast" aria-pressed="false" onclick="window.Wexa.accessibility.switchContrastScheme()"></button>
+                <button id="btn-color" class="menuitem accessibility print-off" aria-label="Color" aria-pressed="false" onclick="window.Wexa.accessibility.switchColorScheme()"></button>
             </nav>
         """
     HTML_FOOTER = \
@@ -142,6 +140,10 @@ class ExportOptions:
     DEFAULT_COPYRIGHT = ""
     DEFAULT_ICON = ""
     DEFAULT_URL = ""
+
+    # Color modes of Whakerexa requiring a class on the HTML root element.
+    # The light mode is the default one, so it does not require any class.
+    ROOT_COLOR_MODES = ("dark", )
 
     # For creating HTML pages
     DEFAULT_WEXA_STATICS = "./wexa_statics"
@@ -382,6 +384,20 @@ class ExportOptions:
 
     # ----------------------------------------------------------------------------
 
+    def get_root_class(self) -> str:
+        """Return the 'class' attribute value of the HTML root element.
+
+        Since Whakerexa 3.0, the color mode is a class of ':root' -- it was a
+        class of 'body' before. The light mode being the default one, it is
+        represented by an empty class.
+
+        """
+        if self.__theme in ExportOptions.ROOT_COLOR_MODES:
+            return self.__theme
+        return ""
+
+    # ----------------------------------------------------------------------------
+
     def get_lang(self) -> str:
         """Return the language code of the HTML pages."""
         return self.__lang
@@ -529,7 +545,7 @@ class ExportOptions:
         """Return the 'header' of the HTML->body of the page."""
         h = list()
         h.append("    <header>")
-        h.append(ExportOptions.HTML_BUTTONS_ACCESSIBILITY.format(WEXA_STATICS=self.__wexa_statics))
+        h.append(ExportOptions.HTML_BUTTONS_ACCESSIBILITY)
         if len(self.__software) > 0:
             h.append("    <h1>{SOFTWARE}</h1>".format(SOFTWARE=self.__software))
         if len(self.__icon) > 0:
@@ -545,7 +561,7 @@ class ExportOptions:
     def get_nav(self) -> str:
         """Return the 'nav' of the HTML->body of the page."""
         nav = list()
-        nav.append("<nav id=\"nav-book\" class=\"side-nav\">")
+        nav.append("<nav id=\"nav-book\" class=\"book-toc\" aria-label=\"Table of contents\">")
         if self.__software == ExportOptions.DEFAULT_SOFTWARE:
             nav.append("    <h1>Documentation</h1>")
         else:

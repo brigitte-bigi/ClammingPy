@@ -35,7 +35,7 @@ from clamming import ExportOptions
 
 # ###########################################################################
 # Fix the default path to the "wexa_statics" folder of Whakerexa/
-WEXA = './Whakerexa-2.0/wexa_statics'
+WEXA = './Whakerexa-3.2/wexa_statics'
 # ###########################################################################
 
 

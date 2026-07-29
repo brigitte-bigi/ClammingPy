@@ -37,7 +37,7 @@ Finally, some variants in field names are supported:
 
 Get it here: <https://github.com/brigitte-bigi/ClammingPy>.
 
-ClammingPy requires Whakerexa to be installed; it can be downloaded from: <https://whakerexa.sourceforge.io>.
+ClammingPy requires Whakerexa >= 3.0 to be installed; it can be downloaded from: <https://whakerexa.sourceforge.io>.
 
 ### From pypi
 
@@ -150,7 +150,7 @@ There is an all-in-one function to generate the HTML documentation of a list of 
 >> > packages.append(clamming)
 >> >  # Options for HTML exportation
 >> > html_export = clamming.ExportOptions()
->> > html_export.wexa_statics = '../Whakerexa-1.0/wexa_statics'
+>> > html_export.wexa_statics = '../Whakerexa-3.2/wexa_statics'
 >> > html_export.software = 'ClammingPy ' + clamming.__version__
 >> >  # Export documentation to HTML files into the "docs" folder.
 >> > m = clamming.ClamsModules(packages)
@@ -166,7 +166,7 @@ See `makedoc.py` Python script for details.
 ## Browse the documentation
 
 Documentation is available in the `docs` folder and inline.
-For the local use, download and unpack Whakerexa >= 2.0 into the `docs` folder.
+For the local use, download and unpack Whakerexa >= 3.0 into the `docs` folder.
 
 
 ## How to cite ClammingPy

@@ -1817,16 +1817,16 @@ def html_index(self, path_name: str | None=None, exporter: ExportOptions | None=
     for i in range(len(self.__clams)):
         clams = self.__clams[i]
         out.append('        <article class="card">')
-        out.append('            <header><span>{:d}</span></header>'.format(i + 1))
-        out.append('            <main>')
+        out.append('            <div class="card-header"><span>{:d}</span></div>'.format(i + 1))
+        out.append('            <div class="card-body">')
         out.append('                <h3>{:s}</h3>'.format(clams.name))
-        out.append('            </main>')
-        out.append('            <footer>')
+        out.append('            </div>')
+        out.append('            <div class="card-footer">')
         if path_name is not None:
             out.append('                <a role="button" href="{:s}">Read me →</a>'.format(os.path.join(path_name, clams.name + '.html')))
         else:
             out.append('                <a role="button" href="#{:s}">Read me →</a>'.format(clams.name))
-        out.append('            </footer>')
+        out.append('            </div>')
         out.append('        </article>')
     out.append('        </section>')
     out.append('    </section>')
@@ -1900,9 +1900,9 @@ def __module_index(self, out_html, exporter):
         """
     with codecs.open(out_html, 'w', 'utf-8') as fp:
         fp.write('<!DOCTYPE html>\n')
-        fp.write('<html lang="{:s}">\n'.format(exporter.lang))
+        fp.write('<html lang="{:s}" class="{:s}">\n'.format(exporter.lang, exporter.get_root_class()))
         fp.write(exporter.get_head())
-        fp.write('<body class="{:s}">\n'.format(exporter.get_theme()))
+        fp.write('<body>\n')
         fp.write('    {:s}\n'.format(exporter.get_header()))
         fp.write('    {:s}\n'.format(exporter.get_nav()))
         fp.write('    <main id="main-content">\n')
@@ -1926,9 +1926,9 @@ def __module_class(self, out_html, exporter, content):
         """
     with codecs.open(out_html, 'w', 'utf-8') as fp:
         fp.write('<!DOCTYPE html>\n')
-        fp.write('<html lang="{:s}">\n'.format(exporter.lang))
+        fp.write('<html lang="{:s}" class="{:s}">\n'.format(exporter.lang, exporter.get_root_class()))
         fp.write(exporter.get_head())
-        fp.write('<body class="{:s}">\n'.format(exporter.get_theme()))
+        fp.write('<body>\n')
         fp.write('    {:s}\n'.format(exporter.get_header()))
         fp.write('    {:s}\n'.format(exporter.get_nav()))
         fp.write('    <main id="main-content">\n')
@@ -2061,9 +2061,9 @@ def html_export_index(self, path_name: str, exporter: ExportOptions, readme: str
         os.mkdir(path_name)
     with codecs.open(out, 'w', 'utf-8') as fp:
         fp.write('<!DOCTYPE html>\n')
-        fp.write('<html lang="{:s}">\n'.format(exporter.lang))
+        fp.write('<html lang="{:s}" class="{:s}">\n'.format(exporter.lang, exporter.get_root_class()))
         fp.write(exporter.get_head())
-        fp.write('<body class="{:s}">\n'.format(exporter.get_theme()))
+        fp.write('<body>\n')
         fp.write('    {:s}\n'.format(exporter.get_header()))
         fp.write('    {:s}\n'.format(exporter.get_nav()))
         fp.write('    <main id="main-content">\n')
@@ -2566,6 +2566,28 @@ def set_theme(self, name: str=DEFAULT_THEME) -> NoReturn:
 
 - *TypeError*: Given name is not a string
 
+#### get_root_class
+
+```python
+def get_root_class(self) -> str:
+    """Return the 'class' attribute value of the HTML root element.
+
+        Since Whakerexa 3.0, the color mode is a class of ':root' -- it was a
+        class of 'body' before. The light mode being the default one, it is
+        represented by an empty class.
+
+        """
+    if self.__theme in ExportOptions.ROOT_COLOR_MODES:
+        return self.__theme
+    return ''
+```
+
+*Return the 'class' attribute value of the HTML root element.*
+
+Since Whakerexa 3.0, the color mode is a class of ':root' -- it was a
+class of 'body' before. The light mode being the default one, it is
+represented by an empty class.
+
 #### get_lang
 
 ```python
@@ -2807,7 +2829,7 @@ def get_header(self) -> str:
     """Return the 'header' of the HTML->body of the page."""
     h = list()
     h.append('    <header>')
-    h.append(ExportOptions.HTML_BUTTONS_ACCESSIBILITY.format(WEXA_STATICS=self.__wexa_statics))
+    h.append(ExportOptions.HTML_BUTTONS_ACCESSIBILITY)
     if len(self.__software) > 0:
         h.append('    <h1>{SOFTWARE}</h1>'.format(SOFTWARE=self.__software))
     if len(self.__icon) > 0:
@@ -2826,7 +2848,7 @@ def get_header(self) -> str:
 def get_nav(self) -> str:
     """Return the 'nav' of the HTML->body of the page."""
     nav = list()
-    nav.append('<nav id="nav-book" class="side-nav">')
+    nav.append('<nav id="nav-book" class="book-toc" aria-label="Table of contents">')
     if self.__software == ExportOptions.DEFAULT_SOFTWARE:
         nav.append('    <h1>Documentation</h1>')
     else:
