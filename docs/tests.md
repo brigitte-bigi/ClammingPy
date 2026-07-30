@@ -4,4 +4,4 @@
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 2.3 ~
+~ Created using [Clamming](https://clamming.sf.net) version 3.0 ~
