@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+
+    <title>ClammingPy design</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="description" content="Conceptual design file of the ClammingPy documentation generator" />
+    <meta name="keywords" content="python, documentation, docstring, markdown, html, accessibility, design" />
+
+    <link rel="logo icon" href="./statics/clamming32x32.ico" />
+    <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/wexa.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/print.css" type="text/css" media="print" />
+    <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/layout.css" type="text/css" />
+    <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/menu.css" type="text/css" />
+    <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/code.css" type="text/css" />
+    <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/extras/book.css" type="text/css" />
+    <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
+
+    <!-- Whakerexa JS loader: bundle on file://, ES6 modules on http(s) -->
+    <script>
+    (function () {
+      const usingFile = (window.location.protocol === 'file:');
+      if (usingFile === false) {
+        return;
+      }
+      const s = document.createElement('script');
+      s.src = './Whakerexa-current/wexa_statics/js/wexa.bundle.js';
+
+      s.onload = function () {
+        window.Wexa.onload.addLoadFunction(function () {
+          const book = new window.Wexa.Book("main-content");
+          book.fill_table(false);
+        });
+      };
+
+      document.head.appendChild(s);
+    })();
+    </script>
+
+    <!-- The Book extra is not part of the 'wexa.js' API: it is imported apart -->
+    <script type="module">
+      if (window.location.protocol !== 'file:') {
+        await import('./Whakerexa-current/wexa_statics/js/wexa.js');
+        const { Book } = await import('./Whakerexa-current/wexa_statics/js/extras/book.js');
+        const book = new Book("main-content");
+        book.fill_table(false);
+      }
+    </script>
+
+</head>
+
+<!-- ---------------------------------------------------------------- -->
+
+<body>
+
+<header>
+
+    <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+        Go to main content
+    </a>
+    <nav class="nav-wexa top" aria-label="Accessibility">
+        <button id="btn-contrast" class="menuitem accessibility print-off" aria-label="Contrast" aria-pressed="false" onclick="window.Wexa.accessibility.switchContrastScheme()"></button>
+        <button id="btn-color" class="menuitem accessibility print-off" aria-label="Color" aria-pressed="false" onclick="window.Wexa.accessibility.switchColorScheme()"></button>
+    </nav>
+    <h1>ClammingPy design</h1>
+    <p><img class="small-logo" src="./statics/clamming.png" alt="Software logo"/></p>
+
+</header>
+
+<nav id="nav-book" class="book-toc" aria-label="Table of contents">
+    <h1>ClammingPy</h1>
+    <img class="small-logo center" src="./statics/clamming.png" alt=""/>
+    <ul>
+        <li><a role="button" href="index.html">&#8962; Index</a></li>
+    </ul>
+    <h2>Table of Contents</h2>
+    <ul id="toc"></ul>
+    <hr>
+    <p><small>Conceptual design file</small></p>
+</nav>
+
+<main id="main-content">
+
+    <!-- ============================================================ -->
+
+    <section id="overview" class="chapter">
+        <h1>What this is</h1>
+
+        <section class="ssection"><h2>In short</h2>
+
+            <p>A Python library is described twice: once in the source, where the author writes
+                docstrings for the reader of the code, and once in a documentation site, written
+                for the reader of the library. The second description is a copy of the first, and
+                a copy drifts. This reads the source and writes the site, so that only one
+                description exists.</p>
+
+            <p>What it produces is Markdown, and HTML built from that Markdown. The HTML is not a
+                page of its own invention: it is written for <em>Whakerexa</em>, which is what
+                makes the pages accessible.</p>
+        </section>
+
+        <section class="ssection"><h2>Where it comes from</h2>
+
+            <p>Documentation tools ask the source to be complete before they say anything about it:
+                a missing type, an unknown field, a docstring written in a style the tool does not
+                know, and the entry is dropped or the run fails. A library that grows is never in
+                that state, and the author is left choosing between writing for the tool and
+                writing for the reader.</p>
+
+            <p>The choice made here is the other one: <strong>flexibility rather than
+                completeness</strong>. Whatever the docstring holds is documented, in the shape it
+                was written. Nothing is required, and nothing is rejected.</p>
+        </section>
+
+        <section class="ssection"><h2>What it does not do</h2>
+
+            <p>It documents classes. A function written at module level and named in
+                <code>__all__</code> is skipped in silence: <code>ClamsPack</code> keeps only what
+                passes <code>inspect.isclass()</code>, and <code>ClammingClassParser</code> raises
+                a <code>TypeError</code> for anything else. This is a gap, not a decision, and it
+                is written here as such.</p>
+
+            <p>It does not read inheritance: a class is documented with what its own source holds,
+                and an inherited method appears in the page of the class that defines it. It does
+                not resolve cross-references between classes, does not read type annotations to
+                build a signature, and does not compare one version of a library to another.</p>
+
+            <p>It does not check the accessibility of what it writes. The HTML is built to be
+                accessible, and it is <em>Whakerexa</em> that carries that property; nothing in
+                the generator verifies it.</p>
+        </section>
+    </section>
+
+    <!-- ============================================================ -->
+
+    <section id="needs" class="chapter">
+        <h1>The needs</h1>
+
+        <section class="ssection"><h2>The problem, and what the tool is for</h2>
+
+            <p>A Python library carries its own description: docstrings, written where the code is
+                written, by whoever wrote it. Published documentation is a second description of
+                the same thing, and two descriptions of one thing diverge — the second one being
+                the one nobody rereads.</p>
+
+            <p>The tools that close that gap ask for something in exchange. They ask the docstring
+                to be complete, and drop what is not; they ask it to be written in the markup they
+                parse, and fail on the rest; and what they output is a site whose accessibility is
+                whatever their default theme happens to give. An author who writes for the reader
+                of the code has to write a second time for the tool.</p>
+
+            <p>The question this answers is therefore: <strong>how is a publishable documentation
+                produced from the docstrings as they are already written — whatever their style,
+                however incomplete — in more than one format, one of which is accessible, without
+                asking the author to write anything twice?</strong></p>
+
+            <p>What follows from that question, as objectives:</p>
+
+            <ul>
+                <li>read the docstrings as they stand, and document whatever they hold;</li>
+                <li>accept the field styles that Python authors actually use, and the variants they write;</li>
+                <li>produce Markdown for what is read in a repository, and HTML for what is read on a site;</li>
+                <li>make the HTML accessible by construction rather than by inspection, which is what building it for Whakerexa buys;</li>
+                <li>document a whole library — modules, and the classes of each — in one run;</li>
+                <li>let prose written by hand into the generated pages, for what a docstring is not the place for;</li>
+                <li>remain a plain object-oriented Python library, so that what it does not do can be added to it.</li>
+            </ul>
+
+            <p>What it is not: a replacement for the docstrings, a linter that judges them, or a
+                site generator with a documentation feature. It documents; it does not rate what
+                it documents.</p>
+        </section>
+
+        <section class="ssection"><h2>The needs, expressed</h2>
+
+            <p><strong>Reading what is there.</strong> The first need is not a feature but a
+                posture: the docstring is the author's, not the tool's. Whatever is written is
+                documented, in the shape it was written, and what is not written raises nothing.
+                A library halfway through its documentation effort is a normal library, and it is
+                documented as it stands.</p>
+
+            <p><strong>Understanding the conventions anyway.</strong> Reading what is there does
+                not mean reading it flatly. The conventions Python authors use — the reST field
+                lists, the Epydoc ones, the variants they write without thinking — carry meaning:
+                a parameter, a returned value, an exception, an example. What is recognized is
+                laid out as such. What is not recognized is kept, not dropped.</p>
+
+            <p><strong>One run, one library.</strong> The unit of work is not the class. An author
+                publishes a library, so the run takes a list of modules and writes everything: a
+                page per class, an index per module, an index for the whole, and the links between
+                them.</p>
+
+            <p><strong>Two formats, one truth.</strong> A repository reads Markdown, a site reads
+                HTML, and both are needed. What must not happen is two conversions saying two
+                different things, so one conversion feeds both.</p>
+
+            <p><strong>Accessibility as a function.</strong> The HTML output is not accessible as
+                a matter of good will: the structure and the stylesheets come from Whakerexa,
+                whose conformity to WCAG 2.1 is its own subject. What the generator owes is to
+                produce the markup that framework expects, and nothing that undoes it.</p>
+
+            <p><strong>Two axes of adjustment, not one.</strong> What a reader adjusts falls in
+                two independent places. The first is the text itself: the contrast switch of
+                Whakerexa raises the font size from 16 to 18 px, the line height from 1.2 to 1.5,
+                the letter spacing from 0.04 to 0.12 rem, and thickens the outlines — it touches
+                no colour but that of the links in light mode. The second is the palette: flat
+                background, maximum ratio, no gradient, no rounded corner. A reader who needs the
+                second is not served by the first, and the colours of the documentation are the
+                same whether the contrast switch is on or off.</p>
+
+            <p><strong>Prose that is not a docstring.</strong> A library has things to say that no
+                function docstring can hold: what it is for, how it is installed, where it comes
+                from. That prose is written in Markdown, kept beside the code, and it belongs in
+                the generated pages.</p>
+
+            <p><strong>The pages belong to the documented software.</strong> Name, logo, address,
+                copyright, favicon, language, and the paths where the statics live: the author
+                sets them. The generator is not a brand.</p>
+
+            <p><strong>Saying what was not done.</strong> A generator that silently omits is worse
+                than one that fails: the author discovers the hole in the published site. What
+                could not be documented is said during the run.</p>
+
+            <p><strong>Costing nothing to the reader of the library.</strong> Whoever installs the
+                documented library installs a library, not a documentation toolchain. What the
+                generator needs, the generator needs — not its user's users.</p>
+        </section>
+
+        <section class="ssection"><h2>Elicitation: the concepts</h2>
+
+            <p>The needs above become, in the application, this closed set of concepts. They are
+                what the code names, and what the rest of this file talks about.</p>
+
+            <ul>
+                <li><strong>Docstring</strong>: the text the author wrote under a class, a constructor or a function. The one source.</li>
+                <li><strong>Field</strong>: a line of a docstring opening with <code>:</code> or <code>@</code>, carrying a name and a text. Recognized or not, it is a field.</li>
+                <li><strong>Documented entity</strong>: what is known of one thing — a name, a list of argument names, a source code, a docstring. A class, a constructor and a function are all of them one of these.</li>
+                <li><strong>Class</strong>: one documented entity, one constructor, and a set of functions, split by what their names say — public, private, protected, overload.</li>
+                <li><strong>Module</strong>: the classes its <code>__all__</code> declares, and the README found beside it.</li>
+                <li><strong>Set of modules</strong>: what one run documents, and what the general index lists.</li>
+                <li><strong>Output format</strong>: Markdown, or HTML built from it.</li>
+                <li><strong>Page</strong>: one file of the HTML output — a class, the index of a module, the general index.</li>
+                <li><strong>Theme</strong>: a whole stylesheet, holding the palette and nothing structural. Themes are exclusive: one is active, and activating another replaces it entirely.</li>
+                <li><strong>Export options</strong>: what surrounds the documentation and belongs to the documented software rather than to its code.</li>
+            </ul>
+        </section>
+
+        <section class="ssection"><h2>Elicitation: the pathway</h2>
+
+            <p>The needs are met along one path, and each step of it is a place where something can
+                be given up without the next step failing:</p>
+
+            <p><strong>Source → entities → Markdown → HTML → files.</strong> Reading the source
+                gives entities; a docstring that says nothing gives an entity that says nothing.
+                Converting gives Markdown; an unrecognized field is kept as prose. Rendering gives
+                HTML; a missing renderer gives no HTML and a warning, and the Markdown produced
+                before it stands. Writing gives files; the files that were written before an error
+                are written.</p>
+        </section>
+
+        <section class="ssection"><h2>Elicitation: what the needs left to settle</h2>
+
+            <p>Collected as they are, the needs are neither precise nor compatible. What follows is
+                what had to be settled before a single functional item could be written.</p>
+
+            <table>
+                <caption>Words that had to be given a meaning</caption>
+                <thead>
+                <tr><th>Said</th><th>Taken to mean</th></tr>
+                </thead>
+                <tbody>
+                <tr><td>"a whole library"</td><td>The classes named in the <code>__all__</code> of each module given to the run. The public interface is what the author declared, not what the interpreter can reach.</td></tr>
+                <tr><td>"more than one format"</td><td>Markdown and HTML, both from one conversion, so that they cannot say different things.</td></tr>
+                <tr><td>"accessible"</td><td>HTML built for Whakerexa, whose conformity is stated there. The generator neither measures it nor checks it. Markdown carries no such claim.</td></tr>
+                <tr><td>"produced by a program"</td><td>Run by the author before publishing, not computed when a page is read. A published page is as old as the last run, and that run overwrites the files it wrote before.</td></tr>
+                <tr><td>"prose written by hand"</td><td>A README file found beside the code — beside the library for the general index, inside a module for the page of that module — inserted as it stands.</td></tr>
+                <tr><td>"what could not be documented is said"</td><td>A warning in the log of the run. Nothing is written in the pages, and nothing stops.</td></tr>
+                </tbody>
+            </table>
+
+            <table>
+                <caption>Needs that could not both be served, and what was decided</caption>
+                <thead>
+                <tr><th>Tension</th><th>Decision</th></tr>
+                </thead>
+                <tbody>
+                <tr><td>The author writes as they please, and the documentation is expected to state parameters, returns and exceptions</td><td>The author wins. Nothing is required, nothing is invented: a page is worth what its docstring is worth. The conventions are made easy to follow, never mandatory.</td></tr>
+                <tr><td>Two formats, and nothing imposed on whoever installs the documented library</td><td>Markdown asks for the standard library alone; HTML asks for <code>markdown2</code> and <code>Pygments</code>. They are optional: what is missing disables its format and warns.</td></tr>
+                <tr><td>The source code in the page, and a page one can find one's way in</td><td>The code is in the page and folded. It costs a click to whoever wants it, and nothing to whoever does not.</td></tr>
+                <tr><td>The identity of the documented software, and the accessibility of the pages</td><td>The author governs what surrounds the documentation; the structure and the stylesheets are not theirs to change. Identity stops where conformity starts.</td></tr>
+                <tr><td>The colours of the documented software, and a palette of maximum legibility</td><td>They cannot hold in one stylesheet: one carries an identity, the other renounces it. They become two exclusive themes, the first active by default, the second one switch away. Neither is a degraded version of the other.</td></tr>
+                <tr><td>A choice made once, and pages that are files</td><td>A theme chosen on one page holds for the next ones. Nothing being stored on a server, the choice travels in the address of the page, and the generator declares it rather than suffering it.</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="ssection"><h2>Elicitation: the inferred needs</h2>
+
+            <p>Two things in the output were asked for by nobody. They come from watching what
+                reading documentation actually costs.</p>
+
+            <p><strong>The source code, folded.</strong> A reader who doubts the prose goes to the
+                source, and going there means leaving the page for the repository. Putting the
+                source in the page answers that; putting it folded answers the reader who does not
+                want it. The <code>details</code> element does both, and asks nothing of the
+                author.</p>
+
+            <p><strong>The table of contents, built when the page opens.</strong> A generated page
+                knows its own headings, so nothing needs to write them a second time into a
+                navigation panel. It is built in the reader's browser, from the page itself, and
+                it cannot fall out of step with what it lists.</p>
+        </section>
+
+        <section class="ssection"><h2>The needs, organized</h2>
+
+            <p>Each item below is one thing the application does, stated so that it can be verified
+                on its own. They are grouped by domain, and the numbering leaves room inside each
+                group.</p>
+
+            <p><strong>[010] Starting a generation</strong></p>
+            <p>[011] The author can document one class, given the class object.<br />
+               [012] The author can document one module, given the module object.<br />
+               [013] The author can document a list of modules in a single run.<br />
+               [014] The author can run the generator as a Python library or from the command line.<br />
+               [015] The system returns the documentation as a string when no output path is given, and writes files when one is.</p>
+
+            <p><strong>[100] The sources to be documented</strong></p>
+            <p>[101] The author designates the modules to be documented.<br />
+               [102] The system documents the classes named in the <code>__all__</code> of a module.<br />
+               [103] The system skips what is named there and is not a class.<br />
+               [104] The system reports a module without <code>__all__</code>, documents it as empty, and goes on.<br />
+               [105] The system refuses a built-in class, and a class whose source cannot be read.</p>
+
+            <p><strong>[200] Reading the code</strong></p>
+            <p>[201] The system reads the text of the source; it does not call what it documents.<br />
+               [202] The system extracts the name and the docstring of the class.<br />
+               [203] The system extracts the constructor: its arguments, its source, its docstring.<br />
+               [204] The system extracts each function: its name, its arguments, its source, its docstring.<br />
+               [205] The system keeps <code>__init__</code> and <code>__new__</code> out of the list of functions.<br />
+               [206] The system classifies a function from its name alone: public, private, protected, overload.</p>
+
+            <p><strong>[300] Reading the docstrings</strong></p>
+            <p>[301] The system reads both field styles, <code>:field:</code> and <code>@field:</code>, in any case.<br />
+               [302] The system normalizes the variants of a field name to one field.<br />
+               [303] The system recognizes four fields as sections: parameters, returns, raises, example.<br />
+               [304] The system reads <code>:code:</code> as an example.<br />
+               [305] The system keeps an unrecognized field as an item of a description list.<br />
+               [306] The system ignores <code>type</code> and <code>rtype</code>, the source annotations being the truth.<br />
+               [307] The system opens an example section on a line starting with <code>&gt;&gt;&gt;</code>, even when no field announced it.<br />
+               [308] The system takes a first line ending with a dot as the short description.<br />
+               [309] The system requires no field: an absent or empty docstring produces an entry all the same.</p>
+
+            <p><strong>[400] The Markdown output</strong></p>
+            <p>[401] The system produces the Markdown of a class, of a module, and of a set of modules.<br />
+               [402] The Markdown output depends on nothing beyond the standard library.<br />
+               [403] The recognized fields become headed sections.<br />
+               [404] The source code is written in a fenced code block.</p>
+
+            <p><strong>[500] The HTML output</strong></p>
+            <p>[501] The system builds the HTML from the Markdown it produced.<br />
+               [502] The system colours the source code it shows.<br />
+               [503] The system folds the source code into a <code>details</code> element.<br />
+               [504] The system disables the HTML output, with a warning, when a renderer is missing.<br />
+               [505] The system writes the markup Whakerexa expects, and links its stylesheets and its loader.</p>
+
+            <p><strong>[600] The files, and their organization</strong></p>
+            <p>[601] The system writes one file per documented class.<br />
+               [602] The system writes an index for each module.<br />
+               [603] The system writes a general index for the set of modules.<br />
+               [604] The system creates the output folder when it does not exist.<br />
+               [605] Each page links to the previous and next class, to the previous and next module, and to the index.<br />
+               [606] Each page builds its own table of contents from its headings when it is opened.<br />
+               [607] The author chooses the table of contents to be a panel always shown, or one folded behind a button.</p>
+
+            <p><strong>[700] The prose written by hand</strong></p>
+            <p>[701] The author can have a README inserted into the general index.<br />
+               [702] The system inserts the README found inside a module into the page of that module.<br />
+               [703] The author can refuse the insertion of the READMEs.<br />
+               [704] The system reports a README that cannot be read, and writes the page without it.</p>
+
+            <p><strong>[800] The identity of the documented software</strong></p>
+            <p>[801] The author sets the name, the copyright, the address, the logo, the favicon, the title and the language.<br />
+               [802] The author sets the paths where the statics and Whakerexa are found.<br />
+               [803] The author sets the colour mode the pages open in.<br />
+               [804] The system refuses an option that is not of the expected type, and says which one.<br />
+               [805] The author provides the theme the pages open with, which carries the colours of the documented software.</p>
+
+            <p><strong>[900] What the run reports</strong></p>
+            <p>[901] The system reports a module without <code>__all__</code>.<br />
+               [902] The system reports a class it cannot reach.<br />
+               [903] The system reports a disabled output format, and what is missing for it.<br />
+               [904] The system reports a README it could not read.<br />
+               [905] No report of this kind stops the run.</p>
+
+            <p><strong>[1000] Reading the result</strong></p>
+            <p>[1001] The pages are HTML-5 built for Whakerexa.<br />
+               [1002] Each page offers the contrast and colour switches.<br />
+               [1003] Each page opens with a link that skips to its main content.<br />
+               [1004] Each page carries a stylesheet for printing.<br />
+               [1005] Each page declares its language.<br />
+               [1006] The reader can switch to a high-contrast theme: flat palette, maximum ratio, no gradient, no rounded corner.<br />
+               [1007] A theme chosen on one page is still the one in force on the next.<br />
+               [1008] Switching a theme leaves the text adjustments untouched, and adjusting the text leaves the theme untouched.</p>
+        </section>
+
+        <section class="ssection"><h2>What is not met yet</h2>
+
+            <p>The items above are what the application has to do; four of them it does not do, and
+                two needs are met only in part. They are listed here rather than left for a reader
+                to discover in the code.</p>
+
+            <table>
+                <caption>Items not met, and what stands in the way</caption>
+                <thead>
+                <tr><th>Item</th><th>State</th></tr>
+                </thead>
+                <tbody>
+                <tr><td>[805], [1006], [1007], [1008]</td><td>Not implemented. The pages hold their colours in the stylesheet of the documented software, which is linked statically: no theme is declared, none can be switched, and the high-contrast one of Whakerexa is unreachable from the documentation.</td></tr>
+                <tr><td>[102], [103]</td><td>Met, with a silence. A function named in <code>__all__</code> is skipped because it is not a class, and no report of [900] covers that case: the author is not told.</td></tr>
+                <tr><td>[204]</td><td>Met for the functions a class defines. An inherited method is documented in the page of the class that defines it, so the page of a class does not state everything that can be called on it.</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </section>
+
+    <!-- ============================================================ -->
+
+    <section id="decisions" class="chapter">
+        <h1>Decisions</h1>
+
+        <section class="ssection"><h2>The source is read, not run</h2>
+
+            <p>The structure of a class is taken from its text: <code>inspect.getsource()</code>
+                gives the source, <code>textwrap.dedent()</code> makes it parsable wherever it was
+                written, and <code>ast</code> walks it. Names, arguments, source and docstrings all
+                come from that tree.</p>
+
+            <p>The module itself is imported — <code>ClamsPack</code> needs <code>__all__</code>
+                and <code>importlib</code> to reach the classes it names — but nothing of what is
+                documented is called. What a decorator would return, what a metaclass would build,
+                what a property computes: none of it is asked, so none of it is in the page.</p>
+        </section>
+
+        <section class="ssection"><h2>Markdown is the pivot</h2>
+
+            <p>A docstring is converted once, into Markdown. The HTML is that Markdown given to
+                <code>markdown2</code>, and the source code is given to <code>Pygments</code>.
+                Two formats, one conversion: what is read of a docstring cannot differ between
+                them, because it is read once.</p>
+
+            <p>The consequence is accepted: what Markdown cannot express does not reach the HTML
+                either.</p>
+        </section>
+
+        <section class="ssection"><h2>What a field is worth</h2>
+
+            <p>A line opening with <code>:</code> or <code>@</code> is a candidate field. Its name
+                is normalized — lowercased, then mapped through the table of variants — and four
+                names become sections of the page: <code>param</code>, <code>return</code>,
+                <code>raise</code> and <code>example</code>. A candidate whose name is none of
+                these is not an error: it is written as an item of a description list, which is
+                what a reader would take it for.</p>
+
+            <p>A line opening with <code>&gt;&gt;&gt;</code> opens an example section on its own,
+                for the author who wrote the example and forgot to announce it.</p>
+        </section>
+
+        <section class="ssection"><h2>The first line, twice</h2>
+
+            <p>When the first line of a docstring ends with a dot, it is the short description: it
+                is written in italics at the head of the entry, and for a class it also becomes
+                the description of the page, cut to 160 characters — the length a search engine
+                shows.</p>
+        </section>
+
+        <section class="ssection"><h2>Four kinds of functions</h2>
+
+            <p>Functions are grouped by what their name says of them, and the vocabulary is the one
+                of this project:</p>
+
+            <table>
+                <caption>How a function is classified, from its name alone</caption>
+                <thead>
+                <tr><th>Name</th><th>Section</th></tr>
+                </thead>
+                <tbody>
+                <tr><td><code>name</code></td><td>Public functions</td></tr>
+                <tr><td><code>_name</code></td><td>Private functions</td></tr>
+                <tr><td><code>__name</code></td><td>Protected functions</td></tr>
+                <tr><td><code>__name__</code></td><td>Overloads</td></tr>
+                </tbody>
+            </table>
+
+            <p><code>__init__</code> and <code>__new__</code> are not in any of them: the
+                constructor has a section of its own, before the functions.</p>
+        </section>
+
+        <section class="ssection"><h2>A missing dependency disables a format</h2>
+
+            <p><code>ClamUtils</code> holds the import of <code>markdown2</code> in a
+                <code>try</code>: on failure it keeps the message and leaves the converter at
+                <code>None</code>. Every conversion asks that value first, warns, and returns an
+                empty string. Markdown output needs nothing but the standard library, so a library
+                without <code>markdown2</code> is still documented — in one format instead of
+                two.</p>
+        </section>
+    </section>
+
+    <!-- ============================================================ -->
+
+    <section id="classes" class="chapter">
+        <h1>The classes</h1>
+
+        <section class="ssection"><h2>What carries the data</h2>
+
+            <table>
+                <caption>Data classes</caption>
+                <thead>
+                <tr><th>Class</th><th>What it holds</th></tr>
+                </thead>
+                <tbody>
+                <tr><td><code>ClamInfo</code></td><td>One documented entity: a name, a list of argument names, a source code, a docstring. Nothing is interpreted here.</td></tr>
+                <tr><td><code>ClamInfoMarkdown</code></td><td>The same entity seen in Markdown. It owns the conversion rules: fields, variants, types, lists, examples.</td></tr>
+                <tr><td><code>ExportOptions</code></td><td>What surrounds the documentation: software name, copyright, URL, icon, favicon, title, language, paths to the statics, neighbouring pages for the navigation, and the shape of the table of contents.</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="ssection"><h2>What does the work</h2>
+
+            <table>
+                <caption>Working classes</caption>
+                <thead>
+                <tr><th>Class</th><th>What it does</th></tr>
+                </thead>
+                <tbody>
+                <tr><td><code>ClammingClassParser</code></td><td>Turns one class into three things: the class itself, its constructor, and a dictionary of its functions — all of them <code>ClamInfo</code>.</td></tr>
+                <tr><td><code>ClamsClass</code></td><td>Turns a parsed class into a page content, in Markdown or in HTML. It is where the four kinds of functions are separated.</td></tr>
+                <tr><td><code>ClamsPack</code></td><td>One module: the classes named in its <code>__all__</code>, its README, its index, and the export of one file per class.</td></tr>
+                <tr><td><code>ClamsModules</code></td><td>A list of modules: the index that links them, and the export of them all.</td></tr>
+                <tr><td><code>ClamUtils</code></td><td>What the others need and none of them owns: reaching a class from its name, converting Markdown, colouring source code.</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </section>
+
+    <!-- ============================================================ -->
+
+    <section id="design" class="chapter">
+        <h1>How this was designed</h1>
+
+        <section class="ssection"><h2>The way, and why it is written here</h2>
+
+            <p>The models below are those of Merise, kept in the order the method gives them: who
+                exchanges what, what the data are made of, which operations exist, where and when
+                they happen, how the data are laid out, where they live, and where the code goes.
+                A generator has no database, so two of the models say less than they would
+                elsewhere; they are kept all the same, because what they would hold is what a
+                reader looks for when something is to be changed.</p>
+        </section>
+
+        <section class="ssection"><h2>MCC: who exchanges what</h2>
+
+            <table>
+                <caption>Actors and flows</caption>
+                <thead>
+                <tr><th>From</th><th>To</th><th>What</th></tr>
+                </thead>
+                <tbody>
+                <tr><td>Author of the library</td><td>Generator</td><td>The source code, with its docstrings, and the list of modules to document</td></tr>
+                <tr><td>Author of the library</td><td>Generator</td><td>The export options: identity of the software, paths, shape of the pages</td></tr>
+                <tr><td>Generator</td><td>File system</td><td>One index, one page per module, one page per class, in Markdown and in HTML</td></tr>
+                <tr><td>Generator</td><td>Author of the library</td><td>Warnings: a module without <code>__all__</code>, a class that cannot be reached, a disabled format</td></tr>
+                <tr><td>Reader</td><td>Pages</td><td>Reading, navigation from page to page, opening of the folded source code</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="ssection"><h2>The data handled, and the values they take</h2>
+
+            <table>
+                <caption>Data handled by the application</caption>
+                <thead>
+                <tr><th>Datum</th><th>Values</th></tr>
+                </thead>
+                <tbody>
+                <tr><td>module</td><td>An importable Python module. Documented through the names of its <code>__all__</code>.</td></tr>
+                <tr><td>name</td><td>A string: the name of a class, of a constructor, of a function.</td></tr>
+                <tr><td>args</td><td>A list of strings: the argument names, in the order of the definition.</td></tr>
+                <tr><td>source</td><td>A string: the source code, as <code>ast</code> writes it back.</td></tr>
+                <tr><td>docstring</td><td>A string, or <code>None</code> when the entity has none.</td></tr>
+                <tr><td>field</td><td>After normalization, one of {<code>param</code>, <code>return</code>, <code>raise</code>, <code>example</code>}, or any other name, which is kept as prose.</td></tr>
+                <tr><td>field variants</td><td><code>returns</code> → <code>return</code>; <code>raises</code>, <code>catch</code>, <code>except</code> → <code>raise</code>; <code>code</code> → <code>example</code>. <code>type</code> and <code>rtype</code> are dropped.</td></tr>
+                <tr><td>kind of function</td><td>{public, private, protected, overload}, decided by the name alone.</td></tr>
+                <tr><td>output format</td><td>{Markdown, HTML}. HTML exists only when its renderers are installed.</td></tr>
+                <tr><td>short description</td><td>A string of 160 characters at most: the class name, then the first line of its docstring.</td></tr>
+                <tr><td>colour mode</td><td>{light, dark}. Light is the default and carries no class on the HTML root element.</td></tr>
+                <tr><td>active theme</td><td>{clamming, highcontrast}. One at a time, held by the <code>href</code> of a single link element, and carried from page to page in the address.</td></tr>
+                <tr><td>lang</td><td>A BCP 47 tag. <code>en</code> by default.</td></tr>
+                <tr><td>statics, wexa_statics</td><td>Paths, relative to the output folder.</td></tr>
+                <tr><td>aside_toc</td><td>A boolean. False by default: the table of contents is a panel always shown.</td></tr>
+                <tr><td>readme</td><td>A boolean. True by default: the READMEs found are inserted.</td></tr>
+                <tr><td>software, copyright, url, icon, favicon, title</td><td>Strings, empty by default but for the favicon.</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="ssection"><h2>MCD: what the data are made of</h2>
+
+            <table>
+                <caption>Entities and associations</caption>
+                <thead>
+                <tr><th>Entity</th><th>Attributes</th><th>Association</th></tr>
+                </thead>
+                <tbody>
+                <tr><td>Documented entity (<code>ClamInfo</code>)</td><td>name, args, source, docstring</td><td>—</td></tr>
+                <tr><td>Class</td><td>its own entity, one constructor, n functions</td><td>1 class → 1 constructor, 1 class → 0..n functions</td></tr>
+                <tr><td>Module</td><td>name, README</td><td>1 module → 1..n classes</td></tr>
+                <tr><td>Set of modules</td><td>—</td><td>1 set → 1..n modules</td></tr>
+                <tr><td>Export options</td><td>identity, paths, neighbours, shape of the ToC</td><td>1 export → the whole set</td></tr>
+                </tbody>
+            </table>
+
+            <p>A documented entity is the only thing the generator stores. Everything above it —
+                class, module, set — is a way of grouping those entities and of deciding which
+                file they are written to.</p>
+        </section>
+
+        <section class="ssection"><h2>MCT: the operations</h2>
+
+            <table>
+                <caption>The operations, and what triggers them</caption>
+                <thead>
+                <tr><th>No.</th><th>Operation</th><th>Trigger</th><th>Result</th></tr>
+                </thead>
+                <tbody>
+                <tr><td>O1</td><td>Parse a class</td><td>A class object is given</td><td>Three <code>ClamInfo</code> groups: the class, its constructor, its functions</td></tr>
+                <tr><td>O2</td><td>Convert a docstring</td><td>A <code>ClamInfo</code> is asked for its Markdown</td><td>Markdown: short description, sections of parameters, returns, raises, examples</td></tr>
+                <tr><td>O3</td><td>Write a class page</td><td>A parsed class is asked for its content</td><td>Markdown, or HTML with the source code folded in a <code>details</code> element</td></tr>
+                <tr><td>O4</td><td>Write a module</td><td>A module and its export options are given</td><td>An index of the module, and one file per class</td></tr>
+                <tr><td>O5</td><td>Write a set of modules</td><td>A list of modules and the export options are given</td><td>The general index, then O4 for each module</td></tr>
+                <tr><td>O6</td><td>Switch the theme</td><td>The reader asks for it, on any page</td><td>The active stylesheet is replaced, and the choice is carried to the pages reached from there</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="ssection"><h2>MOT: where, when, and by whom</h2>
+
+            <table>
+                <caption>Organization of the operations</caption>
+                <thead>
+                <tr><th>Operation</th><th>When</th><th>Where</th><th>By whom</th></tr>
+                </thead>
+                <tbody>
+                <tr><td>O1 to O5</td><td>Before a release, when the docstrings have changed</td><td>On the author's machine</td><td>The author, through <code>makedoc.py</code> or <code>main.py</code></td></tr>
+                <tr><td>Reading</td><td>Any time afterwards</td><td>In a browser, from a file or a server</td><td>The reader</td></tr>
+                <tr><td>Building of the table of contents</td><td>When a page is opened</td><td>In the reader's browser</td><td>The <code>Book</code> class of Whakerexa</td></tr>
+                <tr><td>O6, switching the theme</td><td>When the reader asks for it</td><td>In the reader's browser</td><td>The <code>ThemeManager</code> class of Whakerexa</td></tr>
+                <tr><td>Adjusting the text</td><td>When the reader asks for it</td><td>In the reader's browser</td><td>The accessibility manager of Whakerexa</td></tr>
+                </tbody>
+            </table>
+
+            <p>The pages are written once and served as files: what happens at the reader's request
+                happens in their browser and changes nothing on disk. Two of these three
+                operations are theirs to ask for, and the third — the table of contents — is
+                asked for by nobody.</p>
+        </section>
+
+        <section class="ssection"><h2>MLD: the structures</h2>
+
+            <p>There is no database. What the tables of a logical model would hold is held, for
+                the time of one run, by these structures:</p>
+
+            <table>
+                <caption>Structures, and what plays the part of a key</caption>
+                <thead>
+                <tr><th>Structure</th><th>Content</th><th>Key</th></tr>
+                </thead>
+                <tbody>
+                <tr><td><code>ClamInfo</code></td><td>name, args, source, docstring</td><td>The name, within its class</td></tr>
+                <tr><td><code>fct_clams</code></td><td>A dictionary of <code>ClamInfo</code></td><td>The function name</td></tr>
+                <tr><td>The four lists of <code>ClamsClass</code></td><td>Public, private, protected, overloads</td><td>Order of appearance in the source</td></tr>
+                <tr><td><code>ClamsPack</code></td><td>A list of <code>ClamsClass</code></td><td>The class name, which is also the file name</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="ssection"><h2>MPD: where each thing exists</h2>
+
+            <table>
+                <caption>Physical model</caption>
+                <thead>
+                <tr><th>Thing</th><th>Where it exists</th><th>How long</th></tr>
+                </thead>
+                <tbody>
+                <tr><td>The parsed entities</td><td>In memory</td><td>The time of one run</td></tr>
+                <tr><td>The pages</td><td><code>&lt;out&gt;/&lt;Class&gt;.html</code>, <code>&lt;out&gt;/&lt;module&gt;.html</code>, <code>&lt;out&gt;/index.html</code></td><td>Until the next run overwrites them</td></tr>
+                <tr><td>The Markdown</td><td><code>&lt;out&gt;/&lt;module&gt;.md</code></td><td>Until the next run overwrites them</td></tr>
+                <tr><td>The statics of the author</td><td><code>&lt;out&gt;/statics/</code></td><td>Written by hand, never by the generator</td></tr>
+                <tr><td>The themes</td><td>The one of the documented software in <code>&lt;out&gt;/statics/</code>, the high-contrast one in the stylesheets of Whakerexa</td><td>Written by hand, never by the generator</td></tr>
+                <tr><td>Whakerexa</td><td><code>&lt;out&gt;/Whakerexa-current/wexa_statics/</code></td><td>Unpacked by hand, never by the generator</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="ssection"><h2>MOpT: where the code goes</h2>
+
+            <table>
+                <caption>One responsibility, one module</caption>
+                <thead>
+                <tr><th>File</th><th>Responsibility</th></tr>
+                </thead>
+                <tbody>
+                <tr><td><code>claminfo.py</code></td><td>Hold what was found, and nothing else</td></tr>
+                <tr><td><code>claminfomd.py</code></td><td>Know the docstring conventions, and them alone</td></tr>
+                <tr><td><code>classparser.py</code></td><td>Read a class from its source</td></tr>
+                <tr><td><code>clamsclass.py</code></td><td>Write one class, in two formats</td></tr>
+                <tr><td><code>clamspack.py</code></td><td>Write one module and its files</td></tr>
+                <tr><td><code>clamsmodules.py</code></td><td>Write a set of modules and its index</td></tr>
+                <tr><td><code>exportoptions.py</code></td><td>Hold what surrounds the documentation, and produce the head, header, nav and footer</td></tr>
+                <tr><td><code>clamutils.py</code></td><td>Reach a class, convert Markdown, colour source code</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="ssection"><h2>UML: the sequence of one export</h2>
+
+            <p>What happens when <code>ClamsModules.html_export_packages()</code> is called:</p>
+
+            <pre><code>ClamsModules            ClamsPack             ClamsClass          ClammingClassParser
+     |                       |                     |                       |
+     |-- html_export_index ->|                     |                       |
+     |   (index.html)        |                     |                       |
+     |                       |                     |                       |
+     |-- html_export_clams ->|                     |                       |
+     |                       |-- for each class -->|                       |
+     |                       |                     |-- parse ------------->|
+     |                       |                     |&lt;-- ClamInfo x n ------|
+     |                       |                     |                       |
+     |                       |                     |-- markdown / html --> (ClamInfoMarkdown)
+     |                       |&lt;-- content ---------|                       |
+     |                       |                     |                       |
+     |                       |-- ExportOptions: head, header, nav, footer   |
+     |                       |-- write &lt;Class&gt;.html                         |
+     |&lt;-- list of files -----|                     |                       |</code></pre>
+        </section>
+    </section>
+
+    <!-- ============================================================ -->
+
+    <section id="contracts" class="chapter">
+        <h1>The contracts, class by class</h1>
+
+        <section class="ssection"><h2>How to read them</h2>
+
+            <p>Each line is what the class promises: what it accepts, what it gives back, and what
+                it raises when what it is given is not what it accepts. What is not written here
+                is not promised.</p>
+        </section>
+
+        <section class="ssection"><h2>ClammingClassParser</h2>
+
+            <table>
+                <caption>Contract of ClammingClassParser</caption>
+                <thead>
+                <tr><th>Member</th><th>Promise</th></tr>
+                </thead>
+                <tbody>
+                <tr><td><code>__init__(obj)</code></td><td>Accepts a class whose source is reachable. Raises <code>TypeError</code> for anything that is not a class, for a built-in one, and for a class whose source cannot be read.</td></tr>
+                <tr><td><code>obj_clams</code></td><td>The class itself: a name and a docstring. The docstring is <code>None</code> when the class has none.</td></tr>
+                <tr><td><code>init_clams</code></td><td>The constructor. A <code>ClamInfo</code> with an empty name when the class defines none.</td></tr>
+                <tr><td><code>fct_clams</code></td><td>A dictionary, function name to <code>ClamInfo</code>, without <code>__init__</code> and <code>__new__</code>. Empty when the class defines no function.</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="ssection"><h2>ClamInfoMarkdown</h2>
+
+            <table>
+                <caption>Contract of ClamInfoMarkdown</caption>
+                <thead>
+                <tr><th>Member</th><th>Promise</th></tr>
+                </thead>
+                <tbody>
+                <tr><td><code>convert_name()</code></td><td>The name as a Markdown heading.</td></tr>
+                <tr><td><code>convert_source()</code></td><td>The source in a fenced code block. An empty source gives an empty string.</td></tr>
+                <tr><td><code>convert_docstring()</code></td><td>The docstring in Markdown. A docstring at <code>None</code> gives an empty string. An unknown field is kept as a description list item; <code>type</code> and <code>rtype</code> are dropped.</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="ssection"><h2>ClamsClass</h2>
+
+            <table>
+                <caption>Contract of ClamsClass</caption>
+                <thead>
+                <tr><th>Member</th><th>Promise</th></tr>
+                </thead>
+                <tbody>
+                <tr><td><code>get_name()</code></td><td>The name of the documented class.</td></tr>
+                <tr><td><code>get_short_description()</code></td><td>The class name followed by the first line of its docstring, 160 characters at most.</td></tr>
+                <tr><td><code>markdown()</code></td><td>The content of the class in Markdown. Needs nothing beyond the standard library.</td></tr>
+                <tr><td><code>html()</code></td><td>The content of the class in HTML. Returns an empty string, with a warning, when the Markdown converter is missing.</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="ssection"><h2>ClamsPack and ClamsModules</h2>
+
+            <table>
+                <caption>Contract of the export classes</caption>
+                <thead>
+                <tr><th>Member</th><th>Promise</th></tr>
+                </thead>
+                <tbody>
+                <tr><td><code>ClamsPack(module)</code></td><td>Documents the classes named in <code>__all__</code>. A module without <code>__all__</code> is documented as empty, with a warning; it is not an error.</td></tr>
+                <tr><td><code>ClamsPack.html_index()</code></td><td>The index of the module: one card per class, each linking to its page.</td></tr>
+                <tr><td><code>ClamsPack.html_export_clams()</code></td><td>Writes one file per class and returns their names. Creates the output folder when it does not exist.</td></tr>
+                <tr><td><code>ClamsModules.html_export_index()</code></td><td>Writes the general index, with the README of the library when one is given. An unreadable README is logged and the index is written all the same.</td></tr>
+                <tr><td><code>ClamsModules.html_export_packages()</code></td><td>Writes the general index, then every module, and returns all the file names.</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="ssection"><h2>ExportOptions</h2>
+
+            <table>
+                <caption>Contract of ExportOptions</caption>
+                <thead>
+                <tr><th>Member</th><th>Promise</th></tr>
+                </thead>
+                <tbody>
+                <tr><td>The setters</td><td>Each one raises <code>TypeError</code> when what it is given is not a string. The booleans accept anything and keep its truth value.</td></tr>
+                <tr><td><code>get_root_class()</code></td><td>The class of the HTML root element: the theme name when it is a colour mode, an empty string otherwise — the light mode being the default one.</td></tr>
+                <tr><td><code>get_head()</code></td><td>The <code>head</code> of the page: the stylesheets of Whakerexa, the stylesheet of the author, and the loader that reads the modules over HTTP and the bundle over <code>file://</code>.</td></tr>
+                <tr><td><code>get_nav()</code></td><td>The table of contents: a <code>nav.book-toc</code> always shown, or an <code>aside.book-toc-aside</code> that <code>book.js</code> folds behind a button when <code>aside_toc</code> is set.</td></tr>
+                <tr><td><code>get_header()</code>, <code>get_footer()</code></td><td>The identity of the software, and the copyright.</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </section>
+
+    <!-- ============================================================ -->
+
+    <section id="tests" class="chapter">
+        <h1>What is tested, and where</h1>
+
+        <section class="ssection"><h2>Where the tests are</h2>
+
+            <table>
+                <caption>Test files</caption>
+                <thead>
+                <tr><th>File</th><th>What it covers</th></tr>
+                </thead>
+                <tbody>
+                <tr><td><code>test_claminfo.py</code></td><td>The data class, and the conversion rules of <code>ClamInfoMarkdown</code>: fields, variants, types, lists, examples.</td></tr>
+                <tr><td><code>test_classparser.py</code></td><td>Reading a class: its docstring, its constructor, its functions.</td></tr>
+                <tr><td><code>test_clamspack.py</code></td><td>One module: its index, its exported files, the sections without numbering, and the two formats of <code>ClamsClass</code>.</td></tr>
+                <tr><td><code>test_clamsmodules.py</code></td><td>A set of modules: the general index, with and without a README.</td></tr>
+                <tr><td><code>test_exportoptions.py</code></td><td>The options, the <code>head</code>, and the two shapes of the table of contents.</td></tr>
+                <tr><td><code>test_clamutils.py</code></td><td>Reaching a class from its name, and the conversions.</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="ssection"><h2>What no test covers</h2>
+
+            <p>Nothing verifies what a browser does with the pages: the table of contents built at
+                load time, the folded source code, the navigation from page to page, the contrast
+                and colour switches. Nothing verifies the accessibility of the result.</p>
+
+            <p>Nothing covers the documentation of functions written outside a class, because
+                nothing implements it.</p>
+
+            <p><code>ClamsClass</code> and <code>ClamInfoMarkdown</code> have no test file of
+                their own: they are covered from the tests of the classes that use them, which
+                leaves their own errors — a docstring at <code>None</code>, a class without a
+                constructor — verified only where another class happens to produce them.</p>
+        </section>
+    </section>
+
+</main>
+
+<footer>
+    <p class="copyright">Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+</footer>
+
+</body>
+</html>

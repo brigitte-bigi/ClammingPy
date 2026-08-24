@@ -89,6 +89,18 @@ h4 {
     text-align: center;
 }
 
+/* 'layout.css' makes the background of all the children of a card transparent,
+   so the colors of the button of the footer are restored here. */
+
+.card .card-footer a[role=button] {
+    background-color: var(--buttons-bg-color);
+    color: var(--buttons-fg-color);
+}
+
+.card .card-footer a[role=button]:hover {
+    background-color: var(--buttons-bg-color-hover);
+}
+
 /* =======================================================================
                               BOOK NAVIGATION
   ======================================================================== */

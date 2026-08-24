@@ -10,12 +10,12 @@
             <meta name="description" content="Python class documentation" />
 
             <link rel="logo icon" href="./statics/clamming32x32.ico" />
-            <link rel="stylesheet" href="./Whakerexa-3.2/wexa_statics/css/wexa.css" type="text/css" media="screen" />
-            <link rel="stylesheet" href="./Whakerexa-3.2/wexa_statics/css/print.css" type="text/css" media="print" />
-            <link rel="stylesheet" href="./Whakerexa-3.2/wexa_statics/css/layout.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-3.2/wexa_statics/css/menu.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-3.2/wexa_statics/css/code.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-3.2/wexa_statics/css/extras/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/wexa.css" type="text/css" media="screen" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/print.css" type="text/css" media="print" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/extras/book.css" type="text/css" />
             <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
 
             <!-- Whakerexa JS loader: bundle on file://, ES6 modules on http(s) -->
@@ -26,7 +26,7 @@
                 return;
               }
               const s = document.createElement('script');
-              s.src = './Whakerexa-3.2/wexa_statics/js/wexa.bundle.js';
+              s.src = './Whakerexa-current/wexa_statics/js/wexa.bundle.js';
 
               s.onload = function () {
                 window.Wexa.onload.addLoadFunction(function () {
@@ -42,8 +42,8 @@
             <!-- The Book extra is not part of the 'wexa.js' API: it is imported apart -->
             <script type="module">
               if (window.location.protocol !== 'file:') {
-                await import('./Whakerexa-3.2/wexa_statics/js/wexa.js');
-                const { Book } = await import('./Whakerexa-3.2/wexa_statics/js/extras/book.js');
+                await import('./Whakerexa-current/wexa_statics/js/wexa.js');
+                const { Book } = await import('./Whakerexa-current/wexa_statics/js/extras/book.js');
                 const book = new Book("main-content");
                 book.fill_table(false);
               }
@@ -83,7 +83,7 @@
     <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>
 </nav>
     <main id="main-content">
-    <section id="readme">
+    <section id="readme" class="chapter nonumber">
 <h1>ClammingPy Description</h1>
 
 <h2>Overview</h2>
@@ -259,6 +259,9 @@ module in Mardown format or in HTML format as a standalone content:</p>
 <p>Documentation is available in the <code>docs</code> folder and inline.
 For the local use, download and unpack Whakerexa &gt;= 3.0 into the <code>docs</code> folder.</p>
 
+<p>The conceptual design file — requirements, decisions, models, contracts and test coverage —
+is in <a href="docs/clamming-design.html">docs/clamming-design.html</a>.</p>
+
 <h2>How to cite ClammingPy</h2>
 
 <p>By using ClammingPy, you are encouraged to mention it in your publications 
@@ -291,7 +294,7 @@ Any and all constructive comments are welcome.</p>
 
 <p>See the accompanying LICENSE and AUTHORS files for the full list of contributors.</p>
 
-<p>Copyright (C) 2023-2026 - <a href="https://sppas.org/bigi/">Brigitte Bigi</a> - <a href="&#x6d;&#x61;&#105;&#x6c;&#116;o:&#99;o&#110;&#116;&#97;&#x63;t&#x40;&#x73;&#x70;&#112;&#97;&#115;&#46;&#x6f;&#114;&#x67;">&#99;o&#110;&#116;&#97;&#x63;t&#x40;&#x73;&#x70;&#112;&#97;&#115;&#46;&#x6f;&#114;&#x67;</a>, CNRS,
+<p>Copyright (C) 2023-2026 - <a href="https://sppas.org/bigi/">Brigitte Bigi</a> - <a href="&#x6d;&#x61;i&#x6c;&#x74;&#x6f;&#58;&#x63;&#111;n&#116;&#x61;&#x63;&#x74;&#x40;&#x73;p&#112;&#x61;&#115;&#x2e;o&#x72;&#x67;">&#x63;&#111;n&#116;&#x61;&#x63;&#x74;&#x40;&#x73;p&#112;&#x61;&#115;&#x2e;o&#x72;&#x67;</a>, CNRS,
 Laboratoire Parole et Langage, Aix-en-Provence, France</p>
 
 <p>This program is free software: you can redistribute it and/or modify
@@ -307,11 +310,13 @@ GNU Affero General Public License for more details.</p>
 <p>You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.</p>
     </section>
+    <section id="packages" class="chapter nonumber">
 <h1>List of packages:</h1>
       <h2>clamming</h2>
       <p><a href='clamming.html'>Get documentation</a></p>
       <h2>tests</h2>
       <p><a href='tests.html'>Get documentation</a></p>
+    </section>
     </main>
     
             <footer>

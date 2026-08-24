@@ -1803,7 +1803,7 @@ def html_index(self, path_name: str | None=None, exporter: ExportOptions | None=
 
         """
     out = list()
-    out.append('    <section id="#{:s}">'.format(self.name))
+    out.append('    <section id="#{:s}" class="chapter nonumber">'.format(self.name))
     out.append('    <h1>{:s} module</h1>'.format(self.name))
     if exporter is not None:
         if exporter.readme is True and len(HTML) == 0:
@@ -1932,7 +1932,7 @@ def __module_class(self, out_html, exporter, content):
         fp.write('    {:s}\n'.format(exporter.get_header()))
         fp.write('    {:s}\n'.format(exporter.get_nav()))
         fp.write('    <main id="main-content">\n')
-        fp.write('    <section id="#{:s}">'.format(self.name))
+        fp.write('    <section id="#{:s}" class="chapter nonumber">'.format(self.name))
         fp.write('    <h1>Module {:s}</h1>\n'.format(self.name))
         fp.write(content)
         fp.write('    </section>')
@@ -2072,16 +2072,18 @@ def html_export_index(self, path_name: str, exporter: ExportOptions, readme: str
                 with codecs.open(readme, 'r', 'utf-8') as readme_fp:
                     readme_content = readme_fp.read()
                     if len(readme_content) > 0:
-                        fp.write('    <section id="readme">\n')
+                        fp.write('    <section id="readme" class="chapter nonumber">\n')
                         fp.write(ClamUtils().markdown_to_html(readme_content))
                         fp.write('    </section>\n')
             except Exception as e:
                 logging.error(e)
                 traceback.print_exc()
+        fp.write('    <section id="packages" class="chapter nonumber">\n')
         fp.write('<h1>List of packages:</h1>\n')
         for clams_pack in self.__clams_packs:
             fp.write('      <h2>{:s}</h2>\n'.format(clams_pack.name))
             fp.write("      <p><a href='{:s}'>Get documentation</a></p>\n".format(clams_pack.name + '.html'))
+        fp.write('    </section>\n')
         fp.write('    </main>\n')
         fp.write('    {:s}\n'.format(exporter.get_footer()))
         fp.write('</body>\n')
@@ -2196,6 +2198,7 @@ def __init__(self):
     self.__statics = ExportOptions.DEFAULT_STATICS
     self.__wexa_statics = ExportOptions.DEFAULT_WEXA_STATICS
     self.__descr = 'Python class documentation'
+    self.__aside_toc = ExportOptions.DEFAULT_ASIDE_TOC
     self.__next_class = None
     self.__prev_class = None
     self.__next_pack = None
@@ -2241,6 +2244,40 @@ def set_add_readme(self, readme: bool) -> NoReturn:
 ##### Parameters
 
 - **readme**: (*bool*) whether the README is added or not.
+
+#### get_aside_toc
+
+```python
+def get_aside_toc(self) -> bool:
+    """Return whether the table of contents is a collapsible aside or not."""
+    return self.__aside_toc
+```
+
+*Return whether the table of contents is a collapsible aside or not.*
+
+#### set_aside_toc
+
+```python
+def set_aside_toc(self, aside_toc: bool) -> NoReturn:
+    """Set whether the table of contents is a collapsible aside or not.
+
+        The table of contents is a fixed 'nav' panel by default. When it is an
+        aside instead, 'book.js' hides it and adds a button to open and close it.
+
+        :param aside_toc: (bool) whether the table of contents is an aside or not.
+
+        """
+    self.__aside_toc = bool(aside_toc)
+```
+
+*Set whether the table of contents is a collapsible aside or not.*
+
+The table of contents is a fixed 'nav' panel by default. When it is an
+aside instead, 'book.js' hides it and adds a button to open and close it.
+
+##### Parameters
+
+- **aside_toc**: (*bool*) whether the table of contents is an aside or not.
 
 #### get_software
 
@@ -2848,7 +2885,13 @@ def get_header(self) -> str:
 def get_nav(self) -> str:
     """Return the 'nav' of the HTML->body of the page."""
     nav = list()
-    nav.append('<nav id="nav-book" class="book-toc" aria-label="Table of contents">')
+    if self.__aside_toc is True:
+        tag_name = 'aside'
+        class_name = 'book-toc-aside'
+    else:
+        tag_name = 'nav'
+        class_name = 'book-toc'
+    nav.append('<{TAG} id="nav-book" class="{CLASS}" aria-label="Table of contents">'.format(TAG=tag_name, CLASS=class_name))
     if self.__software == ExportOptions.DEFAULT_SOFTWARE:
         nav.append('    <h1>Documentation</h1>')
     else:
@@ -2868,7 +2911,7 @@ def get_nav(self) -> str:
     nav.append('    <ul id="toc"></ul>')
     nav.append('    <hr>')
     nav.append('    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>')
-    nav.append('</nav>')
+    nav.append('</{TAG}>'.format(TAG=tag_name))
     return '\n'.join(nav)
 ```
 

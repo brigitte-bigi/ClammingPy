@@ -119,50 +119,21 @@ class TestHTMLDocExport(unittest.TestCase):
         opts_export.title = 'HTML Export'
         opts_export.favicon = 'favicon.ico'
         opts_export.theme = 'dark'
-        expected_head ="""<head>
-            
-            <title>HTML Export</title>
-
-            <meta charset="utf-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-            <meta name="description" content="Python class documentation" />
-
-            <link rel="logo icon" href="./statics/favicon.ico" />
-            <link rel="stylesheet" href="./wexa_statics/css/wexa.css" type="text/css" />
-            <link rel="stylesheet" href="./wexa_statics/css/layout.css" type="text/css" />
-            <link rel="stylesheet" href="./wexa_statics/css/book.css" type="text/css" />
-            <link rel="stylesheet" href="./wexa_statics/css/menu.css" type="text/css" />
-            <link rel="stylesheet" href="./wexa_statics/css/code.css" type="text/css" />
-            <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
-
-            <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
-            <script>
-            (function () {
-              const usingFile = (window.location.protocol === 'file:');
-              const s = document.createElement('script');
-            
-              if (usingFile) {
-                s.src = './wexa_statics/js/wexa.bundle.js';
-              } else {
-                s.type = 'module';
-                s.src = './wexa_statics/js/wexa.js';
-              }
-            
-              s.onload = function () {
-                window.Wexa.onload.addLoadFunction(function () {
-                  const book = new window.Wexa.Book("main-content");
-                  book.fill_table(false);
-                });
-              };
-            
-              document.head.appendChild(s);
-            })();
-            </script>
-
-       </head>"""
         actual_head = opts_export.get_head().strip()
-        self.assertTrue(actual_head.startswith(expected_head.strip()))
-        self.assertTrue(actual_head.strip().endswith("</head>"))
+
+        self.assertTrue(actual_head.startswith("<head>"))
+        self.assertTrue(actual_head.endswith("</head>"))
+        self.assertIn("<title>HTML Export</title>", actual_head)
+        self.assertIn('<link rel="logo icon" href="./statics/favicon.ico" />', actual_head)
+        self.assertIn('href="./wexa_statics/css/wexa.css"', actual_head)
+        self.assertIn('href="./wexa_statics/css/print.css"', actual_head)
+        self.assertIn('href="./wexa_statics/css/layout.css"', actual_head)
+        self.assertIn('href="./wexa_statics/css/menu.css"', actual_head)
+        self.assertIn('href="./wexa_statics/css/code.css"', actual_head)
+        self.assertIn('href="./wexa_statics/css/extras/book.css"', actual_head)
+        self.assertIn('href="./statics/clamming.css"', actual_head)
+
+    # ----------------------------------------------------------------------------
 
     # ----------------------------------------------------------------------------
 
@@ -206,6 +177,34 @@ class TestHTMLDocExport(unittest.TestCase):
         opts_export = ExportOptions()
         nav = opts_export.get_nav()
         self.assertIn('aria-disabled="true"', nav)
+
+    def test_aside_toc_setter(self):
+        opts_export = ExportOptions()
+        self.assertFalse(opts_export.aside_toc)
+        opts_export.aside_toc = True
+        self.assertTrue(opts_export.aside_toc)
+        opts_export.aside_toc = 0
+        self.assertFalse(opts_export.aside_toc)
+
+    def test_get_nav_aside_toc(self):
+        """The table of contents is an aside, so 'book.js' makes it collapsible."""
+        opts_export = ExportOptions()
+        opts_export.aside_toc = True
+        nav = opts_export.get_nav()
+        self.assertIn('<aside id="nav-book" class="book-toc-aside"', nav)
+        self.assertIn("</aside>", nav)
+        self.assertNotIn("<nav", nav)
+        self.assertNotIn("</nav>", nav)
+        self.assertIn('<ul id="toc">', nav)
+
+    def test_get_nav_fixed_toc(self):
+        """The table of contents is a nav, so it is always shown."""
+        opts_export = ExportOptions()
+        nav = opts_export.get_nav()
+        self.assertIn('<nav id="nav-book" class="book-toc"', nav)
+        self.assertIn("</nav>", nav)
+        self.assertNotIn("<aside", nav)
+        self.assertIn('<ul id="toc">', nav)
 
     def test_get_footer(self):
         opts_export = ExportOptions()

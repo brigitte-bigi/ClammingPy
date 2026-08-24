@@ -176,7 +176,7 @@ class ClamsPack:
 
         """
         out = list()
-        out.append("    <section id=\"#{:s}\">".format(self.name))
+        out.append("    <section id=\"#{:s}\" class=\"chapter nonumber\">".format(self.name))
         out.append("    <h1>{:s} module</h1>".format(self.name))
 
         # Module README content - if any
@@ -284,7 +284,7 @@ class ClamsPack:
             fp.write("    {:s}\n".format(exporter.get_header()))
             fp.write("    {:s}\n".format(exporter.get_nav()))
             fp.write("    <main id=\"main-content\">\n")
-            fp.write("    <section id=\"#{:s}\">".format(self.name))
+            fp.write("    <section id=\"#{:s}\" class=\"chapter nonumber\">".format(self.name))
             fp.write("    <h1>Module {:s}</h1>\n".format(self.name))
             fp.write(content)
             fp.write("    </section>")

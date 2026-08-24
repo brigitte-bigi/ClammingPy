@@ -35,7 +35,10 @@ from clamming import ExportOptions
 
 # ###########################################################################
 # Fix the default path to the "wexa_statics" folder of Whakerexa/
-WEXA = './Whakerexa-3.2/wexa_statics'
+WEXA = './Whakerexa-current/wexa_statics'
+# Fix whether the table of contents is a collapsible aside panel, opened by a
+# button, instead of a fixed one always shown at the left of the pages.
+ASIDE_TOC = False
 # ###########################################################################
 
 
@@ -84,6 +87,8 @@ opts_export.theme = 'light'
 # ... the favicon and icon are files in the statics folder
 opts_export.favicon = 'clamming32x32.ico'
 opts_export.icon = 'clamming.png'
+# ... the table of contents is either a collapsible aside or a fixed panel
+opts_export.aside_toc = ASIDE_TOC
 # ... path to 'wexa_statics' folder, relatively to "docs"
 opts_export.wexa_statics = WEXA
 if args.w:

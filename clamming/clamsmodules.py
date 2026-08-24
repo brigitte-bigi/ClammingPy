@@ -124,17 +124,19 @@ class ClamsModules:
                     with codecs.open(readme, "r", "utf-8") as readme_fp:
                         readme_content = readme_fp.read()
                         if len(readme_content) > 0:
-                            fp.write("    <section id=\"readme\">\n")
+                            fp.write("    <section id=\"readme\" class=\"chapter nonumber\">\n")
                             fp.write(ClamUtils().markdown_to_html(readme_content))
                             fp.write("    </section>\n")
                 except Exception as e:
                     logging.error(e)
                     traceback.print_exc()
 
+            fp.write("    <section id=\"packages\" class=\"chapter nonumber\">\n")
             fp.write("<h1>List of packages:</h1>\n")
             for clams_pack in self.__clams_packs:
                 fp.write("      <h2>{:s}</h2>\n".format(clams_pack.name))
                 fp.write("      <p><a href='{:s}'>Get documentation</a></p>\n".format(clams_pack.name + ".html"))
+            fp.write("    </section>\n")
             fp.write("    </main>\n")
             fp.write("    {:s}\n".format(exporter.get_footer()))
             fp.write("</body>\n")

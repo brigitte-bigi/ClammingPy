@@ -10,12 +10,12 @@
             <meta name="description" content="Python Class Documentation of ClamsPack. Create documentation of a module into Markdown or HTML." />
 
             <link rel="logo icon" href="./statics/clamming32x32.ico" />
-            <link rel="stylesheet" href="./Whakerexa-3.2/wexa_statics/css/wexa.css" type="text/css" media="screen" />
-            <link rel="stylesheet" href="./Whakerexa-3.2/wexa_statics/css/print.css" type="text/css" media="print" />
-            <link rel="stylesheet" href="./Whakerexa-3.2/wexa_statics/css/layout.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-3.2/wexa_statics/css/menu.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-3.2/wexa_statics/css/code.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-3.2/wexa_statics/css/extras/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/wexa.css" type="text/css" media="screen" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/print.css" type="text/css" media="print" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/extras/book.css" type="text/css" />
             <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
 
             <!-- Whakerexa JS loader: bundle on file://, ES6 modules on http(s) -->
@@ -26,7 +26,7 @@
                 return;
               }
               const s = document.createElement('script');
-              s.src = './Whakerexa-3.2/wexa_statics/js/wexa.bundle.js';
+              s.src = './Whakerexa-current/wexa_statics/js/wexa.bundle.js';
 
               s.onload = function () {
                 window.Wexa.onload.addLoadFunction(function () {
@@ -42,8 +42,8 @@
             <!-- The Book extra is not part of the 'wexa.js' API: it is imported apart -->
             <script type="module">
               if (window.location.protocol !== 'file:') {
-                await import('./Whakerexa-3.2/wexa_statics/js/wexa.js');
-                const { Book } = await import('./Whakerexa-3.2/wexa_statics/js/extras/book.js');
+                await import('./Whakerexa-current/wexa_statics/js/wexa.js');
+                const { Book } = await import('./Whakerexa-current/wexa_statics/js/extras/book.js');
                 const book = new Book("main-content");
                 book.fill_table(false);
               }
@@ -83,7 +83,7 @@
     <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>
 </nav>
     <main id="main-content">
-    <section id="#clamming">    <h1>Module clamming</h1>
+    <section id="#clamming" class="chapter nonumber">    <h1>Module clamming</h1>
 <section id="#ClamsPack">
 <h2>Class ClamsPack</h2>
 
@@ -314,7 +314,7 @@ View Source
 
 <span class="sd">        &quot;&quot;&quot;</span>
     <span class="n">out</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;section id=&quot;#</span><span class="si">{:s}</span><span class="s1">&quot;&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;section id=&quot;#</span><span class="si">{:s}</span><span class="s1">&quot; class=&quot;chapter nonumber&quot;&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
     <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;h1&gt;</span><span class="si">{:s}</span><span class="s1"> module&lt;/h1&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">exporter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">exporter</span><span class="o">.</span><span class="n">readme</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">HTML</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -476,7 +476,7 @@ View Source
         <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;    </span><span class="si">{:s}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">exporter</span><span class="o">.</span><span class="n">get_header</span><span class="p">()))</span>
         <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;    </span><span class="si">{:s}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">exporter</span><span class="o">.</span><span class="n">get_nav</span><span class="p">()))</span>
         <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;    &lt;main id=&quot;main-content&quot;&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;    &lt;section id=&quot;#</span><span class="si">{:s}</span><span class="s1">&quot;&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+        <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;    &lt;section id=&quot;#</span><span class="si">{:s}</span><span class="s1">&quot; class=&quot;chapter nonumber&quot;&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
         <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;    &lt;h1&gt;Module </span><span class="si">{:s}</span><span class="s1">&lt;/h1&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
         <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
         <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;    &lt;/section&gt;&#39;</span><span class="p">)</span>

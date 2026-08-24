@@ -91,6 +91,20 @@ class TestClamsModules(unittest.TestCase):
                 content = f.read()
             self.assertIn("Test README", content)
 
+    def test_html_export_index_sections_are_not_numbered(self):
+        """The list of packages is a chapter without numbering, so is its ToC entry."""
+        clams = ClamsModules([clamming])
+        exporter = ExportOptions()
+        with tempfile.TemporaryDirectory() as tmpdir:
+            readme_path = os.path.join(tmpdir, "README.md")
+            with open(readme_path, "w", encoding="utf-8") as f:
+                f.write("# Test README\n\nSome content.")
+            out = clams.html_export_index(tmpdir, exporter, readme=readme_path)
+            with open(out, "r", encoding="utf-8") as f:
+                content = f.read()
+            self.assertIn('<section id="readme" class="chapter nonumber">', content)
+            self.assertIn('<section id="packages" class="chapter nonumber">', content)
+
     def test_html_export_index_with_missing_readme(self):
         clams = ClamsModules([clamming])
         exporter = ExportOptions()

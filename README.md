@@ -168,6 +168,9 @@ See `makedoc.py` Python script for details.
 Documentation is available in the `docs` folder and inline.
 For the local use, download and unpack Whakerexa >= 3.0 into the `docs` folder.
 
+The conceptual design file — requirements, decisions, models, contracts and test coverage —
+is in [clamming-design.html](clamming-design.html).
+
 
 ## How to cite ClammingPy
 

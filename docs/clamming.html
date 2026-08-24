@@ -10,12 +10,12 @@
             <meta name="description" content="Python class documentation" />
 
             <link rel="logo icon" href="./statics/clamming32x32.ico" />
-            <link rel="stylesheet" href="./Whakerexa-3.2/wexa_statics/css/wexa.css" type="text/css" media="screen" />
-            <link rel="stylesheet" href="./Whakerexa-3.2/wexa_statics/css/print.css" type="text/css" media="print" />
-            <link rel="stylesheet" href="./Whakerexa-3.2/wexa_statics/css/layout.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-3.2/wexa_statics/css/menu.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-3.2/wexa_statics/css/code.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-3.2/wexa_statics/css/extras/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/wexa.css" type="text/css" media="screen" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/print.css" type="text/css" media="print" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/extras/book.css" type="text/css" />
             <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
 
             <!-- Whakerexa JS loader: bundle on file://, ES6 modules on http(s) -->
@@ -26,7 +26,7 @@
                 return;
               }
               const s = document.createElement('script');
-              s.src = './Whakerexa-3.2/wexa_statics/js/wexa.bundle.js';
+              s.src = './Whakerexa-current/wexa_statics/js/wexa.bundle.js';
 
               s.onload = function () {
                 window.Wexa.onload.addLoadFunction(function () {
@@ -42,8 +42,8 @@
             <!-- The Book extra is not part of the 'wexa.js' API: it is imported apart -->
             <script type="module">
               if (window.location.protocol !== 'file:') {
-                await import('./Whakerexa-3.2/wexa_statics/js/wexa.js');
-                const { Book } = await import('./Whakerexa-3.2/wexa_statics/js/extras/book.js');
+                await import('./Whakerexa-current/wexa_statics/js/wexa.js');
+                const { Book } = await import('./Whakerexa-current/wexa_statics/js/extras/book.js');
                 const book = new Book("main-content");
                 book.fill_table(false);
               }
@@ -83,7 +83,7 @@
     <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>
 </nav>
     <main id="main-content">
-    <section id="#clamming">
+    <section id="#clamming" class="chapter nonumber">
     <h1>clamming module</h1>
     <section id="readme">
 
@@ -160,7 +160,7 @@ module in Mardown format or in HTML format as a standalone content:</p>
 
 <h2>License/Copyright</h2>
 
-<p>Copyright (C) 2023-2026 - <a href="https://sppas.org/bigi/">Brigitte Bigi</a> - <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x63;&#x6f;&#x6e;&#x74;&#x61;c&#x74;&#64;&#x73;&#x70;&#x70;&#x61;&#x73;&#x2e;&#x6f;&#x72;&#103;">&#x63;&#x6f;&#x6e;&#x74;&#x61;c&#x74;&#64;&#x73;&#x70;&#x70;&#x61;&#x73;&#x2e;&#x6f;&#x72;&#103;</a>, CNRS,
+<p>Copyright (C) 2023-2026 - <a href="https://sppas.org/bigi/">Brigitte Bigi</a> - <a href="&#x6d;&#x61;&#x69;&#x6c;t&#111;&#58;&#x63;&#x6f;n&#116;&#x61;&#x63;&#116;&#64;&#x73;&#x70;&#x70;&#x61;&#115;&#46;&#x6f;&#x72;&#103;">&#x63;&#x6f;n&#116;&#x61;&#x63;&#116;&#64;&#x73;&#x70;&#x70;&#x61;&#115;&#46;&#x6f;&#x72;&#103;</a>, CNRS,
 Laboratoire Parole et Langage, Aix-en-Provence, France</p>
 
 <p>This program is free software: you can redistribute it and/or modify

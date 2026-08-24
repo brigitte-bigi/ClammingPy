@@ -85,6 +85,14 @@ class TestClamsPack(unittest.TestCase):
 
     # -----------------------------------------------------------------------
 
+    def test_html_index_section_is_not_numbered(self):
+        """The section is a chapter without numbering, so is its ToC entry."""
+        p = ClamsPack(clamming)
+        html_index = p.html_index()
+        self.assertIn('class="chapter nonumber"', html_index)
+
+    # -----------------------------------------------------------------------
+
     def test_readme_property(self):
         p = ClamsPack(clamming)
         readme = p.readme
@@ -138,4 +146,16 @@ class TestClamsPack(unittest.TestCase):
             self.assertGreater(len(out), 0)
             for f in out:
                 self.assertTrue(os.path.exists(f))
+
+    def test_html_export_clams_sections_are_not_numbered(self):
+        """Each exported page has its content in a chapter without numbering."""
+        import tempfile
+        p = ClamsPack(clamming)
+        h = ExportOptions()
+        with tempfile.TemporaryDirectory() as tmpdir:
+            out = p.html_export_clams(tmpdir, h)
+            for filename in out:
+                with open(filename, "r", encoding="utf-8") as fp:
+                    content = fp.read()
+                self.assertIn('class="chapter nonumber"', content)
 

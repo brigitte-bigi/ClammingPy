@@ -152,6 +152,7 @@ class ExportOptions:
     DEFAULT_FAVICON = "clamming32x32.ico"
     DEFAULT_THEME = "light"
     DEFAULT_LANG = "en"
+    DEFAULT_ASIDE_TOC = False
 
     # ----------------------------------------------------------------------------
 
@@ -179,6 +180,7 @@ class ExportOptions:
         self.__statics = ExportOptions.DEFAULT_STATICS
         self.__wexa_statics = ExportOptions.DEFAULT_WEXA_STATICS
         self.__descr = "Python class documentation"
+        self.__aside_toc = ExportOptions.DEFAULT_ASIDE_TOC
 
         # Previous and next class and module names for the TOC
         self.__next_class = None
@@ -201,6 +203,25 @@ class ExportOptions:
         self.__readme = bool(readme)
 
     readme = property(get_add_readme, set_add_readme)
+
+    # ----------------------------------------------------------------------------
+
+    def get_aside_toc(self) -> bool:
+        """Return whether the table of contents is a collapsible aside or not."""
+        return self.__aside_toc
+
+    def set_aside_toc(self, aside_toc: bool) -> NoReturn:
+        """Set whether the table of contents is a collapsible aside or not.
+
+        The table of contents is a fixed 'nav' panel by default. When it is an
+        aside instead, 'book.js' hides it and adds a button to open and close it.
+
+        :param aside_toc: (bool) whether the table of contents is an aside or not.
+
+        """
+        self.__aside_toc = bool(aside_toc)
+
+    aside_toc = property(get_aside_toc, set_aside_toc)
 
     # ----------------------------------------------------------------------------
 
@@ -561,7 +582,14 @@ class ExportOptions:
     def get_nav(self) -> str:
         """Return the 'nav' of the HTML->body of the page."""
         nav = list()
-        nav.append("<nav id=\"nav-book\" class=\"book-toc\" aria-label=\"Table of contents\">")
+        if self.__aside_toc is True:
+            tag_name = "aside"
+            class_name = "book-toc-aside"
+        else:
+            tag_name = "nav"
+            class_name = "book-toc"
+        nav.append("<{TAG} id=\"nav-book\" class=\"{CLASS}\" aria-label=\"Table of contents\">"
+                   "".format(TAG=tag_name, CLASS=class_name))
         if self.__software == ExportOptions.DEFAULT_SOFTWARE:
             nav.append("    <h1>Documentation</h1>")
         else:
@@ -582,7 +610,7 @@ class ExportOptions:
         nav.append("    <ul id=\"toc\"></ul>")
         nav.append("    <hr>")
         nav.append("    <p><small>Automatically created</small></p><p><small>by <a class=\"external-link\" href=\"https://clamming.sf.net\">ClammingPy</a></small></p>")
-        nav.append("</nav>")
+        nav.append("</{TAG}>".format(TAG=tag_name))
         return "\n".join(nav)
 
     # -----------------------------------------------------------------------
