@@ -308,6 +308,13 @@
                 want it. The <code>details</code> element does both, and asks nothing of the
                 author.</p>
 
+            <p><strong>The table of contents, set aside.</strong> The same reasoning as the source
+                code, one level up: a panel that is always shown takes a fifth of the width from
+                whoever is reading a long docstring, and a documentation is read far more often
+                than it is navigated. Folding it behind a button gives the width back and costs a
+                click to whoever navigates. It is the author's choice rather than the reader's,
+                because it decides the shape of the pages.</p>
+
             <p><strong>The table of contents, built when the page opens.</strong> A generated page
                 knows its own headings, so nothing needs to write them a second time into a
                 navigation panel. It is built in the reader's browser, from the page itself, and
@@ -386,7 +393,8 @@
                [802] The author sets the paths where the statics and Whakerexa are found.<br />
                [803] The author sets the colour mode the pages open in.<br />
                [804] The system refuses an option that is not of the expected type, and says which one.<br />
-               [805] The author provides the theme the pages open with, which carries the colours of the documented software.</p>
+               [805] The author provides the theme the pages open with, which carries the colours of the documented software, and names its file.<br />
+               [806] The system declares no theme when the author names none, and the pages are then what they were before themes existed.</p>
 
             <p><strong>[900] What the run reports</strong></p>
             <p>[901] The system reports a module without <code>__all__</code>.<br />
@@ -419,6 +427,7 @@
                 </thead>
                 <tbody>
                 <tr><td>[805], [1006], [1007], [1008]</td><td>Not implemented. The pages hold their colours in the stylesheet of the documented software, which is linked statically: no theme is declared, none can be switched, and the high-contrast one of Whakerexa is unreachable from the documentation.</td></tr>
+                <tr><td>[806]</td><td>Met by default, and it is what makes the rest safe to add: a documentation generated without a theme name is the documentation as it is produced today, link for link.</td></tr>
                 <tr><td>[102], [103]</td><td>Met, with a silence. A function named in <code>__all__</code> is skipped because it is not a class, and no report of [900] covers that case: the author is not told.</td></tr>
                 <tr><td>[204]</td><td>Met for the functions a class defines. An inherited method is documented in the page of the class that defines it, so the page of a class does not state everything that can be called on it.</td></tr>
                 </tbody>
@@ -574,7 +583,7 @@
                 <tr><td>Author of the library</td><td>Generator</td><td>The export options: identity of the software, paths, shape of the pages</td></tr>
                 <tr><td>Generator</td><td>File system</td><td>One index, one page per module, one page per class, in Markdown and in HTML</td></tr>
                 <tr><td>Generator</td><td>Author of the library</td><td>Warnings: a module without <code>__all__</code>, a class that cannot be reached, a disabled format</td></tr>
-                <tr><td>Reader</td><td>Pages</td><td>Reading, navigation from page to page, opening of the folded source code</td></tr>
+                <tr><td>Reader</td><td>Pages</td><td>Reading, navigation from page to page, opening of the folded source code, opening of the table of contents when it is set aside</td></tr>
                 </tbody>
             </table>
         </section>
@@ -598,7 +607,8 @@
                 <tr><td>output format</td><td>{Markdown, HTML}. HTML exists only when its renderers are installed.</td></tr>
                 <tr><td>short description</td><td>A string of 160 characters at most: the class name, then the first line of its docstring.</td></tr>
                 <tr><td>colour mode</td><td>{light, dark}. Light is the default and carries no class on the HTML root element.</td></tr>
-                <tr><td>active theme</td><td>{clamming, highcontrast}. One at a time, held by the <code>href</code> of a single link element, and carried from page to page in the address.</td></tr>
+                <tr><td>css_theme</td><td>A string: the name of the theme file of the documented software, in <code>statics</code>. Empty by default, which declares no theme at all.</td></tr>
+                <tr><td>active theme</td><td>{the theme of the documented software, the high-contrast one of Whakerexa}. One at a time, held by the <code>href</code> of a single link element, and carried from page to page in the address. Nothing is active when <code>css_theme</code> is empty.</td></tr>
                 <tr><td>lang</td><td>A BCP 47 tag. <code>en</code> by default.</td></tr>
                 <tr><td>statics, wexa_statics</td><td>Paths, relative to the output folder.</td></tr>
                 <tr><td>aside_toc</td><td>A boolean. False by default: the table of contents is a panel always shown.</td></tr>
@@ -643,6 +653,7 @@
                 <tr><td>O4</td><td>Write a module</td><td>A module and its export options are given</td><td>An index of the module, and one file per class</td></tr>
                 <tr><td>O5</td><td>Write a set of modules</td><td>A list of modules and the export options are given</td><td>The general index, then O4 for each module</td></tr>
                 <tr><td>O6</td><td>Switch the theme</td><td>The reader asks for it, on any page</td><td>The active stylesheet is replaced, and the choice is carried to the pages reached from there</td></tr>
+                <tr><td>O7</td><td>Open or close the table of contents</td><td>The reader asks for it, when the author set it aside</td><td>The panel is shown or hidden, and it is out of reach — for the keyboard as for a screen reader — as long as it is hidden</td></tr>
                 </tbody>
             </table>
         </section>
@@ -659,6 +670,7 @@
                 <tr><td>Reading</td><td>Any time afterwards</td><td>In a browser, from a file or a server</td><td>The reader</td></tr>
                 <tr><td>Building of the table of contents</td><td>When a page is opened</td><td>In the reader's browser</td><td>The <code>Book</code> class of Whakerexa</td></tr>
                 <tr><td>O6, switching the theme</td><td>When the reader asks for it</td><td>In the reader's browser</td><td>The <code>ThemeManager</code> class of Whakerexa</td></tr>
+                <tr><td>O7, opening the table of contents</td><td>When the reader asks for it, and only if the author set it aside</td><td>In the reader's browser</td><td>The <code>Book</code> class of Whakerexa</td></tr>
                 <tr><td>Adjusting the text</td><td>When the reader asks for it</td><td>In the reader's browser</td><td>The accessibility manager of Whakerexa</td></tr>
                 </tbody>
             </table>
@@ -746,98 +758,230 @@
      |                       |-- ExportOptions: head, header, nav, footer   |
      |                       |-- write &lt;Class&gt;.html                         |
      |&lt;-- list of files -----|                     |                       |</code></pre>
+
+            <p>The export ends there. Nothing of this library runs again afterwards: the objects
+                that act on a page being read belong to Whakerexa.</p>
+        </section>
+
+        <section class="ssection"><h2>UML: the classes</h2>
+
+            <p>Attributes are private throughout — the language mangles them, and what is readable
+                is read through an operation. Everything below is what the code declares.</p>
+
+            <pre><code>+--------------------------------+          +-------------------------------+
+|          ClamInfo              |          |      ClamInfoMarkdown         |
++--------------------------------+          +-------------------------------+
+| - name: str                    |&lt;&gt;--1..1--| - clam: ClamInfo              |
+| - args: list                   |          +-------------------------------+
+| - source: str                  |          | + name(): str                 |
+| - docstring: str               |          | + args(): list                |
++--------------------------------+          | + source(): str               |
+| + get_name() / set_name()      |          | + docstring(): str            |
+| + get_args() / set_args()      |          | + convert_name(): str         |
+| + get_source() / set_source()  |          | + convert_source(): str       |
+| + get_docstring()              |          | + convert_docstring(): str    |
+| + set_docstring()              |          +-------------------------------+
++--------------------------------+
+
++--------------------------------+          +-------------------------------+
+|     ClammingClassParser        |          |          ClamsClass           |
++--------------------------------+          +-------------------------------+
+| - obj: type                    |--1..1---&lt;| - utils: ClamUtils            |
+| - obj_src: str                 |          | - info_class_name: str        |
+| - obj_clams: ClamInfo          |          | - info_constructor: ClamInfo  |
+| - init_clams: ClamInfo         |          | - info_public_fcts: list      |
+| - fct_clams: dict              |          | - info_private_fcts: list     |
++--------------------------------+          | - info_protected_fcts: list   |
+| + get_obj_clams(): ClamInfo    |          | - info_overloads: list        |
+| + get_init_clams(): ClamInfo   |          +-------------------------------+
+| + get_fct_clams(): dict        |          | + get_name(): str             |
++--------------------------------+          | + get_short_description(): str|
+                                            | + markdown(): str             |
+                                            | + html(): str                 |
+                                            +-------------------------------+
+
++--------------------------------+          +-------------------------------+
+|          ClamsPack             |          |         ClamsModules          |
++--------------------------------+          +-------------------------------+
+| - name: str                    |&gt;--1..*---| - clams_packs: list           |
+| - pack: module                 |          +-------------------------------+
+| - clams: list&lt;ClamsClass&gt;      |          | + markdown_export_packages()  |
++--------------------------------+          | + html_export_index(): str    |
+| + get_name(): str              |          | + html_export_packages(): list|
+| + get_readme(): str            |          +-------------------------------+
+| + markdown(): str              |
+| + html(): str                  |          +-------------------------------+
+| + html_index(): str            |          |          ClamUtils            |
+| + html_export_clams(): list    |          +-------------------------------+
++--------------------------------+          | + markdowner: Markdown        |
+              |                             | + lexer: PythonLexer          |
+              | uses 1..1                   | + formatter: HtmlFormatter    |
+              v                             +-------------------------------+
++--------------------------------+          | + get_class(): Any            |
+|        ExportOptions           |          | + markdown_convert(): str     |
++--------------------------------+          | + markdown_to_html(): str     |
+| - software, copyright, url     |          | + source_to_html(): str       |
+| - icon, favicon, title, lang   |          +-------------------------------+
+| - theme, statics, wexa_statics |
+| - readme: bool                 |
+| - aside_toc: bool              |
+| - next/prev class and module   |
++--------------------------------+
+| + get_root_class(): str        |
+| + get_head(): str              |
+| + get_header(): str            |
+| + get_nav(): str               |
+| + get_footer(): str            |
++--------------------------------+</code></pre>
+
+            <p>Two aggregations carry the whole structure: a set of modules holds its modules, a
+                module holds its classes. The parser and the options are used, not held: a
+                <code>ClamsClass</code> is built from a parser it does not keep alive, and the
+                same <code>ExportOptions</code> instance travels through every export of a run,
+                its neighbouring-page fields being rewritten between two files.</p>
+        </section>
+
+        <section class="ssection"><h2>UML: the sequence when a page is read</h2>
+
+            <p>Same objects whichever way they were loaded — modules over HTTP, bundle over
+                <code>file://</code>.</p>
+
+            <pre><code>Reader        Browser         Book       ThemeManager   AccessibilityManager
+  |              |              |              |              |
+  |-- open ----->|              |              |              |
+  |              |-- create --->|              |              |
+  |              |              |-- read the headings         |
+  |              |              |-- build the table of contents
+  |              |              |  [ if the table is set aside ]
+  |              |              |-- make the panel out of reach
+  |              |              |-- add the button that opens it
+  |              |              |              |              |
+  |              |-- create ------------------>|              |
+  |              |              |     register clamming       |
+  |              |              |     register highcontrast   |
+  |              |              |     read the address        |
+  |              |              |     activate a theme        |
+  |              |              |              |              |
+  |              |-- create ----------------------------------|
+  |              |              |              |     read the address
+  |              |              |              |     apply the adjustments
+  |              |              |              |              |
+  |-- switch the theme ------------------------>|             |
+  |              |&lt;-- replace the stylesheet ---|              |
+  |              |                                            |
+  |-- adjust the text ------------------------------------->  |
+  |              |&lt;-- set the class on the root element -------|
+  |                                                            |
+  |-- open the table of contents -->|            |             |
+  |              |&lt;-- show the panel, and put it in reach -----|</code></pre>
+        </section>
+
+        <section class="ssection"><h2>UML: the states of the presentation</h2>
+
+            <p>The presentation of a page is one composite state with two orthogonal regions: one
+                holds the palette, the other the text. A transition in one region leaves the
+                other where it was, which is what makes the four combinations reachable.</p>
+
+            <pre><code>+-- Presentation ------------------------------------------------+
+|                                                                |
+|  region: palette   (exists only if a theme is declared)        |
+|    (o)--> [ of the software ] -- switch --> [ high contrast ]   |
+|                ^                                    |          |
+|                +------------- switch ---------------+          |
+|                                                                |
+| ---------------------------------------------------------------|
+|                                                                |
+|  region: text                                                  |
+|    (o)--> [ as written ] --- switch contrast ---> [ adjusted ]  |
+|                ^                                       |       |
+|                +--------- switch contrast -------------+       |
+|                                                                |
+| ---------------------------------------------------------------|
+|                                                                |
+|  region: table of contents  (set aside by the author)          |
+|    (o)--> [ closed ] ------- press the button ---> [ open ]     |
+|                ^                                       |       |
+|                +--------- press the button ------------+       |
+|                                                                |
+|    a table of contents that is not set aside has no region:    |
+|    it is shown, and there is nothing to reach                  |
+|                                                                |
++----------------------------------------------------------------+</code></pre>
+
+            <p>Neither state is a degraded form of another. The third region is the one that does
+                not survive a page: a table of contents opens closed on every page, since nothing
+                carries its state and nothing should — a panel left open on the previous page
+                would hide the beginning of the next one. The two others keep their state across
+                pages the same way — in the address, under <code>wexa_theme</code> for the
+                palette, <code>wexa_contrast</code> and <code>wexa_color</code> for the text and
+                the colour mode — because pages that are files have nowhere else to keep them.</p>
         </section>
     </section>
 
     <!-- ============================================================ -->
 
-    <section id="contracts" class="chapter">
-        <h1>The contracts, class by class</h1>
+    <section id="rules" class="chapter">
+        <h1>Rules that hold everywhere</h1>
 
-        <section class="ssection"><h2>How to read them</h2>
+        <section class="ssection"><h2>The error policy</h2>
 
-            <p>Each line is what the class promises: what it accepts, what it gives back, and what
-                it raises when what it is given is not what it accepts. What is not written here
-                is not promised.</p>
-        </section>
-
-        <section class="ssection"><h2>ClammingClassParser</h2>
+            <p>Three things can go wrong, and each kind has one answer. The line between them is
+                the one this whole file is built on: what the author of the generator got wrong
+                stops; what the author of the documented library did not write does not.</p>
 
             <table>
-                <caption>Contract of ClammingClassParser</caption>
+                <caption>What is raised, what is reported, what is passed over</caption>
                 <thead>
-                <tr><th>Member</th><th>Promise</th></tr>
+                <tr><th>Kind</th><th>Answer</th><th>Why the line is there</th></tr>
                 </thead>
                 <tbody>
-                <tr><td><code>__init__(obj)</code></td><td>Accepts a class whose source is reachable. Raises <code>TypeError</code> for anything that is not a class, for a built-in one, and for a class whose source cannot be read.</td></tr>
-                <tr><td><code>obj_clams</code></td><td>The class itself: a name and a docstring. The docstring is <code>None</code> when the class has none.</td></tr>
-                <tr><td><code>init_clams</code></td><td>The constructor. A <code>ClamInfo</code> with an empty name when the class defines none.</td></tr>
-                <tr><td><code>fct_clams</code></td><td>A dictionary, function name to <code>ClamInfo</code>, without <code>__init__</code> and <code>__new__</code>. Empty when the class defines no function.</td></tr>
+                <tr><td>A call that cannot mean anything — an option given a value of the wrong type, an object that is not a class</td><td>Raises. <code>TypeError</code>, at the moment of the call.</td><td>It is a programming error in whoever drives the generator. Continuing would document something nobody asked for.</td></tr>
+                <tr><td>Something expected of the documented library and not found — a module without <code>__all__</code>, a class that cannot be reached, a README that cannot be read</td><td>Reported in the log. The run goes on, and produces the rest.</td><td>A library is documented as it stands. A hole in one module is not a reason to publish nothing.</td></tr>
+                <tr><td>Something the author simply did not write — no docstring, no field, no constructor</td><td>Nothing. Neither a raise nor a report.</td><td>It is not an anomaly. It is the normal state of a library halfway through, and reporting it would be the generator judging the source.</td></tr>
+                <tr><td>A missing renderer — <code>markdown2</code>, <code>Pygments</code></td><td>Reported once, then the format returns empty content. Markdown is unaffected.</td><td>An optional dependency is optional. What can still be produced is produced.</td></tr>
+                </tbody>
+            </table>
+
+            <p>Nothing is caught and hidden: the two exceptions the library raises are its own, and
+                everything it swallows is written to the log before being swallowed.</p>
+        </section>
+
+        <section class="ssection"><h2>Invariants</h2>
+
+            <p>What holds at every point of a run, whatever was given to it:</p>
+
+            <table>
+                <caption>Invariants, and where they come from</caption>
+                <thead>
+                <tr><th>Invariant</th><th>What upholds it</th></tr>
+                </thead>
+                <tbody>
+                <tr><td>A documented entity is never half filled. Its four fields exist from its creation; the absent ones are an empty string, an empty list, or <code>None</code> — never a missing attribute.</td><td>The constructor of the data class, which takes all four and defaults the rest.</td></tr>
+                <tr><td>A refused option leaves the object as it was. Nothing is half assigned.</td><td>Each setter checks the type before assigning, and raises before touching anything.</td></tr>
+                <tr><td>What is documented is never executed. No decorator runs, no property is computed, no metaclass builds.</td><td>The structure is read from the syntax tree of the source, never from the live object.</td></tr>
+                <tr><td>One function appears in one section, and in one only.</td><td>The four categories are decided from the name alone, and their conditions are mutually exclusive.</td></tr>
+                <tr><td>Markdown and HTML never say two different things about one docstring.</td><td>There is one conversion. The HTML is built from its result, not from a second reading.</td></tr>
+                <tr><td>Nothing written to a docstring is lost. What is not recognized is carried through as prose.</td><td>The conversion has no discarding branch: an unknown field becomes a description list item.</td></tr>
+                <tr><td>An entity that is documented twice is documented identically.</td><td>Nothing in the conversion depends on the order, on what was converted before, or on the state of the object doing it.</td></tr>
                 </tbody>
             </table>
         </section>
 
-        <section class="ssection"><h2>ClamInfoMarkdown</h2>
+        <section class="ssection"><h2>What a run guarantees</h2>
+
+            <p>A run writes files one after another, and nothing undoes what it wrote.</p>
 
             <table>
-                <caption>Contract of ClamInfoMarkdown</caption>
+                <caption>Guarantees of an export</caption>
                 <thead>
-                <tr><th>Member</th><th>Promise</th></tr>
+                <tr><th>Guarantee</th><th>What it means for the author</th></tr>
                 </thead>
                 <tbody>
-                <tr><td><code>convert_name()</code></td><td>The name as a Markdown heading.</td></tr>
-                <tr><td><code>convert_source()</code></td><td>The source in a fenced code block. An empty source gives an empty string.</td></tr>
-                <tr><td><code>convert_docstring()</code></td><td>The docstring in Markdown. A docstring at <code>None</code> gives an empty string. An unknown field is kept as a description list item; <code>type</code> and <code>rtype</code> are dropped.</td></tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section class="ssection"><h2>ClamsClass</h2>
-
-            <table>
-                <caption>Contract of ClamsClass</caption>
-                <thead>
-                <tr><th>Member</th><th>Promise</th></tr>
-                </thead>
-                <tbody>
-                <tr><td><code>get_name()</code></td><td>The name of the documented class.</td></tr>
-                <tr><td><code>get_short_description()</code></td><td>The class name followed by the first line of its docstring, 160 characters at most.</td></tr>
-                <tr><td><code>markdown()</code></td><td>The content of the class in Markdown. Needs nothing beyond the standard library.</td></tr>
-                <tr><td><code>html()</code></td><td>The content of the class in HTML. Returns an empty string, with a warning, when the Markdown converter is missing.</td></tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section class="ssection"><h2>ClamsPack and ClamsModules</h2>
-
-            <table>
-                <caption>Contract of the export classes</caption>
-                <thead>
-                <tr><th>Member</th><th>Promise</th></tr>
-                </thead>
-                <tbody>
-                <tr><td><code>ClamsPack(module)</code></td><td>Documents the classes named in <code>__all__</code>. A module without <code>__all__</code> is documented as empty, with a warning; it is not an error.</td></tr>
-                <tr><td><code>ClamsPack.html_index()</code></td><td>The index of the module: one card per class, each linking to its page.</td></tr>
-                <tr><td><code>ClamsPack.html_export_clams()</code></td><td>Writes one file per class and returns their names. Creates the output folder when it does not exist.</td></tr>
-                <tr><td><code>ClamsModules.html_export_index()</code></td><td>Writes the general index, with the README of the library when one is given. An unreadable README is logged and the index is written all the same.</td></tr>
-                <tr><td><code>ClamsModules.html_export_packages()</code></td><td>Writes the general index, then every module, and returns all the file names.</td></tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section class="ssection"><h2>ExportOptions</h2>
-
-            <table>
-                <caption>Contract of ExportOptions</caption>
-                <thead>
-                <tr><th>Member</th><th>Promise</th></tr>
-                </thead>
-                <tbody>
-                <tr><td>The setters</td><td>Each one raises <code>TypeError</code> when what it is given is not a string. The booleans accept anything and keep its truth value.</td></tr>
-                <tr><td><code>get_root_class()</code></td><td>The class of the HTML root element: the theme name when it is a colour mode, an empty string otherwise — the light mode being the default one.</td></tr>
-                <tr><td><code>get_head()</code></td><td>The <code>head</code> of the page: the stylesheets of Whakerexa, the stylesheet of the author, and the loader that reads the modules over HTTP and the bundle over <code>file://</code>.</td></tr>
-                <tr><td><code>get_nav()</code></td><td>The table of contents: a <code>nav.book-toc</code> always shown, or an <code>aside.book-toc-aside</code> that <code>book.js</code> folds behind a button when <code>aside_toc</code> is set.</td></tr>
-                <tr><td><code>get_header()</code>, <code>get_footer()</code></td><td>The identity of the software, and the copyright.</td></tr>
+                <tr><td>What was written before an error stays written.</td><td>An interrupted run leaves a partial documentation, not an empty folder. The files it produced are complete files.</td></tr>
+                <tr><td>A run overwrites; it never merges.</td><td>A class removed from a library leaves its page behind. Removing what a run no longer produces is the author's, not the generator's.</td></tr>
+                <tr><td>The output folder is created if it is missing.</td><td>Naming a folder is enough; preparing it is not asked for.</td></tr>
+                <tr><td>Nothing is written when no path is given.</td><td>The same objects produce a string for whoever wants to place it themselves.</td></tr>
+                <tr><td>The statics and the framework are never written by the generator.</td><td>What the author put in the output folder stays as it is, run after run.</td></tr>
                 </tbody>
             </table>
         </section>

@@ -4,7 +4,7 @@
 :contact: contact@sppas.org
 :summary: Create documentation of a list of modules into Markdown or HTML.
 
-.. _This file is part of ClammingPy: https://clamming.sourceforge.io
+.. _This file is part of ClammingPy: https://github.com/brigitte-bigi/ClammingPy
 ..
     -------------------------------------------------------------------------
 
@@ -135,7 +135,9 @@ class ClamsModules:
             fp.write("<h1>List of packages:</h1>\n")
             for clams_pack in self.__clams_packs:
                 fp.write("      <h2>{:s}</h2>\n".format(clams_pack.name))
-                fp.write("      <p><a href='{:s}'>Get documentation</a></p>\n".format(clams_pack.name + ".html"))
+                fp.write("      <p><a id=\"pack-link-{NAME}\" class=\"wexa-link\" data-target=\"_self\" "
+                         "href=\"{HREF}\">Get documentation</a></p>\n"
+                         "".format(NAME=clams_pack.name, HREF=clams_pack.name + ".html"))
             fp.write("    </section>\n")
             fp.write("    </main>\n")
             fp.write("    {:s}\n".format(exporter.get_footer()))

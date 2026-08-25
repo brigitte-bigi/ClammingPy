@@ -178,6 +178,81 @@ class TestHTMLDocExport(unittest.TestCase):
         nav = opts_export.get_nav()
         self.assertIn('aria-disabled="true"', nav)
 
+    def test_css_theme_setter(self):
+        opts_export = ExportOptions()
+        self.assertEqual(opts_export.css_theme, "")
+        opts_export.css_theme = "clamming_theme.css"
+        self.assertEqual(opts_export.css_theme, "clamming_theme.css")
+        with self.assertRaises(TypeError):
+            opts_export.css_theme = 42
+
+    def test_get_head_without_css_theme(self):
+        """No theme is named, so the head is the one of the pages made before themes."""
+        opts_export = ExportOptions()
+        actual_head = opts_export.get_head()
+
+        self.assertNotIn("wexa-theme", actual_head)
+        self.assertNotIn("ThemeManager", actual_head)
+        self.assertNotIn("theme_manager.js", actual_head)
+        self.assertNotIn("highcontrast", actual_head)
+
+    def test_get_head_with_css_theme(self):
+        """The theme is linked once, and registered in both loading paths."""
+        opts_export = ExportOptions()
+        opts_export.css_theme = "clamming_theme.css"
+        actual_head = opts_export.get_head()
+
+        self.assertEqual(1, actual_head.count('id="wexa-theme"'))
+        self.assertIn('href="./statics/clamming_theme.css"', actual_head)
+        self.assertEqual(2, actual_head.count("themes.setDefault('clamming_theme')"))
+        self.assertEqual(2, actual_head.count("wexa_theme_highcontrast.css"))
+        self.assertEqual(1, actual_head.count("theme_manager.js"))
+        self.assertEqual(1, actual_head.count("new window.Wexa.ThemeManager()"))
+
+    def test_get_head_css_theme_registered_name(self):
+        """A theme is registered with the name of its file, extension excluded."""
+        opts_export = ExportOptions()
+        opts_export.statics = "./css"
+        opts_export.css_theme = "my.theme.css"
+        actual_head = opts_export.get_head()
+
+        self.assertIn('href="./css/my.theme.css"', actual_head)
+        self.assertEqual(2, actual_head.count("themes.setDefault('my.theme')"))
+
+    def test_get_nav_links_are_handled(self):
+        """A link of the navigation is identified, so 'LinkController' can carry the parameters."""
+        opts_export = ExportOptions()
+        opts_export.next_class = "NextClass.html"
+        nav = opts_export.get_nav()
+
+        self.assertIn('id="nav-index"', nav)
+        self.assertIn('id="nav-next-class"', nav)
+        self.assertEqual(2, nav.count('class="wexa-link"'))
+        self.assertEqual(2, nav.count('data-target="_self"'))
+        self.assertIn('aria-disabled="true"', nav)
+
+    def test_get_head_links_with_parameters(self):
+        """The links are handed to 'LinkController' in both loading paths, and only with a theme."""
+        opts_export = ExportOptions()
+        self.assertNotIn("handleLinksWithParameters", opts_export.get_head())
+
+        opts_export.css_theme = "clamming_theme.css"
+        actual_head = opts_export.get_head()
+        self.assertEqual(2, actual_head.count("handleLinksWithParameters(wexaLinks)"))
+        self.assertEqual(2, actual_head.count("a.wexa-link[id]"))
+
+    def test_get_header_theme_button(self):
+        """The switch is offered only when there is a theme to switch."""
+        opts_export = ExportOptions()
+        self.assertNotIn("btn-css-theme", opts_export.get_header())
+
+        opts_export.css_theme = "clamming_theme.css"
+        header = opts_export.get_header()
+        self.assertIn('id="btn-css-theme"', header)
+        self.assertIn("window.themes.next()", header)
+        self.assertIn('id="btn-contrast"', header)
+        self.assertIn('id="btn-color"', header)
+
     def test_aside_toc_setter(self):
         opts_export = ExportOptions()
         self.assertFalse(opts_export.aside_toc)
@@ -196,6 +271,21 @@ class TestHTMLDocExport(unittest.TestCase):
         self.assertNotIn("<nav", nav)
         self.assertNotIn("</nav>", nav)
         self.assertIn('<ul id="toc">', nav)
+
+    def test_get_nav_aside_toc_first_title(self):
+        """The first title of the panel is the label 'book.js' gives to its button."""
+        opts_export = ExportOptions()
+        opts_export.software = "ClammingPy 3.0"
+        opts_export.icon = "clamming.png"
+        opts_export.url = "https://clamming.sf.net"
+        opts_export.aside_toc = True
+        nav = opts_export.get_nav()
+
+        first_title = nav[nav.index("<h1>"):nav.index("</h1>") + 5]
+        self.assertEqual("<h1>Table of Contents</h1>", first_title)
+        self.assertEqual(1, nav.count("Table of Contents"))
+        self.assertNotIn("ClammingPy 3.0", nav)
+        self.assertNotIn("clamming.png", nav)
 
     def test_get_nav_fixed_toc(self):
         """The table of contents is a nav, so it is always shown."""

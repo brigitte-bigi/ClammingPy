@@ -11,6 +11,7 @@
 
             <link rel="logo icon" href="./statics/clamming32x32.ico" />
             <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/wexa.css" type="text/css" media="screen" />
+            <link rel="stylesheet" id="wexa-theme" href="./statics/clamming_theme.css" type="text/css" />
             <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/print.css" type="text/css" media="print" />
             <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/layout.css" type="text/css" />
             <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/menu.css" type="text/css" />
@@ -29,6 +30,18 @@
               s.src = './Whakerexa-current/wexa_statics/js/wexa.bundle.js';
 
               s.onload = function () {
+                const themes = new window.Wexa.ThemeManager();
+                themes.register('clamming_theme', './statics/clamming_theme.css');
+                themes.register('highcontrast', './Whakerexa-current/wexa_statics/css/themes/wexa_theme_highcontrast.css');
+                themes.setDefault('clamming_theme');
+                window.themes = themes;
+
+                window.Wexa.onload.addLoadFunction(function () {
+                  const wexaLinks = [];
+                  document.querySelectorAll('a.wexa-link[id]').forEach(function (a) { wexaLinks.push(a.id); });
+                  window.Wexa.links.handleLinksWithParameters(wexaLinks);
+                });
+
                 window.Wexa.onload.addLoadFunction(function () {
                   const book = new window.Wexa.Book("main-content");
                   book.fill_table(false);
@@ -43,6 +56,19 @@
             <script type="module">
               if (window.location.protocol !== 'file:') {
                 await import('./Whakerexa-current/wexa_statics/js/wexa.js');
+                const { ThemeManager } = await import('./Whakerexa-current/wexa_statics/js/extras/theme_manager.js');
+                const themes = new ThemeManager();
+                themes.register('clamming_theme', './statics/clamming_theme.css');
+                themes.register('highcontrast', './Whakerexa-current/wexa_statics/css/themes/wexa_theme_highcontrast.css');
+                themes.setDefault('clamming_theme');
+                window.themes = themes;
+
+                window.Wexa.onload.addLoadFunction(function () {
+                  const wexaLinks = [];
+                  document.querySelectorAll('a.wexa-link[id]').forEach(function (a) { wexaLinks.push(a.id); });
+                  window.Wexa.links.handleLinksWithParameters(wexaLinks);
+                });
+
                 const { Book } = await import('./Whakerexa-current/wexa_statics/js/extras/book.js');
                 const book = new Book("main-content");
                 book.fill_table(false);
@@ -60,28 +86,26 @@
             <nav class="nav-wexa top" aria-label="Accessibility">
                 <button id="btn-contrast" class="menuitem accessibility print-off" aria-label="Contrast" aria-pressed="false" onclick="window.Wexa.accessibility.switchContrastScheme()"></button>
                 <button id="btn-color" class="menuitem accessibility print-off" aria-label="Color" aria-pressed="false" onclick="window.Wexa.accessibility.switchColorScheme()"></button>
+                <button id="btn-css-theme" class="menuitem print-off" type="button" aria-label="Switch CSS theme" title="Switch CSS theme" onclick="window.themes && window.themes.next()"></button>
             </nav>
         
     <h1>ClammingPy 3.0</h1>
         <p><img class="small-logo" src="./statics/clamming.png" alt="Software logo"/></p>
-        <p><a class="external-link" href="https://sourceforge.net/projects/clamming/">https://sourceforge.net/projects/clamming/</a></p>
+        <p><a class="external-link" href="https://github.com/brigitte-bigi/ClammingPy">https://github.com/brigitte-bigi/ClammingPy</a></p>
     </header>
-    <nav id="nav-book" class="book-toc" aria-label="Table of contents">
-    <h1>ClammingPy 3.0</h1>
-    <img class="small-logo center" src="./statics/clamming.png" alt=""/>
-        <p><a class="external-link" href="https://sourceforge.net/projects/clamming/">https://sourceforge.net/projects/clamming/</a></p>
+    <aside id="nav-book" class="book-toc-aside" aria-label="Table of contents">
+    <h1>Table of Contents</h1>
     <ul>
-<li><a role="button" tabindex="0" aria-disabled="true"> &crarr; Prev. Module</a></li>
-<li><a role="button" tabindex="0" href="ClamsModules.html"> &uarr; Prev. Class</a></li>
-<li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
-<li><a role="button" tabindex="0" aria-disabled="true"> &darr; Next Class</a></li>
-<li><a role="button" tabindex="0" href="tests.html"> &rdsh; Next Module</a></li>
+<li><a role="button" tabindex="0" id="nav-prev-module" aria-disabled="true"> &crarr; Prev. Module</a></li>
+<li><a role="button" tabindex="0" id="nav-prev-class" href="ClamsModules.html" class="wexa-link" data-target="_self"> &uarr; Prev. Class</a></li>
+<li><a role="button" tabindex="0" id="nav-index" href="index.html" class="wexa-link" data-target="_self"> &#8962; Index</a></li>
+<li><a role="button" tabindex="0" id="nav-next-class" aria-disabled="true"> &darr; Next Class</a></li>
+<li><a role="button" tabindex="0" id="nav-next-module" href="tests.html" class="wexa-link" data-target="_self"> &rdsh; Next Module</a></li>
     </ul>
-    <h2>Table of Contents</h2>
     <ul id="toc"></ul>
     <hr>
-    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>
-</nav>
+    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://github.com/brigitte-bigi/ClammingPy">ClammingPy</a></small></p>
+</aside>
     <main id="main-content">
     <section id="#clamming" class="chapter nonumber">    <h1>Module clamming</h1>
 <section id="#ExportOptions">
@@ -155,6 +179,7 @@ View Source
     <span class="bp">self</span><span class="o">.</span><span class="n">__wexa_statics</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_WEXA_STATICS</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__descr</span> <span class="o">=</span> <span class="s1">&#39;Python class documentation&#39;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__aside_toc</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_ASIDE_TOC</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__css_theme</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_CSS_THEME</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__next_class</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__prev_class</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__next_pack</span> <span class="o">=</span> <span class="kc">None</span>
@@ -268,6 +293,85 @@ View Source
 
 <span class="sd">        &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__aside_toc</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">aside_toc</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_css_theme</h4>
+
+    <article class="docstring">
+<p><em>Return the filename of the CSS theme of the documented software.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_css_theme</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the filename of the CSS theme of the documented software.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__css_theme</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>set_css_theme</h4>
+
+    <article class="docstring">
+<p><em>Set the filename of the CSS theme, in the statics folder.</em></p>
+
+<p>A theme is a stylesheet defining colors only. When a name is given, the
+pages are opening with it, and the high-contrast theme of Whakerexa can
+be activated instead. When the name is empty, no theme is declared at
+all: the pages are the ones ClammingPy created before themes existed.</p>
+
+<h5>Example</h5>
+
+<div class="highlight"><pre><span></span><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">h</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="p">()</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">h</span><span class="o">.</span><span class="n">css_theme</span> <span class="o">=</span> <span class="s2">&quot;clamming_theme.css&quot;</span>
+</code></pre></div>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>name</strong>: (<em>str</em>) Name of the theme file, or an empty string</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>TypeError</em>: Given name is not a string</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_css_theme</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="n">DEFAULT_CSS_THEME</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the filename of the CSS theme, in the statics folder.</span>
+
+<span class="sd">        A theme is a stylesheet defining colors only. When a name is given, the</span>
+<span class="sd">        pages are opening with it, and the high-contrast theme of Whakerexa can</span>
+<span class="sd">        be activated instead. When the name is empty, no theme is declared at</span>
+<span class="sd">        all: the pages are the ones ClammingPy created before themes existed.</span>
+
+<span class="sd">        :example:</span>
+<span class="sd">        &gt;&gt;&gt; h = ExportOptions()</span>
+<span class="sd">        &gt;&gt;&gt; h.css_theme = &quot;clamming_theme.css&quot;</span>
+
+<span class="sd">        :param name: (str) Name of the theme file, or an empty string</span>
+<span class="sd">        :raises: TypeError: Given name is not a string</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;str&#39; for the ExportOptions.css_theme. Got </span><span class="si">{}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__css_theme</span> <span class="o">=</span> <span class="n">name</span>
 </code></pre></div>
 
     </details>
@@ -1212,7 +1316,7 @@ View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_head</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the HTML &#39;head&#39; of the page.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">HTML_HEAD</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">TITLE</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__title</span><span class="p">,</span> <span class="n">FAVICON</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__favicon</span><span class="p">,</span> <span class="n">THEME</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__theme</span><span class="p">,</span> <span class="n">STATICS</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__statics</span><span class="p">,</span> <span class="n">WEXA_STATICS</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__wexa_statics</span><span class="p">,</span> <span class="n">META_DESCRIPTION</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__descr</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">HTML_HEAD</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">TITLE</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__title</span><span class="p">,</span> <span class="n">FAVICON</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__favicon</span><span class="p">,</span> <span class="n">THEME</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__theme</span><span class="p">,</span> <span class="n">STATICS</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__statics</span><span class="p">,</span> <span class="n">WEXA_STATICS</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__wexa_statics</span><span class="p">,</span> <span class="n">META_DESCRIPTION</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__descr</span><span class="p">,</span> <span class="n">THEME_LINK</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__theme_part</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">HTML_THEME_LINK</span><span class="p">),</span> <span class="n">THEME_BUNDLE</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__theme_part</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">HTML_THEME_BUNDLE</span><span class="p">),</span> <span class="n">THEME_MODULE</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__theme_part</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">HTML_THEME_MODULE</span><span class="p">))</span>
 </code></pre></div>
 
     </details>
@@ -1234,7 +1338,10 @@ View Source
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the &#39;header&#39; of the HTML-&gt;body of the page.&quot;&quot;&quot;</span>
     <span class="n">h</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;header&gt;&#39;</span><span class="p">)</span>
-    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">HTML_BUTTONS_ACCESSIBILITY</span><span class="p">)</span>
+    <span class="n">theme_button</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__css_theme</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">theme_button</span> <span class="o">=</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">HTML_THEME_BUTTON</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">HTML_BUTTONS_ACCESSIBILITY</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">THEME_BUTTON</span><span class="o">=</span><span class="n">theme_button</span><span class="p">))</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__software</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;h1&gt;</span><span class="si">{SOFTWARE}</span><span class="s1">&lt;/h1&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">SOFTWARE</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__software</span><span class="p">))</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__icon</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -1270,25 +1377,29 @@ View Source
         <span class="n">tag_name</span> <span class="o">=</span> <span class="s1">&#39;nav&#39;</span>
         <span class="n">class_name</span> <span class="o">=</span> <span class="s1">&#39;book-toc&#39;</span>
     <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;</span><span class="si">{TAG}</span><span class="s1"> id=&quot;nav-book&quot; class=&quot;</span><span class="si">{CLASS}</span><span class="s1">&quot; aria-label=&quot;Table of contents&quot;&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">TAG</span><span class="o">=</span><span class="n">tag_name</span><span class="p">,</span> <span class="n">CLASS</span><span class="o">=</span><span class="n">class_name</span><span class="p">))</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__software</span> <span class="o">==</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_SOFTWARE</span><span class="p">:</span>
-        <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;h1&gt;Documentation&lt;/h1&gt;&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__aside_toc</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;h1&gt;Table of Contents&lt;/h1&gt;&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;h1&gt;</span><span class="si">{SOFTWARE}</span><span class="s1">&lt;/h1&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">SOFTWARE</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__software</span><span class="p">))</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__icon</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;img class=&quot;small-logo center&quot; src=&quot;</span><span class="si">{STATICS}</span><span class="s1">/</span><span class="si">{ICON}</span><span class="s1">&quot; alt=&quot;&quot;/&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">STATICS</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__statics</span><span class="p">,</span> <span class="n">ICON</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__icon</span><span class="p">))</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__url</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;        &lt;p&gt;&lt;a class=&quot;external-link&quot; href=&quot;</span><span class="si">{URL}</span><span class="s1">&quot;&gt;</span><span class="si">{URL}</span><span class="s1">&lt;/a&gt;&lt;/p&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">URL</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__url</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__software</span> <span class="o">==</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">DEFAULT_SOFTWARE</span><span class="p">:</span>
+            <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;h1&gt;Documentation&lt;/h1&gt;&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;h1&gt;</span><span class="si">{SOFTWARE}</span><span class="s1">&lt;/h1&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">SOFTWARE</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__software</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__icon</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;img class=&quot;small-logo center&quot; src=&quot;</span><span class="si">{STATICS}</span><span class="s1">/</span><span class="si">{ICON}</span><span class="s1">&quot; alt=&quot;&quot;/&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">STATICS</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__statics</span><span class="p">,</span> <span class="n">ICON</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__icon</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__url</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;        &lt;p&gt;&lt;a class=&quot;external-link&quot; href=&quot;</span><span class="si">{URL}</span><span class="s1">&quot;&gt;</span><span class="si">{URL}</span><span class="s1">&lt;/a&gt;&lt;/p&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">URL</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__url</span><span class="p">))</span>
     <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;ul&gt;&#39;</span><span class="p">)</span>
-    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">__nav_link</span><span class="p">(</span><span class="s1">&#39;&amp;crarr; Prev. Module&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__prev_pack</span><span class="p">))</span>
-    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">__nav_link</span><span class="p">(</span><span class="s1">&#39;&amp;uarr; Prev. Class&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__prev_class</span><span class="p">))</span>
-    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">__nav_link</span><span class="p">(</span><span class="s1">&#39;&amp;#8962; Index&#39;</span><span class="p">,</span> <span class="s1">&#39;index.html&#39;</span><span class="p">))</span>
-    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">__nav_link</span><span class="p">(</span><span class="s1">&#39;&amp;darr; Next Class&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__next_class</span><span class="p">))</span>
-    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">__nav_link</span><span class="p">(</span><span class="s1">&#39;&amp;rdsh; Next Module&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__next_pack</span><span class="p">))</span>
+    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">__nav_link</span><span class="p">(</span><span class="s1">&#39;&amp;crarr; Prev. Module&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__prev_pack</span><span class="p">,</span> <span class="s1">&#39;nav-prev-module&#39;</span><span class="p">))</span>
+    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">__nav_link</span><span class="p">(</span><span class="s1">&#39;&amp;uarr; Prev. Class&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__prev_class</span><span class="p">,</span> <span class="s1">&#39;nav-prev-class&#39;</span><span class="p">))</span>
+    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">__nav_link</span><span class="p">(</span><span class="s1">&#39;&amp;#8962; Index&#39;</span><span class="p">,</span> <span class="s1">&#39;index.html&#39;</span><span class="p">,</span> <span class="s1">&#39;nav-index&#39;</span><span class="p">))</span>
+    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">__nav_link</span><span class="p">(</span><span class="s1">&#39;&amp;darr; Next Class&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__next_class</span><span class="p">,</span> <span class="s1">&#39;nav-next-class&#39;</span><span class="p">))</span>
+    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">__nav_link</span><span class="p">(</span><span class="s1">&#39;&amp;rdsh; Next Module&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__next_pack</span><span class="p">,</span> <span class="s1">&#39;nav-next-module&#39;</span><span class="p">))</span>
     <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;/ul&gt;&#39;</span><span class="p">)</span>
-    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;h2&gt;Table of Contents&lt;/h2&gt;&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__aside_toc</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;h2&gt;Table of Contents&lt;/h2&gt;&#39;</span><span class="p">)</span>
     <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;ul id=&quot;toc&quot;&gt;&lt;/ul&gt;&#39;</span><span class="p">)</span>
     <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;hr&gt;&#39;</span><span class="p">)</span>
-    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;p&gt;&lt;small&gt;Automatically created&lt;/small&gt;&lt;/p&gt;&lt;p&gt;&lt;small&gt;by &lt;a class=&quot;external-link&quot; href=&quot;https://clamming.sf.net&quot;&gt;ClammingPy&lt;/a&gt;&lt;/small&gt;&lt;/p&gt;&#39;</span><span class="p">)</span>
+    <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &lt;p&gt;&lt;small&gt;Automatically created&lt;/small&gt;&lt;/p&gt;&lt;p&gt;&lt;small&gt;by &lt;a class=&quot;external-link&quot; href=&quot;https://github.com/brigitte-bigi/ClammingPy&quot;&gt;ClammingPy&lt;/a&gt;&lt;/small&gt;&lt;/p&gt;&#39;</span><span class="p">)</span>
     <span class="n">nav</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;/</span><span class="si">{TAG}</span><span class="s1">&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">TAG</span><span class="o">=</span><span class="n">tag_name</span><span class="p">))</span>
     <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">nav</span><span class="p">)</span>
 </code></pre></div>
@@ -1319,19 +1430,103 @@ View Source
 </section>
 <section>
 <h3 id="#protected_fct_ExportOptions">Protected functions</h3>
+<h4>__theme_part</h4>
+
+    <article class="docstring">
+<p><em>Return the given part of the 'head' filled with the theme information.</em></p>
+
+<p>The name a theme is registered with is the name of its file, without the
+extension: it is what the browser address shows when the reader switched.</p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>template</strong>: (<em>str</em>) One of the HTML<em>THEME</em>* templates</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>str</em>) The filled template, or an empty string if no theme is set</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__theme_part</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the given part of the &#39;head&#39; filled with the theme information.</span>
+
+<span class="sd">        The name a theme is registered with is the name of its file, without the</span>
+<span class="sd">        extension: it is what the browser address shows when the reader switched.</span>
+
+<span class="sd">        :param template: (str) One of the HTML_THEME_* templates</span>
+<span class="sd">        :return: (str) The filled template, or an empty string if no theme is set</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__css_theme</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">theme_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__css_theme</span>
+    <span class="k">if</span> <span class="s1">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">theme_name</span><span class="p">:</span>
+        <span class="n">theme_name</span> <span class="o">=</span> <span class="n">theme_name</span><span class="p">[:</span><span class="n">theme_name</span><span class="o">.</span><span class="n">rindex</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">STATICS</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__statics</span><span class="p">,</span> <span class="n">WEXA_STATICS</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__wexa_statics</span><span class="p">,</span> <span class="n">CSS_THEME</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__css_theme</span><span class="p">,</span> <span class="n">THEME_NAME</span><span class="o">=</span><span class="n">theme_name</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
 <h4>__nav_link</h4>
+
+    <article class="docstring">
+<p><em>Return a link of the navigation.</em></p>
+
+<p>The 'wexa-link' class is the one the page collects to hand its links to
+'LinkController': a link handled by it carries the framework parameters
+-- the theme, the contrast and the color -- to the page it opens.</p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>text</strong>: (<em>str</em>) Content of the link</li>
+<li><strong>link</strong>: (<em>str</em>|None) Target of the link, or None for a disabled one</li>
+<li><strong>identifier</strong>: (<em>str</em>) Identifier of the link, required by 'LinkController'</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>str</em>) HTML code</li>
+</ul>
+
+    </article>
+
 
     <details>
     <summary>
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">__nav_link</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">link</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">__nav_link</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">link</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a link of the navigation.</span>
+
+<span class="sd">        The &#39;wexa-link&#39; class is the one the page collects to hand its links to</span>
+<span class="sd">        &#39;LinkController&#39;: a link handled by it carries the framework parameters</span>
+<span class="sd">        -- the theme, the contrast and the color -- to the page it opens.</span>
+
+<span class="sd">        :param text: (str) Content of the link</span>
+<span class="sd">        :param link: (str|None) Target of the link, or None for a disabled one</span>
+<span class="sd">        :param identifier: (str) Identifier of the link, required by &#39;LinkController&#39;</span>
+<span class="sd">        :return: (str) HTML code</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">link</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">a</span> <span class="o">=</span> <span class="s1">&#39;aria-disabled=&quot;true&quot;&#39;</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">a</span> <span class="o">=</span> <span class="s1">&#39;href=&quot;</span><span class="si">{:s}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s1">&#39;&lt;li&gt;&lt;a role=&quot;button&quot; tabindex=&quot;0&quot; </span><span class="si">{LINK}</span><span class="s1">&gt; </span><span class="si">{TEXT}</span><span class="s1">&lt;/a&gt;&lt;/li&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">LINK</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">TEXT</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="s1">&#39;href=&quot;</span><span class="si">{:s}</span><span class="s1">&quot; class=&quot;wexa-link&quot; data-target=&quot;_self&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;&lt;li&gt;&lt;a role=&quot;button&quot; tabindex=&quot;0&quot; id=&quot;</span><span class="si">{ID}</span><span class="s1">&quot; </span><span class="si">{LINK}</span><span class="s1">&gt; </span><span class="si">{TEXT}</span><span class="s1">&lt;/a&gt;&lt;/li&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ID</span><span class="o">=</span><span class="n">identifier</span><span class="p">,</span> <span class="n">LINK</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">TEXT</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
 </code></pre></div>
 
     </details>

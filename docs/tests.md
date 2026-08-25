@@ -4,4 +4,4 @@
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 3.0 ~
+~ Created using [Clamming](https://github.com/brigitte-bigi/ClammingPy) version 3.0 ~

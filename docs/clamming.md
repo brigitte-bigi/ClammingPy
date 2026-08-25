@@ -1760,7 +1760,7 @@ def markdown(self, exporter: ExportOptions | None=None) -> str:
     md.append('## List of classes\n')
     for clams in self.__clams:
         md.append(clams.markdown())
-    md.append('\n\n~ Created using [Clamming](https://clamming.sf.net) version {:s} ~\n'.format(clamming.__version__))
+    md.append('\n\n~ Created using [Clamming](https://github.com/brigitte-bigi/ClammingPy) version {:s} ~\n'.format(clamming.__version__))
     return '\n'.join(md)
 ```
 
@@ -1785,7 +1785,7 @@ def html(self, exporter: ExportOptions | None=None) -> str:
     html.append('<h2>List of classes</h2>\n')
     for clams in self.__clams:
         html.append(clams.html())
-    html.append('\n\n<p>~ Created using <a href="https://clamming.sf.net">ClammingPy</a> version {:s} ~</p>\n'.format(clamming.__version__))
+    html.append('\n\n<p>~ Created using <a href="https://github.com/brigitte-bigi/ClammingPy">ClammingPy</a> version {:s} ~</p>\n'.format(clamming.__version__))
     return '\n'.join(html)
 ```
 
@@ -1823,7 +1823,7 @@ def html_index(self, path_name: str | None=None, exporter: ExportOptions | None=
         out.append('            </div>')
         out.append('            <div class="card-footer">')
         if path_name is not None:
-            out.append('                <a role="button" href="{:s}">Read me →</a>'.format(os.path.join(path_name, clams.name + '.html')))
+            out.append('                <a role="button" id="card-link-{NAME}" class="wexa-link" data-target="_self" href="{HREF}">Read me →</a>'.format(NAME=clams.name, HREF=os.path.join(path_name, clams.name + '.html')))
         else:
             out.append('                <a role="button" href="#{:s}">Read me →</a>'.format(clams.name))
         out.append('            </div>')
@@ -2082,7 +2082,7 @@ def html_export_index(self, path_name: str, exporter: ExportOptions, readme: str
         fp.write('<h1>List of packages:</h1>\n')
         for clams_pack in self.__clams_packs:
             fp.write('      <h2>{:s}</h2>\n'.format(clams_pack.name))
-            fp.write("      <p><a href='{:s}'>Get documentation</a></p>\n".format(clams_pack.name + '.html'))
+            fp.write('      <p><a id="pack-link-{NAME}" class="wexa-link" data-target="_self" href="{HREF}">Get documentation</a></p>\n'.format(NAME=clams_pack.name, HREF=clams_pack.name + '.html'))
         fp.write('    </section>\n')
         fp.write('    </main>\n')
         fp.write('    {:s}\n'.format(exporter.get_footer()))
@@ -2199,6 +2199,7 @@ def __init__(self):
     self.__wexa_statics = ExportOptions.DEFAULT_WEXA_STATICS
     self.__descr = 'Python class documentation'
     self.__aside_toc = ExportOptions.DEFAULT_ASIDE_TOC
+    self.__css_theme = ExportOptions.DEFAULT_CSS_THEME
     self.__next_class = None
     self.__prev_class = None
     self.__next_pack = None
@@ -2278,6 +2279,61 @@ aside instead, 'book.js' hides it and adds a button to open and close it.
 ##### Parameters
 
 - **aside_toc**: (*bool*) whether the table of contents is an aside or not.
+
+#### get_css_theme
+
+```python
+def get_css_theme(self) -> str:
+    """Return the filename of the CSS theme of the documented software."""
+    return self.__css_theme
+```
+
+*Return the filename of the CSS theme of the documented software.*
+
+#### set_css_theme
+
+```python
+def set_css_theme(self, name: str=DEFAULT_CSS_THEME) -> NoReturn:
+    """Set the filename of the CSS theme, in the statics folder.
+
+        A theme is a stylesheet defining colors only. When a name is given, the
+        pages are opening with it, and the high-contrast theme of Whakerexa can
+        be activated instead. When the name is empty, no theme is declared at
+        all: the pages are the ones ClammingPy created before themes existed.
+
+        :example:
+        >>> h = ExportOptions()
+        >>> h.css_theme = "clamming_theme.css"
+
+        :param name: (str) Name of the theme file, or an empty string
+        :raises: TypeError: Given name is not a string
+
+        """
+    if isinstance(name, (str, bytes)) is False:
+        raise TypeError("Expected a 'str' for the ExportOptions.css_theme. Got {} instead.".format(name))
+    self.__css_theme = name
+```
+
+*Set the filename of the CSS theme, in the statics folder.*
+
+A theme is a stylesheet defining colors only. When a name is given, the
+pages are opening with it, and the high-contrast theme of Whakerexa can
+be activated instead. When the name is empty, no theme is declared at
+all: the pages are the ones ClammingPy created before themes existed.
+
+##### Example
+
+    >>> h = ExportOptions()
+    >>> h.css_theme = "clamming_theme.css"
+
+##### Parameters
+
+- **name**: (*str*) Name of the theme file, or an empty string
+
+
+##### Raises
+
+- *TypeError*: Given name is not a string
 
 #### get_software
 
@@ -2854,7 +2910,7 @@ def set_prev_module(self, name: str | None=None) -> NoReturn:
 ```python
 def get_head(self) -> str:
     """Return the HTML 'head' of the page."""
-    return ExportOptions.HTML_HEAD.format(TITLE=self.__title, FAVICON=self.__favicon, THEME=self.__theme, STATICS=self.__statics, WEXA_STATICS=self.__wexa_statics, META_DESCRIPTION=self.__descr)
+    return ExportOptions.HTML_HEAD.format(TITLE=self.__title, FAVICON=self.__favicon, THEME=self.__theme, STATICS=self.__statics, WEXA_STATICS=self.__wexa_statics, META_DESCRIPTION=self.__descr, THEME_LINK=self.__theme_part(ExportOptions.HTML_THEME_LINK), THEME_BUNDLE=self.__theme_part(ExportOptions.HTML_THEME_BUNDLE), THEME_MODULE=self.__theme_part(ExportOptions.HTML_THEME_MODULE))
 ```
 
 *Return the HTML 'head' of the page.*
@@ -2866,7 +2922,10 @@ def get_header(self) -> str:
     """Return the 'header' of the HTML->body of the page."""
     h = list()
     h.append('    <header>')
-    h.append(ExportOptions.HTML_BUTTONS_ACCESSIBILITY)
+    theme_button = ''
+    if len(self.__css_theme) > 0:
+        theme_button = ExportOptions.HTML_THEME_BUTTON
+    h.append(ExportOptions.HTML_BUTTONS_ACCESSIBILITY.format(THEME_BUTTON=theme_button))
     if len(self.__software) > 0:
         h.append('    <h1>{SOFTWARE}</h1>'.format(SOFTWARE=self.__software))
     if len(self.__icon) > 0:
@@ -2892,25 +2951,29 @@ def get_nav(self) -> str:
         tag_name = 'nav'
         class_name = 'book-toc'
     nav.append('<{TAG} id="nav-book" class="{CLASS}" aria-label="Table of contents">'.format(TAG=tag_name, CLASS=class_name))
-    if self.__software == ExportOptions.DEFAULT_SOFTWARE:
-        nav.append('    <h1>Documentation</h1>')
+    if self.__aside_toc is True:
+        nav.append('    <h1>Table of Contents</h1>')
     else:
-        nav.append('    <h1>{SOFTWARE}</h1>'.format(SOFTWARE=self.__software))
-    if len(self.__icon) > 0:
-        nav.append('    <img class="small-logo center" src="{STATICS}/{ICON}" alt=""/>'.format(STATICS=self.__statics, ICON=self.__icon))
-    if len(self.__url) > 0:
-        nav.append('        <p><a class="external-link" href="{URL}">{URL}</a></p>'.format(URL=self.__url))
+        if self.__software == ExportOptions.DEFAULT_SOFTWARE:
+            nav.append('    <h1>Documentation</h1>')
+        else:
+            nav.append('    <h1>{SOFTWARE}</h1>'.format(SOFTWARE=self.__software))
+        if len(self.__icon) > 0:
+            nav.append('    <img class="small-logo center" src="{STATICS}/{ICON}" alt=""/>'.format(STATICS=self.__statics, ICON=self.__icon))
+        if len(self.__url) > 0:
+            nav.append('        <p><a class="external-link" href="{URL}">{URL}</a></p>'.format(URL=self.__url))
     nav.append('    <ul>')
-    nav.append(ExportOptions.__nav_link('&crarr; Prev. Module', self.__prev_pack))
-    nav.append(ExportOptions.__nav_link('&uarr; Prev. Class', self.__prev_class))
-    nav.append(ExportOptions.__nav_link('&#8962; Index', 'index.html'))
-    nav.append(ExportOptions.__nav_link('&darr; Next Class', self.__next_class))
-    nav.append(ExportOptions.__nav_link('&rdsh; Next Module', self.__next_pack))
+    nav.append(ExportOptions.__nav_link('&crarr; Prev. Module', self.__prev_pack, 'nav-prev-module'))
+    nav.append(ExportOptions.__nav_link('&uarr; Prev. Class', self.__prev_class, 'nav-prev-class'))
+    nav.append(ExportOptions.__nav_link('&#8962; Index', 'index.html', 'nav-index'))
+    nav.append(ExportOptions.__nav_link('&darr; Next Class', self.__next_class, 'nav-next-class'))
+    nav.append(ExportOptions.__nav_link('&rdsh; Next Module', self.__next_pack, 'nav-next-module'))
     nav.append('    </ul>')
-    nav.append('    <h2>Table of Contents</h2>')
+    if self.__aside_toc is False:
+        nav.append('    <h2>Table of Contents</h2>')
     nav.append('    <ul id="toc"></ul>')
     nav.append('    <hr>')
-    nav.append('    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>')
+    nav.append('    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://github.com/brigitte-bigi/ClammingPy">ClammingPy</a></small></p>')
     nav.append('</{TAG}>'.format(TAG=tag_name))
     return '\n'.join(nav)
 ```
@@ -2931,22 +2994,84 @@ def get_footer(self) -> str:
 
 ### Protected functions
 
+#### __theme_part
+
+```python
+def __theme_part(self, template: str) -> str:
+    """Return the given part of the 'head' filled with the theme information.
+
+        The name a theme is registered with is the name of its file, without the
+        extension: it is what the browser address shows when the reader switched.
+
+        :param template: (str) One of the HTML_THEME_* templates
+        :return: (str) The filled template, or an empty string if no theme is set
+
+        """
+    if len(self.__css_theme) == 0:
+        return ''
+    theme_name = self.__css_theme
+    if '.' in theme_name:
+        theme_name = theme_name[:theme_name.rindex('.')]
+    return template.format(STATICS=self.__statics, WEXA_STATICS=self.__wexa_statics, CSS_THEME=self.__css_theme, THEME_NAME=theme_name)
+```
+
+*Return the given part of the 'head' filled with the theme information.*
+
+The name a theme is registered with is the name of its file, without the
+extension: it is what the browser address shows when the reader switched.
+
+##### Parameters
+
+- **template**: (*str*) One of the HTML_THEME_* templates
+
+
+##### Returns
+
+- (*str*) The filled template, or an empty string if no theme is set
+
 #### __nav_link
 
 ```python
 @staticmethod
-def __nav_link(text: str, link: str | None) -> str:
+def __nav_link(text: str, link: str | None, identifier: str) -> str:
+    """Return a link of the navigation.
+
+        The 'wexa-link' class is the one the page collects to hand its links to
+        'LinkController': a link handled by it carries the framework parameters
+        -- the theme, the contrast and the color -- to the page it opens.
+
+        :param text: (str) Content of the link
+        :param link: (str|None) Target of the link, or None for a disabled one
+        :param identifier: (str) Identifier of the link, required by 'LinkController'
+        :return: (str) HTML code
+
+        """
     if link is None:
         a = 'aria-disabled="true"'
     else:
-        a = 'href="{:s}"'.format(link)
-    return '<li><a role="button" tabindex="0" {LINK}> {TEXT}</a></li>'.format(LINK=a, TEXT=text)
+        a = 'href="{:s}" class="wexa-link" data-target="_self"'.format(link)
+    return '<li><a role="button" tabindex="0" id="{ID}" {LINK}> {TEXT}</a></li>'.format(ID=identifier, LINK=a, TEXT=text)
 ```
 
+*Return a link of the navigation.*
+
+The 'wexa-link' class is the one the page collects to hand its links to
+'LinkController': a link handled by it carries the framework parameters
+-- the theme, the contrast and the color -- to the page it opens.
+
+##### Parameters
+
+- **text**: (*str*) Content of the link
+- **link**: (*str*|None) Target of the link, or None for a disabled one
+- **identifier**: (*str*) Identifier of the link, required by 'LinkController'
+
+
+##### Returns
+
+- (*str*) HTML code
 
 
 
 
 
-
-~ Created using [Clamming](https://clamming.sf.net) version 3.0 ~
+~ Created using [Clamming](https://github.com/brigitte-bigi/ClammingPy) version 3.0 ~

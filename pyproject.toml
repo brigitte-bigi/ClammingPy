@@ -30,7 +30,7 @@
 ]
 
 [project.urls]
-    "Homepage" = "https://clamming.sf.net/"
+    "Homepage" = "https://github.com/brigitte-bigi/ClammingPy"
 
 [project.optional-dependencies]
     dev = [

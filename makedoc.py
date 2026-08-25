@@ -36,9 +36,6 @@ from clamming import ExportOptions
 # ###########################################################################
 # Fix the default path to the "wexa_statics" folder of Whakerexa/
 WEXA = './Whakerexa-current/wexa_statics'
-# Fix whether the table of contents is a collapsible aside panel, opened by a
-# button, instead of a fixed one always shown at the left of the pages.
-ASIDE_TOC = False
 # ###########################################################################
 
 
@@ -77,7 +74,7 @@ packages.append(tests)
 # ----------------------------
 opts_export = ExportOptions()
 opts_export.software = 'ClammingPy ' + clamming.__version__
-opts_export.url = 'https://sourceforge.net/projects/clamming/'
+opts_export.url = 'https://github.com/brigitte-bigi/ClammingPy'
 opts_export.copyright = clamming.__copyright__
 opts_export.title = 'ClammingPy doc'
 # ... statics is the relative path to a folder with custom CSS, JS, etc.
@@ -88,7 +85,10 @@ opts_export.theme = 'light'
 opts_export.favicon = 'clamming32x32.ico'
 opts_export.icon = 'clamming.png'
 # ... the table of contents is either a collapsible aside or a fixed panel
-opts_export.aside_toc = ASIDE_TOC
+opts_export.aside_toc = True
+# ... the theme is a file of the statics folder. It defines the colors of the
+# pages, and the reader can switch it for the high-contrast one of Whakerexa.
+opts_export.css_theme = 'clamming_theme.css'
 # ... path to 'wexa_statics' folder, relatively to "docs"
 opts_export.wexa_statics = WEXA
 if args.w:

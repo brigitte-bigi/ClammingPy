@@ -185,11 +185,9 @@ Use one of the following reference to cite ClammingPy:
 
 ## Projects using ClammingPy
 
-- WhakerPy: <https://whakerpy.sourceforge.io>
-- WhakerKit: <https://whakerkit.sourceforge.io>
-- AudiooPy: <https://audioopy.sourceforge.io>
-- PyMancala: <https://pymancala.sf.net>
-- sppas: <https://sppas.org/api/index.html>
+- WhakerPy: <https://github.com/brigitte-bigi/WhakerPy>
+- AudiooPy: <https://github.com/brigitte-bigi/AudiooPy>
+- sppas: <https://github.com/brigitte-bigi/sppas>
 - *contact the author if you want to add a project here*
 
 

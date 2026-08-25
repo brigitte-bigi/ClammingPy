@@ -4,7 +4,7 @@
 :contact: contact@sppas.org
 :summary: Create documentation of a module into Markdown or HTML.
 
-.. _This file is part of ClammingPy: https://clamming.sourceforge.io
+.. _This file is part of ClammingPy: https://github.com/brigitte-bigi/ClammingPy
 ..
     -------------------------------------------------------------------------
 
@@ -134,7 +134,7 @@ class ClamsPack:
 
         for clams in self.__clams:
             md.append(clams.markdown())
-        md.append("\n\n~ Created using [Clamming](https://clamming.sf.net) version {:s} ~\n"
+        md.append("\n\n~ Created using [Clamming](https://github.com/brigitte-bigi/ClammingPy) version {:s} ~\n"
                   "".format(clamming.__version__))
 
         return "\n".join(md)
@@ -158,7 +158,7 @@ class ClamsPack:
         html.append("<h2>List of classes</h2>\n")
         for clams in self.__clams:
             html.append(clams.html())
-        html.append("\n\n<p>~ Created using <a href=\"https://clamming.sf.net\">ClammingPy</a> version {:s} ~</p>\n"
+        html.append("\n\n<p>~ Created using <a href=\"https://github.com/brigitte-bigi/ClammingPy\">ClammingPy</a> version {:s} ~</p>\n"
                     "".format(clamming.__version__))
 
         return "\n".join(html)
@@ -199,9 +199,12 @@ class ClamsPack:
             out.append('            </div>')
             out.append('            <div class="card-footer">')
             if path_name is not None:
-                # External link
-                out.append('                <a role="button" href="{:s}">Read me →</a>'
-                           ''.format(os.path.join(path_name, clams.name + ".html")))
+                # External link. The 'wexa-link' class is the one the page hands
+                # to 'LinkController', so the theme and the accessibility choices
+                # are carried to the page it opens.
+                out.append('                <a role="button" id="card-link-{NAME}" class="wexa-link" '
+                           'data-target="_self" href="{HREF}">Read me →</a>'
+                           ''.format(NAME=clams.name, HREF=os.path.join(path_name, clams.name + ".html")))
             else:
                 # Local link
                 out.append('                <a role="button" href="#{:s}">Read me →</a>'

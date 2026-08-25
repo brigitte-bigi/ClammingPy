@@ -11,6 +11,7 @@
 
             <link rel="logo icon" href="./statics/clamming32x32.ico" />
             <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/wexa.css" type="text/css" media="screen" />
+            <link rel="stylesheet" id="wexa-theme" href="./statics/clamming_theme.css" type="text/css" />
             <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/print.css" type="text/css" media="print" />
             <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/layout.css" type="text/css" />
             <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/menu.css" type="text/css" />
@@ -29,6 +30,18 @@
               s.src = './Whakerexa-current/wexa_statics/js/wexa.bundle.js';
 
               s.onload = function () {
+                const themes = new window.Wexa.ThemeManager();
+                themes.register('clamming_theme', './statics/clamming_theme.css');
+                themes.register('highcontrast', './Whakerexa-current/wexa_statics/css/themes/wexa_theme_highcontrast.css');
+                themes.setDefault('clamming_theme');
+                window.themes = themes;
+
+                window.Wexa.onload.addLoadFunction(function () {
+                  const wexaLinks = [];
+                  document.querySelectorAll('a.wexa-link[id]').forEach(function (a) { wexaLinks.push(a.id); });
+                  window.Wexa.links.handleLinksWithParameters(wexaLinks);
+                });
+
                 window.Wexa.onload.addLoadFunction(function () {
                   const book = new window.Wexa.Book("main-content");
                   book.fill_table(false);
@@ -43,6 +56,19 @@
             <script type="module">
               if (window.location.protocol !== 'file:') {
                 await import('./Whakerexa-current/wexa_statics/js/wexa.js');
+                const { ThemeManager } = await import('./Whakerexa-current/wexa_statics/js/extras/theme_manager.js');
+                const themes = new ThemeManager();
+                themes.register('clamming_theme', './statics/clamming_theme.css');
+                themes.register('highcontrast', './Whakerexa-current/wexa_statics/css/themes/wexa_theme_highcontrast.css');
+                themes.setDefault('clamming_theme');
+                window.themes = themes;
+
+                window.Wexa.onload.addLoadFunction(function () {
+                  const wexaLinks = [];
+                  document.querySelectorAll('a.wexa-link[id]').forEach(function (a) { wexaLinks.push(a.id); });
+                  window.Wexa.links.handleLinksWithParameters(wexaLinks);
+                });
+
                 const { Book } = await import('./Whakerexa-current/wexa_statics/js/extras/book.js');
                 const book = new Book("main-content");
                 book.fill_table(false);
@@ -60,28 +86,26 @@
             <nav class="nav-wexa top" aria-label="Accessibility">
                 <button id="btn-contrast" class="menuitem accessibility print-off" aria-label="Contrast" aria-pressed="false" onclick="window.Wexa.accessibility.switchContrastScheme()"></button>
                 <button id="btn-color" class="menuitem accessibility print-off" aria-label="Color" aria-pressed="false" onclick="window.Wexa.accessibility.switchColorScheme()"></button>
+                <button id="btn-css-theme" class="menuitem print-off" type="button" aria-label="Switch CSS theme" title="Switch CSS theme" onclick="window.themes && window.themes.next()"></button>
             </nav>
         
     <h1>ClammingPy 3.0</h1>
         <p><img class="small-logo" src="./statics/clamming.png" alt="Software logo"/></p>
-        <p><a class="external-link" href="https://sourceforge.net/projects/clamming/">https://sourceforge.net/projects/clamming/</a></p>
+        <p><a class="external-link" href="https://github.com/brigitte-bigi/ClammingPy">https://github.com/brigitte-bigi/ClammingPy</a></p>
     </header>
-    <nav id="nav-book" class="book-toc" aria-label="Table of contents">
-    <h1>ClammingPy 3.0</h1>
-    <img class="small-logo center" src="./statics/clamming.png" alt=""/>
-        <p><a class="external-link" href="https://sourceforge.net/projects/clamming/">https://sourceforge.net/projects/clamming/</a></p>
+    <aside id="nav-book" class="book-toc-aside" aria-label="Table of contents">
+    <h1>Table of Contents</h1>
     <ul>
-<li><a role="button" tabindex="0" aria-disabled="true"> &crarr; Prev. Module</a></li>
-<li><a role="button" tabindex="0" aria-disabled="true"> &uarr; Prev. Class</a></li>
-<li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
-<li><a role="button" tabindex="0" aria-disabled="true"> &darr; Next Class</a></li>
-<li><a role="button" tabindex="0" href="tests.html"> &rdsh; Next Module</a></li>
+<li><a role="button" tabindex="0" id="nav-prev-module" aria-disabled="true"> &crarr; Prev. Module</a></li>
+<li><a role="button" tabindex="0" id="nav-prev-class" aria-disabled="true"> &uarr; Prev. Class</a></li>
+<li><a role="button" tabindex="0" id="nav-index" href="index.html" class="wexa-link" data-target="_self"> &#8962; Index</a></li>
+<li><a role="button" tabindex="0" id="nav-next-class" aria-disabled="true"> &darr; Next Class</a></li>
+<li><a role="button" tabindex="0" id="nav-next-module" href="tests.html" class="wexa-link" data-target="_self"> &rdsh; Next Module</a></li>
     </ul>
-    <h2>Table of Contents</h2>
     <ul id="toc"></ul>
     <hr>
-    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>
-</nav>
+    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://github.com/brigitte-bigi/ClammingPy">ClammingPy</a></small></p>
+</aside>
     <main id="main-content">
     <section id="#clamming" class="chapter nonumber">
     <h1>clamming module</h1>
@@ -160,7 +184,7 @@ module in Mardown format or in HTML format as a standalone content:</p>
 
 <h2>License/Copyright</h2>
 
-<p>Copyright (C) 2023-2026 - <a href="https://sppas.org/bigi/">Brigitte Bigi</a> - <a href="&#x6d;&#x61;&#x69;&#x6c;t&#111;&#58;&#x63;&#x6f;n&#116;&#x61;&#x63;&#116;&#64;&#x73;&#x70;&#x70;&#x61;&#115;&#46;&#x6f;&#x72;&#103;">&#x63;&#x6f;n&#116;&#x61;&#x63;&#116;&#64;&#x73;&#x70;&#x70;&#x61;&#115;&#46;&#x6f;&#x72;&#103;</a>, CNRS,
+<p>Copyright (C) 2023-2026 - <a href="https://sppas.org/bigi/">Brigitte Bigi</a> - <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;:&#x63;&#111;&#x6e;&#116;&#97;&#x63;&#x74;&#x40;&#115;&#x70;&#112;&#97;s&#46;o&#x72;&#103;">&#x63;&#111;&#x6e;&#116;&#97;&#x63;&#x74;&#x40;&#115;&#x70;&#112;&#97;s&#46;o&#x72;&#103;</a>, CNRS,
 Laboratoire Parole et Langage, Aix-en-Provence, France</p>
 
 <p>This program is free software: you can redistribute it and/or modify
@@ -187,7 +211,7 @@ along with this program. If not, see <a href="https://www.gnu.org/licenses/">htt
                 <h3>ClamUtils</h3>
             </div>
             <div class="card-footer">
-                <a role="button" href="ClamUtils.html">Read me →</a>
+                <a role="button" id="card-link-ClamUtils" class="wexa-link" data-target="_self" href="ClamUtils.html">Read me →</a>
             </div>
         </article>
         <article class="card">
@@ -196,7 +220,7 @@ along with this program. If not, see <a href="https://www.gnu.org/licenses/">htt
                 <h3>ClamInfo</h3>
             </div>
             <div class="card-footer">
-                <a role="button" href="ClamInfo.html">Read me →</a>
+                <a role="button" id="card-link-ClamInfo" class="wexa-link" data-target="_self" href="ClamInfo.html">Read me →</a>
             </div>
         </article>
         <article class="card">
@@ -205,7 +229,7 @@ along with this program. If not, see <a href="https://www.gnu.org/licenses/">htt
                 <h3>ClamInfoMarkdown</h3>
             </div>
             <div class="card-footer">
-                <a role="button" href="ClamInfoMarkdown.html">Read me →</a>
+                <a role="button" id="card-link-ClamInfoMarkdown" class="wexa-link" data-target="_self" href="ClamInfoMarkdown.html">Read me →</a>
             </div>
         </article>
         <article class="card">
@@ -214,7 +238,7 @@ along with this program. If not, see <a href="https://www.gnu.org/licenses/">htt
                 <h3>ClammingClassParser</h3>
             </div>
             <div class="card-footer">
-                <a role="button" href="ClammingClassParser.html">Read me →</a>
+                <a role="button" id="card-link-ClammingClassParser" class="wexa-link" data-target="_self" href="ClammingClassParser.html">Read me →</a>
             </div>
         </article>
         <article class="card">
@@ -223,7 +247,7 @@ along with this program. If not, see <a href="https://www.gnu.org/licenses/">htt
                 <h3>ClamsClass</h3>
             </div>
             <div class="card-footer">
-                <a role="button" href="ClamsClass.html">Read me →</a>
+                <a role="button" id="card-link-ClamsClass" class="wexa-link" data-target="_self" href="ClamsClass.html">Read me →</a>
             </div>
         </article>
         <article class="card">
@@ -232,7 +256,7 @@ along with this program. If not, see <a href="https://www.gnu.org/licenses/">htt
                 <h3>ClamsPack</h3>
             </div>
             <div class="card-footer">
-                <a role="button" href="ClamsPack.html">Read me →</a>
+                <a role="button" id="card-link-ClamsPack" class="wexa-link" data-target="_self" href="ClamsPack.html">Read me →</a>
             </div>
         </article>
         <article class="card">
@@ -241,7 +265,7 @@ along with this program. If not, see <a href="https://www.gnu.org/licenses/">htt
                 <h3>ClamsModules</h3>
             </div>
             <div class="card-footer">
-                <a role="button" href="ClamsModules.html">Read me →</a>
+                <a role="button" id="card-link-ClamsModules" class="wexa-link" data-target="_self" href="ClamsModules.html">Read me →</a>
             </div>
         </article>
         <article class="card">
@@ -250,7 +274,7 @@ along with this program. If not, see <a href="https://www.gnu.org/licenses/">htt
                 <h3>ExportOptions</h3>
             </div>
             <div class="card-footer">
-                <a role="button" href="ExportOptions.html">Read me →</a>
+                <a role="button" id="card-link-ExportOptions" class="wexa-link" data-target="_self" href="ExportOptions.html">Read me →</a>
             </div>
         </article>
         </section>
