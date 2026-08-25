@@ -39,7 +39,16 @@ Architecture:
 
 :root {
     --toc-width: 0;
-    --toc-aside-width: 0;
+
+    /* The band the folded panel leaves free on the left, where the button that
+       brings it back stands. It is what that button takes: its two paddings,
+       the line its text is written on -- the text is turned on its side, so
+       that line is a width -- and the room its outline is drawn in. A page has
+       nothing to reserve, and the band follows the size of the text, in
+       contrast mode as on any screen. */
+    --toc-aside-width: calc(var(--typography-spacing-horizontal)
+                            + 0.75 * var(--font-size) * var(--line-height)
+                            + 2 * var(--outline-size));
 }
 
 
@@ -87,9 +96,9 @@ body {
 
 .chapter > h1 {
     width: 100%;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-    margin-bottom: 4rem;
+    padding-top: calc(var(--font-size) * 2);
+    padding-bottom: calc(var(--font-size) * 2);
+    margin-bottom: calc(var(--font-size) * 4);
     line-height: calc(4 * var(--font-size));
 
     /* a chapter title is a box for 2 items: number + title */
@@ -104,9 +113,9 @@ body {
    is written in: a number alone says what it counts to nobody. */
 .chapter > h1::before {
     content: "Chapter " counter(chapter) ".";
-    padding-top: 1rem;
+    padding-top: calc(var(--font-size) * 1);
     margin-top: 0;
-    margin-right: 1rem;
+    margin-right: calc(var(--font-size) * 1);
 }
 
 html:lang(fr) .chapter > h1::before {
@@ -164,7 +173,7 @@ nav.book-toc {
     position: fixed;
     top: var(--typography-spacing-vertical);
     left: 0;
-    padding-bottom: 3rem;
+    padding-bottom: calc(var(--font-size) * 3);
     margin-top: calc(-1 * var(--typography-spacing-vertical));
     font-size: 90%;
     overflow-x: hidden;
@@ -172,7 +181,7 @@ nav.book-toc {
 }
 
 body:has(nav.nav-wexa.top) nav.book-toc {
-    top: var(--nav-min-height);
+    top: var(--nav-height);
 }
 
 /* ------------------------ Placement: folded panel ---------------------- */
@@ -181,7 +190,7 @@ aside.book-toc-aside {
     width: var(--toc-width);
     display: block;
     padding: var(--typography-spacing-vertical) var(--typography-spacing-horizontal);
-    padding-bottom: 3rem;
+    padding-bottom: calc(var(--font-size) * 3);
 }
 
 @media screen {
@@ -201,7 +210,7 @@ aside.book-toc-aside {
     }
 
     body:has(nav.nav-wexa.top) aside.book-toc-aside {
-        top: var(--nav-min-height);
+        top: var(--nav-height);
     }
 
     /* Toggle button injected by book.js. Its z-index stands above the panel it
@@ -251,8 +260,8 @@ aside.book-toc-aside *:not([role=button]) {
 :is(nav.book-toc, aside.book-toc-aside) > hr,
 :is(nav.book-toc, aside.book-toc-aside) > h1,
 :is(nav.book-toc, aside.book-toc-aside) > h2 {
-    margin-top: 1rem;
-    margin-bottom: 2rem;
+    margin-top: calc(var(--font-size) * 1);
+    margin-bottom: calc(var(--font-size) * 2);
 }
 
 :is(nav.book-toc, aside.book-toc-aside) h1 {
@@ -273,7 +282,7 @@ aside.book-toc-aside *:not([role=button]) {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin-bottom: 0.5rem;
+    margin-bottom: calc(var(--font-size) * 0.5);
 }
 
 /* --------------------------- Common: the entries ----------------------- */
@@ -301,7 +310,7 @@ aside.book-toc-aside *:not([role=button]) {
     display: grid;
     grid-template-columns: var(--toc-number-width) 1fr;
     column-gap: var(--typography-spacing-horizontal);
-    margin-bottom: 0.2rem;
+    margin-bottom: calc(var(--font-size) * 0.2);
     text-align: left;
 }
 
@@ -317,11 +326,11 @@ aside.book-toc-aside *:not([role=button]) {
    content is a column of a different width at every line, and no two titles
    ever start at the same place. */
 :is(nav.book-toc, aside.book-toc-aside) li {
-    --toc-number-width: 1.5rem;
+    --toc-number-width: calc(var(--font-size) * 1.5);
 }
-:is(nav.book-toc, aside.book-toc-aside) li.h1 { --toc-number-width: 2rem; }
-:is(nav.book-toc, aside.book-toc-aside) li.h2 { --toc-number-width: 2.2rem; }
-:is(nav.book-toc, aside.book-toc-aside) li.h3 { --toc-number-width: 2.8rem; }
+:is(nav.book-toc, aside.book-toc-aside) li.h1 { --toc-number-width: calc(var(--font-size) * 2); }
+:is(nav.book-toc, aside.book-toc-aside) li.h2 { --toc-number-width: calc(var(--font-size) * 2.2); }
+:is(nav.book-toc, aside.book-toc-aside) li.h3 { --toc-number-width: calc(var(--font-size) * 2.8); }
 
 /* An entry of the table is numbered by the rules below, and an entry that
    numbers nothing -- a browsing button -- shows nothing: the bullet of
@@ -449,18 +458,18 @@ aside.book-toc-aside *:not([role=button]) {
    'var(--toc-width)' wide, so both indent the same way. */
 
 :is(nav.book-toc, aside.book-toc-aside) li.h1 {
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
+    margin-top: calc(var(--font-size) * 1.5);
+    margin-bottom: calc(var(--font-size) * 1);
     padding-left: 0;
 }
 :is(nav.book-toc, aside.book-toc-aside) li.h2 {
-    margin-top: 1rem;
-    padding-left: 0.5rem;
+    margin-top: calc(var(--font-size) * 1);
+    padding-left: calc(var(--font-size) * 0.5);
 }
-:is(nav.book-toc, aside.book-toc-aside) li.h3 { padding-left: 1.5rem; }
-:is(nav.book-toc, aside.book-toc-aside) li.h4 { padding-left: 2rem; }
-:is(nav.book-toc, aside.book-toc-aside) li.h5 { padding-left: 3rem; }
-:is(nav.book-toc, aside.book-toc-aside) li.h6 { padding-left: 4rem; }
+:is(nav.book-toc, aside.book-toc-aside) li.h3 { padding-left: calc(var(--font-size) * 1.5); }
+:is(nav.book-toc, aside.book-toc-aside) li.h4 { padding-left: calc(var(--font-size) * 2); }
+:is(nav.book-toc, aside.book-toc-aside) li.h5 { padding-left: calc(var(--font-size) * 3); }
+:is(nav.book-toc, aside.book-toc-aside) li.h6 { padding-left: calc(var(--font-size) * 4); }
 
 /* ----------------------------------------------------------------------- */
 /* ----------------------------- Abstract -------------------------------- */
@@ -570,7 +579,7 @@ aside.book-toc-aside *:not([role=button]) {
     @media screen {
         aside.book-toc-aside {
             background: var(--nav-bg-color);
-            box-shadow: 0.3rem 0 1.2rem var(--shadow-color);
+            box-shadow: calc(var(--font-size) * 0.3) 0 calc(var(--font-size) * 1.2) var(--shadow-color);
         }
 
         button.book-toc-toggle {
@@ -584,7 +593,7 @@ aside.book-toc-aside *:not([role=button]) {
     .abstract {
         background-color: var(--bg-color-alt);
         color: var(--fg-color-alt);
-        box-shadow: 0 0.2rem 0.8rem var(--shadow-color);
+        box-shadow: 0 calc(var(--font-size) * 0.2) calc(var(--font-size) * 0.8) var(--shadow-color);
     }
 
 }

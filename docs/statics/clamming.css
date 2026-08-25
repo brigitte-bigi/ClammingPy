@@ -38,8 +38,7 @@
 
 :root {
     --toc-width: 18rem;
-    --toc-aside-width: 2rem;
-    --header-height: 33vh;
+    --header-height: 32vh;
     --header-slidein: animDisabled;
 }
 
