@@ -3074,4 +3074,4 @@ The 'wexa-link' class is the one the page collects to hand its links to
 
 
 
-~ Created using [Clamming](https://github.com/brigitte-bigi/ClammingPy) version 3.0 ~
+~ Created using [Clamming](https://github.com/brigitte-bigi/ClammingPy) version 3.1 ~
