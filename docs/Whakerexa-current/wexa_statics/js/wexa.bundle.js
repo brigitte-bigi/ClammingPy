@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-08-26 11:46:20
+// Bundle automatically generated on 2026-09-06 13:31:02
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -63,7 +63,7 @@ class RequestManager {
         return this.#port;
     }
     // ----------------------------------------------------------------------
-    get request_url() {
+    get requestUrl() {
         return this.#url;
     }
     // ----------------------------------------------------------------------
@@ -73,11 +73,11 @@ class RequestManager {
     // ----------------------------------------------------------------------
     // METHODS
     // ----------------------------------------------------------------------
-    async send_get_request(uri = "", is_json_response = false) {
-        const complete_url = this.request_url + uri;
-        let request_response_data = null;
+    async sendGetRequest(uri = "", is_json_response = false) {
+        const completeUrl = this.requestUrl + uri;
+        let requestResponseData = null;
         // send request to the server
-        await fetch(complete_url)
+        await fetch(completeUrl)
             // then gets content of the server response
             .then(async response =>  {
                 // get the status response and check if there is an error
@@ -86,13 +86,13 @@ class RequestManager {
                 if (is_json_response) {
                     const text = await response.text();
                     if (text.trim() === '') {
-                        request_response_data = {};   // JSON vide → objet vide
+                        requestResponseData = {};   // JSON vide → objet vide
                     } else {
                         try {
-                            request_response_data = JSON.parse(text);
+                            requestResponseData = JSON.parse(text);
                         } catch (error) {
                             console.error('Failed to parse JSON response', error);
-                            request_response_data = {
+                            requestResponseData = {
                                 status: response.status,
                                 error: 'Failed to parse JSON.',
                                 raw: text
@@ -100,32 +100,32 @@ class RequestManager {
                         }
                     }
                 } else {
-                    request_response_data = await response.text();
+                    requestResponseData = await response.text();
                 }
             })
             // handle error
             .catch(error => {
                 this.#status = error.status;
-                request_response_data = error;
+                requestResponseData = error;
             });
-        return request_response_data;
+        return requestResponseData;
     }
     // ----------------------------------------------------------------------
-    async send_post_request(post_parameters, accept_type = "application/json", uri = "") {
-		const complete_url = this.request_url + uri;
-        let request_response_data = null;
+    async sendPostRequest(postParameters, accept_type = "application/json", uri = "") {
+		const completeUrl = this.requestUrl + uri;
+        let requestResponseData = null;
         // build request header and body depending on parameter passed to the method
-        post_parameters = JSON.stringify(post_parameters);
-        let request_header = {
+        postParameters = JSON.stringify(postParameters);
+        let requestHeader = {
             'Accept': accept_type,
             'Content-Type': "application/json; charset=utf-8",
-            'Content-Length': post_parameters.length.toString()
+            'Content-Length': postParameters.length.toString()
         }
         // send request to the server
-        await fetch(complete_url, {
+        await fetch(completeUrl, {
             method: "POST",
-            headers: request_header,
-            body: post_parameters
+            headers: requestHeader,
+            body: postParameters
         })
             // then gets content of the server response
             .then(async response =>  {
@@ -134,17 +134,17 @@ class RequestManager {
                 if (accept_type.includes("application/json")) {
                     const text = await response.text();
                     if (text.trim() === '') {
-                        request_response_data = {};
+                        requestResponseData = {};
                     } else {
                         try {
-                            request_response_data = JSON.parse(text);
+                            requestResponseData = JSON.parse(text);
                         } catch (error) {
                             if (!response.headers.get('Content-Type')?.includes('application/json')) {
                                 // No backend available: ignore silently
                                 return {};
                             } else {
                                 console.error("Failed to parse JSON response: " + error);
-                                request_response_data = {
+                                requestResponseData = {
                                     status: response.status,
                                     error: "Failed to parse JSON. See error details in the newly opened tab.",
                                     html: text
@@ -158,7 +158,7 @@ class RequestManager {
                 else if (accept_type.includes("text/html")) {
                     // If response is HTML, treat it as a failed request (500 error or other)
                     const responseText = await response.text();
-                    request_response_data = {
+                    requestResponseData = {
                         status: response.status,
                         error: "Received HTML instead of JSON. See error details in the newly opened tab.",
                         html: responseText
@@ -167,16 +167,16 @@ class RequestManager {
                     this.openErrorTab(responseText);
                 }
                 else {
-                    request_response_data = await response.blob();
+                    requestResponseData = await response.blob();
                 }
             })
             // handle error
             .catch(error => {
                 this.#status = error.status;
-                request_response_data = error;
+                requestResponseData = error;
             })
         ;
-        return request_response_data;
+        return requestResponseData;
     }
     // ----------------------------------------------------------------------
     openErrorTab(responseText) {
@@ -191,9 +191,9 @@ class RequestManager {
         }
     }
     // ----------------------------------------------------------------------
-    async upload_file(input, accept_type = "application/json", token = "", uri = "") {
-        let response_data = null;
-        const complete_url = this.request_url + uri;
+    async uploadFile(input, accept_type = "application/json", token = "", uri = "") {
+        let responseData = null;
+        const completeUrl = this.requestUrl + uri;
         this.#status = 400;
         // Exit the function if no file is selected
         if (!input || !input.files || !input.files[0]) {
@@ -219,7 +219,7 @@ class RequestManager {
         let data = new FormData();
         data.append('file', sanitizedFile);
         // Send request to the back-end and wait for the response (response in json)
-        await fetch(complete_url, {
+        await fetch(completeUrl, {
             method: 'POST',
             headers: {
                 'Accept': accept_type,
@@ -234,19 +234,19 @@ class RequestManager {
             // Check if the status is not 200 and there is no error in the response
             if (response.status !== 200 && !response.error) {
                 // Return a JSON object with statusText to indicate the error
-                response_data = { "error": response.statusText };
+                responseData = { "error": response.statusText };
             } else {
                 // If status is 200 or there is an error, return the JSON response
-                response_data = await response.json();
+                responseData = await response.json();
             }
         })
         // handle error
         .catch(error => {
             console.error(" ... server error: ", error);
             this.#status = error.status;
-            response_data = error;
+            responseData = error;
         })
-        return response_data;
+        return responseData;
     }
 }
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
@@ -310,7 +310,7 @@ class BaseManager {
         let respError= "";
         let respInfo = "";
         try {
-            response = await this._requestManager.send_post_request(
+            response = await this._requestManager.sendPostRequest(
                 events,
                 'application/json',
                 this._uri
@@ -361,6 +361,127 @@ class BaseManager {
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
 window.Wexa.BaseManager = BaseManager;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- keyboard.js ---------------
+'use strict';
+class KeyboardController {
+    // CONSTANTS
+    static RESERVED_KEYS = ['Enter', ' '];
+    static INTERACTIVE_TAGS = ['input', 'select', 'textarea', 'button', 'summary'];
+    // FIELDS
+    #shortcuts;
+    #boundHandler;
+    #listening;
+    // CONSTRUCTOR
+    constructor() {
+        this.#shortcuts = new Map();
+        this.#boundHandler = this.#onKeyDown.bind(this);
+        this.#listening = false;
+    }
+    // GETTERS
+    get shortcuts() {
+        const said = [];
+        this.#shortcuts.forEach(shortcut => {
+            if (said.includes(shortcut) === false) {
+                said.push(shortcut);
+            }
+        });
+        return said.map(shortcut => ({keys: [...shortcut.keys], label: shortcut.label}));
+    }
+    // PUBLIC METHODS
+    register({keys, action, detail = {}, label = '', preventsDefault = false}) {
+        if (Array.isArray(keys) === false || keys.length === 0) {
+            console.warn('KeyboardController: a shortcut without a key is not declared.');
+            return;
+        }
+        if (typeof action !== 'function' && typeof action !== 'string') {
+            console.warn(`KeyboardController: the keys "${keys.join(', ')}" do nothing, and are not declared.`);
+            return;
+        }
+        const answered = keys.filter(key => KeyboardController.RESERVED_KEYS.includes(key) === false);
+        if (answered.length !== keys.length) {
+            console.warn('KeyboardController: Enter and space operate what holds the focus, and are not declared.');
+        }
+        if (answered.length === 0) {
+            return;
+        }
+        const shortcut = {keys: answered, action: action, detail: detail,
+                          label: label, preventsDefault: preventsDefault};
+        answered.forEach(key => {
+            if (this.#shortcuts.has(key) === true) {
+                console.warn(`KeyboardController: the key "${key}" was already answered, and its answer is replaced.`);
+            }
+            this.#shortcuts.set(key, shortcut);
+        });
+    }
+    // -----------------------------------------------------------------------
+    forget(keys) {
+        keys.forEach(key => this.#shortcuts.delete(key));
+    }
+    // -----------------------------------------------------------------------
+    init() {
+        if (this.#listening === true) {
+            return;
+        }
+        document.body.addEventListener('keydown', this.#boundHandler, false);
+        this.#listening = true;
+    }
+    // -----------------------------------------------------------------------
+    destroy() {
+        document.body.removeEventListener('keydown', this.#boundHandler, false);
+        this.#listening = false;
+    }
+    // -----------------------------------------------------------------------
+    static isInteractiveTarget(target) {
+        if (target instanceof HTMLElement === false) {
+            return true;
+        }
+        const tag = target.tagName.toLowerCase();
+        if (KeyboardController.INTERACTIVE_TAGS.includes(tag) === true) {
+            return true;
+        }
+        if (tag === 'a' && target.hasAttribute('href') === true) {
+            return true;
+        }
+        if ((tag === 'video' || tag === 'audio') && target.hasAttribute('controls') === true) {
+            return true;
+        }
+        if (target.isContentEditable === true) {
+            return true;
+        }
+        const reachable = target.getAttribute('tabindex');
+        if (reachable !== null) {
+            const rank = parseInt(reachable, 10);
+            if (Number.isNaN(rank) === false && rank >= 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+    // PRIVATE METHODS
+    #onKeyDown(event) {
+        const shortcut = this.#shortcuts.get(event.key);
+        if (shortcut === undefined) {
+            return;
+        }
+        if (KeyboardController.isInteractiveTarget(event.target) === true) {
+            return;
+        }
+        if (shortcut.preventsDefault === true) {
+            event.preventDefault();
+        }
+        if (typeof shortcut.action === 'function') {
+            shortcut.action(event);
+            return;
+        }
+        document.dispatchEvent(new CustomEvent(shortcut.action, {detail: shortcut.detail}));
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.KeyboardController = KeyboardController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
@@ -1020,121 +1141,65 @@ window.Wexa.OverviewView = OverviewView;
 
 // ---------------- extras/slides/keyboard_controller.js ---------------
 'use strict';
-class KeyboardController {
+class SlidesKeyboard {
+    // CONSTANTS
     static SHORTCUTS = [
-        { keys: ['ArrowRight', 'ArrowDown', 'PageDown'], label: 'Next slide' },
-        { keys: ['ArrowLeft', 'ArrowUp', 'PageUp'],      label: 'Previous slide' },
-        { keys: ['Home'],                                 label: 'First slide' },
-        { keys: ['End'],                                  label: 'Last slide' },
-        { keys: ['h', 'H', '?'],                          label: 'Help' },
-        { keys: ['f', 'F'],                               label: 'Fullscreen' },
-        { keys: ['o', 'O'],                               label: 'Overview mode' },
-        { keys: ['d', 'D'],                               label: 'Handout mode' },
-        { keys: ['m', 'M'],                               label: 'Memo mode' },
-        { keys: ['Escape', 's', 'S'],                     label: 'Presentation mode' },
-        { keys: ['a', 'A'],                               label: 'Accessibility controls' },
-        { keys: ['n', 'N'],                               label: 'Navigation controls' },
-        { keys: ['b', 'B'],                               label: 'Progress bar' },
-        { keys: ['l', 'L'],                               label: 'Logo' },
+        { keys: ['ArrowRight', 'ArrowDown', 'PageDown'], label: 'Next slide',
+          event: 'slides:navigate', detail: { action: 'next' }, scrolls: true },
+        { keys: ['ArrowLeft', 'ArrowUp', 'PageUp'],      label: 'Previous slide',
+          event: 'slides:navigate', detail: { action: 'prev' }, scrolls: true },
+        { keys: ['Home'],                                 label: 'First slide',
+          event: 'slides:navigate', detail: { action: 'goStart' }, scrolls: true },
+        { keys: ['End'],                                  label: 'Last slide',
+          event: 'slides:navigate', detail: { action: 'goEnd' }, scrolls: true },
+        { keys: ['h', 'H', '?'],                          label: 'Help',
+          event: 'slides:help', detail: { action: 'toggle' } },
+        { keys: ['f', 'F'],                               label: 'Fullscreen',
+          event: 'slides:fullscreen', detail: {} },
+        { keys: ['o', 'O'],                               label: 'Overview mode',
+          event: 'slides:viewmode', detail: { action: 'toggle', mode: 'overview' } },
+        { keys: ['d', 'D'],                               label: 'Handout mode',
+          event: 'slides:viewmode', detail: { action: 'toggle', mode: 'handout' } },
+        { keys: ['m', 'M'],                               label: 'Memo mode',
+          event: 'slides:viewmode', detail: { action: 'toggle', mode: 'note' } },
+        { keys: ['Escape', 's', 'S'],                     label: 'Presentation mode',
+          event: 'slides:viewmode', detail: { mode: 'presentation' } },
+        { keys: ['a', 'A'],                               label: 'Accessibility controls',
+          event: 'slides:visibility', detail: { name: 'accessibility', action: 'toggle' } },
+        { keys: ['n', 'N'],                               label: 'Navigation controls',
+          event: 'slides:visibility', detail: { name: 'controls', action: 'toggle' } },
+        { keys: ['b', 'B'],                               label: 'Progress bar',
+          event: 'slides:visibility', detail: { name: 'progress', action: 'toggle' } },
+        { keys: ['l', 'L'],                               label: 'Logo',
+          event: 'slides:visibility', detail: { name: 'logo', action: 'toggle' } },
     ];
-    static SLIDE_KEYS = new Set(KeyboardController.SHORTCUTS.flatMap(s => s.keys));
+    // FIELDS
+    #keyboard;
+    // CONSTRUCTOR
     constructor() {
-        this._boundHandler = this._onKeyDown.bind(this);
+        this.#keyboard = new KeyboardController();
+        SlidesKeyboard.SHORTCUTS.forEach(shortcut => {
+            this.#keyboard.register({
+                keys: shortcut.keys,
+                action: shortcut.event,
+                detail: shortcut.detail,
+                label: shortcut.label,
+                preventsDefault: shortcut.scrolls === true
+            });
+        });
     }
+    // PUBLIC METHODS
     init() {
-        document.body.addEventListener('keydown', this._boundHandler, false);
+        this.#keyboard.init();
     }
+    // -----------------------------------------------------------------------
     destroy() {
-        document.body.removeEventListener('keydown', this._boundHandler, false);
-    }
-    // -----------------------------------------------------------------------
-    // Private
-    // -----------------------------------------------------------------------
-    _onKeyDown(event) {
-        const key = event.key;
-        if (!KeyboardController.SLIDE_KEYS.has(key)) return;
-        if (key === 'Enter' || key === ' ')            return;
-        if (this._isInteractiveTarget(event.target))   return;
-        switch (key) {
-            case 'h': case 'H': case '?':
-                this._emit('slides:help', { action: 'toggle' });
-                return;
-            case 'Escape':
-            case 's': case 'S':
-                this._emit('slides:viewmode', { mode: 'presentation' });
-                return;
-            case 'o': case 'O':
-                this._emit('slides:viewmode', { action: 'toggle', mode: 'overview' });
-                return;
-            case 'd': case 'D':
-                this._emit('slides:viewmode', { action: 'toggle', mode: 'handout' });
-                return;
-            case 'm': case 'M':
-                this._emit('slides:viewmode', { action: 'toggle', mode: 'note' });
-                return;
-            case 'f': case 'F':
-                this._emit('slides:fullscreen', {});
-                return;
-            case 'a': case 'A':
-                this._emit('slides:visibility', { name: 'accessibility', action: 'toggle' });
-                return;
-            case 'n': case 'N':
-                this._emit('slides:visibility', { name: 'controls', action: 'toggle' });
-                return;
-            case 'b': case 'B':
-                this._emit('slides:visibility', { name: 'progress', action: 'toggle' });
-                return;
-            case 'l': case 'L':
-                this._emit('slides:visibility', { name: 'logo', action: 'toggle' });
-                return;
-            case 'ArrowLeft': case 'ArrowUp': case 'PageUp':
-                event.preventDefault();
-                this._emit('slides:navigate', { action: 'prev' });
-                return;
-            case 'ArrowRight': case 'ArrowDown': case 'PageDown':
-                event.preventDefault();
-                this._emit('slides:navigate', { action: 'next' });
-                return;
-            case 'Home':
-                event.preventDefault();
-                this._emit('slides:navigate', { action: 'goStart' });
-                return;
-            case 'End':
-                event.preventDefault();
-                this._emit('slides:navigate', { action: 'goEnd' });
-                return;
-        }
-    }
-    _emit(type, detail) {
-        document.dispatchEvent(new CustomEvent(type, { detail }));
-    }
-    _isInteractiveTarget(target) {
-        if (!(target instanceof HTMLElement)) {
-            return true;
-        }
-        const tag = target.tagName.toLowerCase();
-        if (['input', 'select', 'textarea', 'button', 'summary'].includes(tag)) {
-            return true;
-        }
-        if (tag === 'a' && target.hasAttribute('href')) {
-            return true;
-        }
-        if ((tag === 'video' || tag === 'audio') && target.hasAttribute('controls')) {
-            return true;
-        }
-        const tab = target.getAttribute('tabindex');
-        if (tab !== null) {
-            const n = parseInt(tab, 10);
-            if (!Number.isNaN(n) && n >= 0) {
-                return true;
-            }
-        }
-        return false;
+        this.#keyboard.destroy();
     }
 }
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
-window.Wexa.KeyboardController = KeyboardController;
+window.Wexa.SlidesKeyboard = SlidesKeyboard;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
@@ -1375,7 +1440,7 @@ class HelpDialog {
         div.appendChild(h2);
         const table = document.createElement('table');
         table.setAttribute('role', 'presentation');
-        for (const { keys, label } of KeyboardController.SHORTCUTS) {
+        for (const { keys, label } of SlidesKeyboard.SHORTCUTS) {
             const tr = document.createElement('tr');
             const tdKeys = document.createElement('td');
             tdKeys.textContent = keys.map(k => this._keyLabel(k)).join(' / ');
@@ -1483,7 +1548,7 @@ class SlidesAssembler {
         });
         // ── 5. CONTROLLERS ───────────────────────────────────────────────────
         this._helpDialog = new HelpDialog();
-        this._keyboard = new KeyboardController();
+        this._keyboard = new SlidesKeyboard();
         this._touch    = new TouchController();
         const c = config.controls;
         const v = config.controlsView;
@@ -2029,88 +2094,42 @@ window.Wexa.SlidesPagination = SlidesPagination;
 
 
 // ---------------- dom-loader.js ---------------
+'use strict';
 class OnLoadManager {
-    // FIELDS
     static #functions = [];
-    static #listenerRegistered = false;
-    // PUBLIC STATIC METHODS
+    static #listening = false;
+    // -----------------------------------------------------------------------
     static addLoadFunction(func) {
-        OnLoadManager.#functions.push(func);
-        OnLoadManager.#registerListener();
-    }
-    static runLoadFunctions() {
-        OnLoadManager.#functions.forEach(func => func());
-    }
-    // PRIVATE STATIC METHODS
-    static #registerListener() {
-        if (OnLoadManager.#listenerRegistered === true) {
+        if (typeof func !== 'function') {
             return;
         }
-        OnLoadManager.#listenerRegistered = true;
+        if (document.readyState === 'complete') {
+            func();
+            return;
+        }
+        OnLoadManager.#functions.push(func);
+        OnLoadManager.#listen();
+    }
+    // -----------------------------------------------------------------------
+    static runLoadFunctions() {
+        for (const func of OnLoadManager.#functions) {
+            func();
+        }
+    }
+    // -----------------------------------------------------------------------
+    // PRIVATE
+    // -----------------------------------------------------------------------
+    static #listen() {
+        if (OnLoadManager.#listening === true) {
+            return;
+        }
+        OnLoadManager.#listening = true;
         window.addEventListener('load', OnLoadManager.runLoadFunctions);
     }
 }
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
 window.Wexa.OnLoadManager = OnLoadManager;
-// ---- END AUTO-GENERATED EXPORTS ----
-
-
-// ---------------- svgicons.js ---------------
-class SVGIconsManager {
-    // -----------------------------------------------------------------------
-    // PRIVATE FIELDS
-    // -----------------------------------------------------------------------
-    static #cache = new Map();
-    static #base = null;
-    // -----------------------------------------------------------------------
-    // PUBLIC STATIC METHODS
-    // -----------------------------------------------------------------------
-    static init(metaUrl) {
-        const base = metaUrl !== null ? metaUrl : (document.currentScript && document.currentScript.src);
-        SVGIconsManager.#base = new URL('../icons/mono-svg/', base).href;
-        WexaLogger.debug('SVGIconsManager: base URL set to ' + SVGIconsManager.#base);
-    }
-    // -----------------------------------------------------------------------
-    static register(name, svgContent) {
-        SVGIconsManager.#cache.set(name, svgContent);
-    }
-    static async inject(element, name) {
-        if (element === null || element === undefined) {
-            return;
-        }
-        if (element.querySelector('svg') !== null) {
-            return;
-        }
-        element.insertAdjacentHTML('afterbegin', await SVGIconsManager.get(name));
-    }
-    // -----------------------------------------------------------------------
-    static async get(name) {
-        if (SVGIconsManager.#cache.has(name)) {
-            return SVGIconsManager.#cache.get(name);
-        }
-        if (SVGIconsManager.#base === null) {
-            WexaLogger.error('SVGIconsManager: call init() before get().');
-            return '';
-        }
-        try {
-            const response = await fetch(SVGIconsManager.#base + name + '.svg');
-            if (response.ok === false) {
-                WexaLogger.warn(`SVGIconsManager: icon "${name}" not found (HTTP ${response.status}).`);
-                return '';
-            }
-            const content = await response.text();
-            SVGIconsManager.#cache.set(name, content);
-            return content;
-        } catch (error) {
-            WexaLogger.error(`SVGIconsManager: failed to fetch icon "${name}".`, error);
-            return '';
-        }
-    }
-}
-// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
-if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
-window.Wexa.SVGIconsManager = SVGIconsManager;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
@@ -2326,8 +2345,8 @@ class AccessibilityManager extends BaseManager {
     }
     // -----------------------------------------------------------------------
     async #injectButtonIcons() {
-        await SVGIconsManager.inject(document.getElementById('btn-contrast'), 'contrast');
-        await SVGIconsManager.inject(document.getElementById('btn-color'), 'color');
+        await icons.inject(document.getElementById('btn-contrast'), 'contrast');
+        await icons.inject(document.getElementById('btn-color'), 'color');
     }
     // -----------------------------------------------------------------------
     #updateUrl() {
@@ -2347,6 +2366,105 @@ class AccessibilityManager extends BaseManager {
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
 window.Wexa.AccessibilityManager = AccessibilityManager;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- accessibility_nav.js ---------------
+'use strict';
+const NAV_WORDING = {
+    theme: { label: 'Switch theme', title: 'Switch theme' },
+    contrast: { label: 'Switch contrast', title: 'Switch contrast' },
+    color: { label: 'Switch light and dark', title: 'Switch light and dark' }
+};
+class AccessibilityNav {
+    #shown;
+    constructor(shown = {}) {
+        this.#shown = {
+            theme: shown.theme !== false,
+            contrast: shown.contrast !== false,
+            color: shown.color !== false
+        };
+    }
+    // -----------------------------------------------------------------------
+    async build(options = {}) {
+        const nav = document.createElement('nav');
+        nav.id = options.id !== undefined ? options.id : 'accessibility-controls';
+        nav.className = options.className !== undefined
+            ? options.className
+            : 'nav-wexa';
+        nav.setAttribute('aria-label', options.label !== undefined
+            ? options.label
+            : 'Accessibility controls');
+        if (this.#shown.theme === true) {
+            const wording = this.#wordingOf(options, 'theme');
+            nav.appendChild(await this.#button(
+                'btn-css-theme', 'menuitem', 'theme', wording.label,
+                () => {
+                    if (window.themes !== null && window.themes !== undefined) {
+                        window.themes.next();
+                    }
+                },
+                { title: wording.title }));
+        }
+        if (this.#shown.contrast === true) {
+            const wording = this.#wordingOf(options, 'contrast');
+            nav.appendChild(await this.#button(
+                'btn-contrast', 'menuitem accessibility', 'contrast', wording.label,
+                () => this.#accessibility('switchContrastScheme'),
+                { ariaPressed: 'false', title: wording.title }));
+        }
+        if (this.#shown.color === true) {
+            const wording = this.#wordingOf(options, 'color');
+            nav.appendChild(await this.#button(
+                'btn-color', 'menuitem accessibility', 'color', wording.label,
+                () => this.#accessibility('switchColorScheme'),
+                { ariaPressed: 'false', title: wording.title }));
+        }
+        return nav;
+    }
+    // -----------------------------------------------------------------------
+    // PRIVATE
+    // -----------------------------------------------------------------------
+    #wordingOf(options, which) {
+        const proposed = NAV_WORDING[which];
+        const said = options.wording !== undefined ? options.wording[which] : undefined;
+        if (said === undefined || said === null) {
+            return { label: proposed.label, title: proposed.title };
+        }
+        const label = said.label !== undefined ? said.label : proposed.label;
+        const title = said.title !== undefined ? said.title : proposed.title;
+        return { label: label, title: title };
+    }
+    // -----------------------------------------------------------------------
+    async #button(id, className, iconName, ariaLabel, onClick, extras = {}) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.id = id;
+        button.className = className;
+        button.setAttribute('aria-label', ariaLabel);
+        if (extras.ariaPressed !== undefined) {
+            button.setAttribute('aria-pressed', extras.ariaPressed);
+        }
+        if (extras.title !== undefined) {
+            button.title = extras.title;
+        }
+        button.innerHTML = await icons.get(iconName);
+        button.addEventListener('click', onClick);
+        return button;
+    }
+    // -----------------------------------------------------------------------
+    #accessibility(what) {
+        const manager = window.Wexa !== undefined && window.Wexa !== null
+            ? window.Wexa.accessibility
+            : null;
+        if (manager !== null && manager !== undefined) {
+            manager[what]();
+        }
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.AccessibilityNav = AccessibilityNav;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
@@ -2909,7 +3027,7 @@ class ToggleSelector {
                 label.insertBefore(holder, label.firstChild);
             }
             holder.replaceChildren();
-            SVGIconsManager.inject(holder,
+            icons.inject(holder,
                 checkbox.checked === true ? ToggleSelector.ICONS.CHECKED : ToggleSelector.ICONS.UNCHECKED);
         });
     }
@@ -2947,7 +3065,7 @@ class ToggleSelector {
         // inject() leaves an element that already holds an SVG untouched: what
         // is drawn has to go before the new state can be drawn.
         button.replaceChildren();
-        SVGIconsManager.inject(button, name);
+        icons.inject(button, name);
     }
     // ----------------------------------------------------------------------
     setupCheckboxListeners() {
@@ -3078,7 +3196,7 @@ window.Wexa.LinkController = LinkController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/theme_manager.js ---------------
+// ---------------- customize/theme_manager.js ---------------
 class ThemeManager extends BaseManager {
     // -----------------------------------------------------------------------
     // FIELDS
@@ -3180,7 +3298,7 @@ class ThemeManager extends BaseManager {
     // PRIVATE METHODS
     // -----------------------------------------------------------------------
     async #injectButtonIcon() {
-        await SVGIconsManager.inject(document.getElementById('btn-css-theme'), 'theme');
+        await icons.inject(document.getElementById('btn-css-theme'), 'theme');
     }
     // -----------------------------------------------------------------------
     #applyLink(path) {
@@ -3220,55 +3338,928 @@ window.Wexa.ThemeManager = ThemeManager;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
+// ---------------- customize/icon_set.js ---------------
+'use strict';
+const IconForm = {
+    LINE: 'line',
+    IMAGE: 'image'
+};
+class IconSet {
+    #name;
+    #base;
+    #files = new Map();
+    constructor(name, base, files) {
+        this.#name = name;
+        this.#base = base;
+        const given = Array.isArray(files) === true ? files : [];
+        for (const file of given) {
+            this.#files.set(IconSet.nameOf(file), file);
+        }
+    }
+    // -----------------------------------------------------------------------
+    static nameOf(file) {
+        const dot = file.lastIndexOf('.');
+        return dot === -1 ? file : file.substring(0, dot);
+    }
+    // -----------------------------------------------------------------------
+    get name() {
+        return this.#name;
+    }
+    get base() {
+        return this.#base;
+    }
+    get names() {
+        return Array.from(this.#files.keys());
+    }
+    // -----------------------------------------------------------------------
+    carries(name) {
+        if (typeof name !== 'string' || name === '') {
+            return false;
+        }
+        return this.#files.has(name);
+    }
+    // -----------------------------------------------------------------------
+    addressOf(name) {
+        return this.#base + this.#files.get(name);
+    }
+    // -----------------------------------------------------------------------
+    formOf(name) {
+        const file = this.#files.get(name);
+        if (file === undefined) {
+            return IconForm.IMAGE;
+        }
+        return file.toLowerCase().endsWith('.svg') === true
+            ? IconForm.LINE
+            : IconForm.IMAGE;
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.IconSet = IconSet;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- customize/icon_sets.js ---------------
+'use strict';
+class IconSets {
+    #declared = new Map();
+    #reference = null;
+    #fallback = '';
+    // -----------------------------------------------------------------------
+    declare(set) {
+        if (set === null || set === undefined) {
+            return;
+        }
+        if (this.#declared.has(set.name) === true) {
+            WexaLogger.warn('IconSets: the set "' + set.name
+                + '" is declared twice. The first one is kept.');
+            return;
+        }
+        this.#declared.set(set.name, set);
+    }
+    // -----------------------------------------------------------------------
+    reference(set) {
+        if (set === null || set === undefined) {
+            return;
+        }
+        this.#reference = set;
+    }
+    // -----------------------------------------------------------------------
+    fallback(name) {
+        if (this.#declared.has(name) === false) {
+            WexaLogger.warn('IconSets: the set "' + name
+                + '" answers for the others, and was never declared.');
+            return;
+        }
+        this.#fallback = name;
+    }
+    // -----------------------------------------------------------------------
+    setFor(name, inForce) {
+        const chosen = this.#declared.get(inForce);
+        if (chosen !== undefined && chosen.carries(name) === true) {
+            return chosen;
+        }
+        if (this.#fallback !== '' && this.#fallback !== inForce) {
+            const answering = this.#declared.get(this.#fallback);
+            if (answering !== undefined && answering.carries(name) === true) {
+                return answering;
+            }
+        }
+        if (this.#reference !== null && this.#reference.carries(name) === true) {
+            return this.#reference;
+        }
+        return null;
+    }
+    // -----------------------------------------------------------------------
+    namesFor(inForce) {
+        const names = [];
+        const chain = [
+            this.#declared.get(inForce),
+            this.#declared.get(this.#fallback),
+            this.#reference
+        ];
+        for (const set of chain) {
+            if (set === undefined || set === null) {
+                continue;
+            }
+            for (const name of set.names) {
+                if (names.includes(name) === false) {
+                    names.push(name);
+                }
+            }
+        }
+        return names;
+    }
+    // -----------------------------------------------------------------------
+    names() {
+        const names = Array.from(this.#declared.keys());
+        if (this.#reference !== null) {
+            names.push(this.#reference.name);
+        }
+        return names;
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.IconSets = IconSets;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- customize/icon_choice.js ---------------
+'use strict';
+class IconChoice {
+    static get PARAMETER_NAME() {
+        return 'wexa_icons';
+    }
+    #sets;
+    #inForce;
+    constructor(sets, named = '', search = null) {
+        this.#sets = sets;
+        this.#inForce = this.#firstDeclared([
+            this.#inAddress(search),
+            named
+        ]);
+    }
+    // -----------------------------------------------------------------------
+    inForce() {
+        return this.#inForce;
+    }
+    // -----------------------------------------------------------------------
+    put(name) {
+        if (this.#isDeclared(name) === false) {
+            return false;
+        }
+        if (name === this.#inForce) {
+            return false;
+        }
+        this.#inForce = name;
+        this.#sayInAddress(name);
+        return true;
+    }
+    // -----------------------------------------------------------------------
+    // PRIVATE
+    // -----------------------------------------------------------------------
+    #isDeclared(name) {
+        if (typeof name !== 'string' || name === '') {
+            return false;
+        }
+        return this.#sets.names().includes(name);
+    }
+    // -----------------------------------------------------------------------
+    #firstDeclared(names) {
+        for (const name of names) {
+            if (this.#isDeclared(name) === true) {
+                return name;
+            }
+        }
+        const declared = this.#sets.names();
+        return declared.length === 0 ? '' : declared[declared.length - 1];
+    }
+    // -----------------------------------------------------------------------
+    #inAddress(search) {
+        const query = search !== null ? search : window.location.search;
+        const asked = new URLSearchParams(query.substring(query.indexOf('?') + 1));
+        return asked.get(IconChoice.PARAMETER_NAME) || '';
+    }
+    // -----------------------------------------------------------------------
+    #sayInAddress(name) {
+        if (typeof window === 'undefined' || window.history === undefined) {
+            return;
+        }
+        const address = new URL(window.location.href);
+        address.searchParams.set(IconChoice.PARAMETER_NAME, name);
+        window.history.replaceState(null, '', address.href);
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.IconChoice = IconChoice;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- customize/icon_errors.js ---------------
+'use strict';
+class IconError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'IconError';
+    }
+}
+class NoSetAtAll extends IconError {
+    constructor() {
+        super('No set of icons was declared, not even the reference one.');
+        this.name = 'NoSetAtAll';
+    }
+}
+class UnreadableContent extends IconError {
+    constructor(address) {
+        super('The content at "' + address + '" cannot be read.');
+        this.name = 'UnreadableContent';
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.IconError = IconError;
+window.Wexa.NoSetAtAll = NoSetAtAll;
+window.Wexa.UnreadableContent = UnreadableContent;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- customize/icon_content.js ---------------
+'use strict';
+class IconContent {
+    #name;
+    #form;
+    #source;
+    constructor(name, form, source) {
+        this.#name = name;
+        this.#form = form;
+        this.#source = source;
+    }
+    get name() {
+        return this.#name;
+    }
+    get form() {
+        return this.#form;
+    }
+    get source() {
+        return this.#source;
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.IconContent = IconContent;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- customize/icon_reader.js ---------------
+'use strict';
+class IconReader {
+    static #gathered = new Map();
+    #read = new Map();
+    // -----------------------------------------------------------------------
+    static gather(setName, name, markup) {
+        IconReader.#gathered.set(setName + '/' + name, markup);
+    }
+    // -----------------------------------------------------------------------
+    gather(setName, name, markup) {
+        this.#read.set(setName + '/' + name, markup);
+    }
+    // -----------------------------------------------------------------------
+    address(set, name) {
+        return new IconContent(name, IconForm.IMAGE, set.addressOf(name));
+    }
+    // -----------------------------------------------------------------------
+    async read(set, name) {
+        const form = set.formOf(name);
+        const address = set.addressOf(name);
+        if (form === IconForm.IMAGE) {
+            return new IconContent(name, form, address);
+        }
+        const key = set.name + '/' + name;
+        if (this.#read.has(key) === true) {
+            return new IconContent(name, form, this.#read.get(key));
+        }
+        if (IconReader.#gathered.has(key) === true) {
+            return new IconContent(name, form, IconReader.#gathered.get(key));
+        }
+        const markup = await this.#markupAt(address);
+        this.#read.set(key, markup);
+        return new IconContent(name, form, markup);
+    }
+    // -----------------------------------------------------------------------
+    // PRIVATE
+    // -----------------------------------------------------------------------
+    async #markupAt(address) {
+        let answer = null;
+        try {
+            answer = await fetch(address);
+        } catch (error) {
+            throw new UnreadableContent(address);
+        }
+        if (answer.ok === false) {
+            throw new UnreadableContent(address);
+        }
+        return await answer.text();
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.IconReader = IconReader;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- customize/icon_demand.js ---------------
+'use strict';
+const DemandKind = {
+    PLACE: 'place',
+    SURFACE: 'surface'
+};
+const ATTRIBUTE = {
+    place: 'data-icon',
+    surface: 'data-ground'
+};
+class IconDemand {
+    #element;
+    #name;
+    #kind;
+    constructor(element, name, kind) {
+        this.#element = element;
+        this.#name = name;
+        this.#kind = kind;
+    }
+    // -----------------------------------------------------------------------
+    static of(element) {
+        if (element === null || element === undefined) {
+            return null;
+        }
+        for (const kind of Object.keys(ATTRIBUTE)) {
+            const name = element.getAttribute(ATTRIBUTE[kind]);
+            if (name !== null && name !== '') {
+                return new IconDemand(element, name, kind);
+            }
+        }
+        return null;
+    }
+    // -----------------------------------------------------------------------
+    static get SELECTOR() {
+        return '[' + ATTRIBUTE.place + '], [' + ATTRIBUTE.surface + ']';
+    }
+    // -----------------------------------------------------------------------
+    get element() {
+        return this.#element;
+    }
+    get name() {
+        return this.#name;
+    }
+    get kind() {
+        return this.#kind;
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.IconDemand = IconDemand;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- customize/icon_placer.js ---------------
+'use strict';
+const MARK = 'data-icon-placed';
+class IconPlacer {
+    place(demand, content) {
+        if (demand === null || content === null) {
+            return;
+        }
+        this.clear(demand);
+        if (demand.kind === DemandKind.SURFACE) {
+            this.#cover(demand, content);
+            return;
+        }
+        if (content.form === IconForm.LINE) {
+            this.#writeIn(demand, content);
+        } else {
+            this.#putImageIn(demand, content);
+        }
+    }
+    // -----------------------------------------------------------------------
+    clear(demand) {
+        if (demand === null) {
+            return;
+        }
+        const element = demand.element;
+        if (demand.kind === DemandKind.SURFACE) {
+            element.style.removeProperty('background-image');
+            element.style.removeProperty('background-repeat');
+            element.style.removeProperty('background-position');
+            return;
+        }
+        const placed = element.querySelector('[' + MARK + ']');
+        if (placed !== null) {
+            placed.remove();
+        }
+    }
+    // -----------------------------------------------------------------------
+    // PRIVATE
+    // -----------------------------------------------------------------------
+    #writeIn(demand, content) {
+        const holder = document.createElement('span');
+        holder.setAttribute(MARK, content.name);
+        holder.setAttribute('aria-hidden', 'true');
+        holder.innerHTML = content.source;
+        const drawing = holder.querySelector('svg');
+        if (drawing !== null) {
+            drawing.setAttribute(MARK, content.name);
+            drawing.setAttribute('aria-hidden', 'true');
+            demand.element.insertAdjacentElement('afterbegin', drawing);
+            return;
+        }
+        demand.element.insertAdjacentElement('afterbegin', holder);
+    }
+    // -----------------------------------------------------------------------
+    #putImageIn(demand, content) {
+        const image = document.createElement('img');
+        image.setAttribute(MARK, content.name);
+        image.setAttribute('src', content.source);
+        image.setAttribute('alt', '');
+        image.setAttribute('loading', 'lazy');
+        image.setAttribute('decoding', 'async');
+        const room = this.#roomOf(demand.element);
+        image.setAttribute('width', room.width);
+        image.setAttribute('height', room.height);
+        demand.element.insertAdjacentElement('afterbegin', image);
+    }
+    // -----------------------------------------------------------------------
+    #cover(demand, content) {
+        const element = demand.element;
+        element.style.backgroundImage = 'url("' + content.source + '")';
+        // A ground covers: it is laid from the corner and repeated. The
+        // framework asks for no repetition on every element, which would leave
+        // one drawing at the top of the surface.
+        element.style.backgroundRepeat = 'repeat';
+        element.style.backgroundPosition = '0 0';
+    }
+    // -----------------------------------------------------------------------
+    #roomOf(element) {
+        const style = window.getComputedStyle(element);
+        const width = parseInt(style.getPropertyValue('--icon-width'), 10);
+        const height = parseInt(style.getPropertyValue('--icon-height'), 10);
+        const size = parseInt(style.fontSize, 10) || 16;
+        return {
+            width: String(Number.isNaN(width) === true ? size : width),
+            height: String(Number.isNaN(height) === true ? size : height)
+        };
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.IconPlacer = IconPlacer;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- customize/icon_watcher.js ---------------
+'use strict';
+class IconWatcher {
+    #observer = null;
+    #watched = new Map();
+    #onView = null;
+    watch(demands, onView) {
+        this.#onView = typeof onView === 'function' ? onView : null;
+        if (this.#onView === null || Array.isArray(demands) === false) {
+            return;
+        }
+        if (typeof IntersectionObserver === 'undefined') {
+            demands.forEach(demand => this.#onView(demand));
+            return;
+        }
+        if (this.#observer === null) {
+            this.#observer = new IntersectionObserver(
+                entries => this.#seen(entries),
+                { rootMargin: '200px' });
+        }
+        for (const demand of demands) {
+            this.#watched.set(demand.element, demand);
+            this.#observer.observe(demand.element);
+        }
+    }
+    // -----------------------------------------------------------------------
+    stop() {
+        if (this.#observer !== null) {
+            this.#observer.disconnect();
+        }
+        this.#watched.clear();
+    }
+    // -----------------------------------------------------------------------
+    // PRIVATE
+    // -----------------------------------------------------------------------
+    #seen(entries) {
+        for (const entry of entries) {
+            if (entry.isIntersecting === false) {
+                continue;
+            }
+            const demand = this.#watched.get(entry.target);
+            if (demand === undefined) {
+                continue;
+            }
+            this.#observer.unobserve(entry.target);
+            this.#watched.delete(entry.target);
+            this.#onView(demand);
+        }
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.IconWatcher = IconWatcher;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- customize/icon_register.js ---------------
+'use strict';
+class IconRegister {
+    #held = new Set();
+    hold(demand) {
+        if (demand === null || demand === undefined) {
+            return;
+        }
+        this.#held.add(demand);
+    }
+    // -----------------------------------------------------------------------
+    held() {
+        const standing = [];
+        for (const demand of this.#held) {
+            if (demand.element.isConnected === true) {
+                standing.push(demand);
+            } else {
+                this.#held.delete(demand);
+            }
+        }
+        return standing;
+    }
+    // -----------------------------------------------------------------------
+    clear() {
+        this.#held.clear();
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.IconRegister = IconRegister;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- customize/icon_reference.js ---------------
+'use strict';
+const REFERENCE_BASE = 'icons/mono-svg/';
+const REFERENCE_FILES = [
+    'accessibility.svg',
+    'add.svg',
+    'anonymous.svg',
+    'arrow-down.svg',
+    'arrow-left.svg',
+    'arrow-right.svg',
+    'arrow-up.svg',
+    'audio.svg',
+    'back.svg',
+    'backward.svg',
+    'bell-off.svg',
+    'bell.svg',
+    'book-open.svg',
+    'book.svg',
+    'box.svg',
+    'broom.svg',
+    'cadenas-open.svg',
+    'cadenas.svg',
+    'calendar.svg',
+    'cancel.svg',
+    'checked.svg',
+    'chevron-down.svg',
+    'chevron-left.svg',
+    'chevron-right.svg',
+    'chevron-up.svg',
+    'clip.svg',
+    'clipboard.svg',
+    'clock.svg',
+    'close.svg',
+    'cloud-off.svg',
+    'cloud.svg',
+    'color.svg',
+    'compas.svg',
+    'compress.svg',
+    'congrats.svg',
+    'content.svg',
+    'contrast.svg',
+    'copy.svg',
+    'cursor-hand.svg',
+    'cursor-text.svg',
+    'cursor.svg',
+    'dashboard.svg',
+    'delete.svg',
+    'discovery.svg',
+    'dislike.svg',
+    'download.svg',
+    'edit.svg',
+    'error.svg',
+    'export.svg',
+    'external-link.svg',
+    'eye-off.svg',
+    'eye.svg',
+    'faq.svg',
+    'favorite.svg',
+    'feedback.svg',
+    'file.svg',
+    'filter.svg',
+    'first.svg',
+    'folder-off.svg',
+    'folder.svg',
+    'forward.svg',
+    'fullscreen.svg',
+    'gallery.svg',
+    'games.svg',
+    'goto.svg',
+    'grid-view.svg',
+    'half-checked.svg',
+    'heart.svg',
+    'help.svg',
+    'house.svg',
+    'image.svg',
+    'import.svg',
+    'info-square.svg',
+    'install.svg',
+    'lang.svg',
+    'last.svg',
+    'layers.svg',
+    'light-bulb.svg',
+    'like.svg',
+    'link-off.svg',
+    'link.svg',
+    'list-view.svg',
+    'logout.svg',
+    'mail-in.svg',
+    'mail-open.svg',
+    'mail-out.svg',
+    'mail.svg',
+    'menu.svg',
+    'microphone-off.svg',
+    'microphone.svg',
+    'misty-moon.svg',
+    'moon.svg',
+    'move.svg',
+    'next.svg',
+    'no.svg',
+    'open.svg',
+    'page.svg',
+    'parameters.svg',
+    'pathway.svg',
+    'pause.svg',
+    'pin.svg',
+    'play.svg',
+    'plugin.svg',
+    'position.svg',
+    'post-it.svg',
+    'power.svg',
+    'print.svg',
+    'radio-checked.svg',
+    'radio-unchecked.svg',
+    'readings.svg',
+    'redo.svg',
+    'refresh.svg',
+    'remove.svg',
+    'rename.svg',
+    'researchinfo.svg',
+    'rewind.svg',
+    'root.svg',
+    'ruler.svg',
+    'save.svg',
+    'screen.svg',
+    'scrolltop.svg',
+    'search.svg',
+    'settings.svg',
+    'share.svg',
+    'smiley-neutral.svg',
+    'smiley-sad.svg',
+    'smiley-smile.svg',
+    'sort.svg',
+    'stop.svg',
+    'sun.svg',
+    'sunrise.svg',
+    'tag.svg',
+    'target.svg',
+    'text.svg',
+    'theme.svg',
+    'unchecked.svg',
+    'undo.svg',
+    'upload.svg',
+    'user.svg',
+    'valid.svg',
+    'video-off.svg',
+    'video.svg',
+    'volume-high.svg',
+    'volume-low.svg',
+    'volume-medium.svg',
+    'volume-mute.svg',
+    'warning.svg',
+    'wifi-off.svg',
+    'wifi.svg',
+    'yes.svg',
+    'zoom-in.svg',
+    'zoom-out.svg',
+];
+// ---------------- customize/icon_manager.js ---------------
+'use strict';
+class IconManager {
+    #sets;
+    #choice;
+    #reader = new IconReader();
+    #placer = new IconPlacer();
+    #watcher;
+    #register = new IconRegister();
+    constructor(sets, named = '', watcher = null) {
+        this.#sets = sets;
+        this.#choice = new IconChoice(sets, named);
+        this.#watcher = watcher !== null ? watcher : new IconWatcher();
+    }
+    // -----------------------------------------------------------------------
+    inForce() {
+        return this.#choice.inForce();
+    }
+    names() {
+        return this.#sets.names();
+    }
+    // -----------------------------------------------------------------------
+    carried(named = '') {
+        const asked = named !== '' ? named : this.#choice.inForce();
+        return this.#sets.namesFor(asked);
+    }
+    // -----------------------------------------------------------------------
+    declare(set) {
+        this.#sets.declare(set);
+    }
+    gather(setName, name, markup) {
+        this.#reader.gather(setName, name, markup);
+    }
+    // -----------------------------------------------------------------------
+    reference(set) {
+        this.#sets.reference(set);
+    }
+    fallback(name) {
+        this.#sets.fallback(name);
+    }
+    // -----------------------------------------------------------------------
+    async get(name) {
+        const set = this.#sets.setFor(name, this.#choice.inForce());
+        if (set === null) {
+            WexaLogger.warn('IconManager: no set carries the name "' + name + '".');
+            return '';
+        }
+        try {
+            const content = await this.#reader.read(set, name);
+            return content.source;
+        } catch (error) {
+            this.#say(error);
+            return '';
+        }
+    }
+    // -----------------------------------------------------------------------
+    async inject(element, name) {
+        if (element === null || element === undefined) {
+            return;
+        }
+        if (element.querySelector('svg') !== null) {
+            return;
+        }
+        const markup = await this.get(name);
+        if (markup === '') {
+            return;
+        }
+        element.insertAdjacentHTML('afterbegin', markup);
+    }
+    // -----------------------------------------------------------------------
+    async run(root = document) {
+        try {
+            const demands = [];
+            for (const element of root.querySelectorAll(IconDemand.SELECTOR)) {
+                const demand = IconDemand.of(element);
+                if (demand !== null) {
+                    demands.push(demand);
+                }
+            }
+            this.#watcher.watch(demands, demand => this.#answer(demand));
+        } catch (error) {
+            this.#say(error);
+        }
+    }
+    // -----------------------------------------------------------------------
+    async show(name) {
+        try {
+            if (this.#choice.put(name) === false) {
+                return;
+            }
+            for (const demand of this.#register.held()) {
+                await this.#answer(demand);
+            }
+        } catch (error) {
+            this.#say(error);
+        }
+    }
+    // -----------------------------------------------------------------------
+    // PRIVATE
+    // -----------------------------------------------------------------------
+    async #answer(demand) {
+        const set = this.#sets.setFor(demand.name, this.#choice.inForce());
+        if (set === null) {
+            this.#placer.clear(demand);
+            this.#register.hold(demand);
+            WexaLogger.warn('IconManager: no set carries the name "'
+                + demand.name + '".');
+            return;
+        }
+        try {
+            // A ground is laid on a surface: it is never written into the page,
+            // so it is never read. Its address is what answers.
+            const content = demand.kind === DemandKind.SURFACE
+                ? this.#reader.address(set, demand.name)
+                : await this.#reader.read(set, demand.name);
+            this.#placer.place(demand, content);
+        } catch (error) {
+            this.#placer.clear(demand);
+            this.#say(error);
+        }
+        this.#register.hold(demand);
+    }
+    // -----------------------------------------------------------------------
+    #say(error) {
+        if (error instanceof IconError) {
+            WexaLogger.error('IconManager: ' + error.message);
+            return;
+        }
+        WexaLogger.error('IconManager: ', error);
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.IconManager = IconManager;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- customize/icons.js ---------------
+'use strict';
+// Where this file stands, so that a document finds the icons wherever it is
+// read from. The build writes null here, the bundle being a classic script:
+// there the drawings are gathered in, and no address is ever asked for.
+const here = null;
+const referenceBase = here === null
+    ? 'icons/mono-svg/'
+    : new URL('../../icons/mono-svg/', here).href;
+const sets = new IconSets();
+sets.reference(new IconSet('mono-svg', referenceBase, REFERENCE_FILES));
+const icons = new IconManager(sets);
 // ---------------- extras/book.js ---------------
 'use strict';
 class Book {
     // FIELDS
-    #toc_element;
-    #headings_container;
-    #html_tags;
-    #toggle_button;
+    #tocElement;
+    #headingsContainer;
+    #htmlTags;
+    #toggleButton;
     // CONSTRUCTOR
     constructor(id_headings, id_toc = "toc") {
-        this.#toc_element = document.getElementById(id_toc);
-        this.#headings_container = document.getElementById(id_headings);
-        this.#html_tags = "h1, h2, h3, h4";
-        const container = this.#toc_element?.closest('nav, aside');
+        this.#tocElement = document.getElementById(id_toc);
+        this.#headingsContainer = document.getElementById(id_headings);
+        this.#htmlTags = "h1, h2, h3, h4";
+        const container = this.#tocElement?.closest('nav, aside');
         if (container instanceof HTMLElement) {
             if (container.classList.contains('book-toc-aside')) {
-                this.#setup_aside(container);
+                this.#setupAside(container);
             } else {
                 container.setAttribute('tabindex', '-1');
             }
         }
     }
     // GETTERS
-    get dom_toc() {
-        return this.#toc_element;
+    get domToc() {
+        return this.#tocElement;
     }
     get headings() {
-        return this.#headings_container;
+        return this.#headingsContainer;
     }
-    get html_tags() {
-        return this.#html_tags;
+    get htmlTags() {
+        return this.#htmlTags;
     }
     // PUBLIC METHODS
-    set_headings(id_headings) {
-        this.#headings_container =  document.getElementById(id_headings);
+    setHeadings(id_headings) {
+        this.#headingsContainer =  document.getElementById(id_headings);
     }
-    add_html_tags(...tags) {
+    addHtmlTags(...tags) {
         tags.forEach(current => {
-            this.#html_tags += ", " + current
+            this.#htmlTags += ", " + current
         });
     }
-    delete_html_tags(...tags) {
+    deleteHtmlTags(...tags) {
         tags.forEach(current => {
-            this.#html_tags = this.#html_tags.replace(", " + current, "");
+            this.#htmlTags = this.#htmlTags.replace(", " + current, "");
         });
     }
-    fill_table(only_numerate_headings = true) {
-        if (!(this.#toc_element instanceof HTMLElement)) return;
-        const headings = this.#get_headings(only_numerate_headings);
+    fillTable(only_numerate_headings = true) {
+        if (!(this.#tocElement instanceof HTMLElement)) return;
+        const headings = this.#getHeadings(only_numerate_headings);
         headings.forEach((heading, index) => {
             /* Add the anchor right before the heading */
             let anchor = document.createElement('a');
@@ -3279,21 +4270,21 @@ class Book {
             link.setAttribute('href', '#toc' + index);
             link.textContent = heading.textContent;
             let item = document.createElement('li');
-            item.setAttribute('class', this.#class_of(heading));
+            item.setAttribute('class', this.#classOf(heading));
             item.appendChild(link);
-            this.#toc_element.appendChild(item);
+            this.#tocElement.appendChild(item);
             heading.parentNode.insertBefore(anchor, heading);
         });
     }
     // PRIVATE METHODS
-    #class_of(heading) {
+    #classOf(heading) {
         const level = heading.tagName.toLowerCase();
         if (heading.closest('.chapter.nonumber') === null) {
             return level;
         }
         return level + ' nonumber';
     }
-    #setup_aside(aside) {
+    #setupAside(aside) {
         if (!aside.id) aside.id = 'book-toc-aside';
         // A panel that is set aside is out of reach: 'inert' says it once, for
         // the keyboard as for a screen reader. 'aria-hidden' would say it to
@@ -3301,20 +4292,20 @@ class Book {
         aside.inert = true;
         const titleEl = aside.querySelector('h1, h2');
         const label = titleEl?.textContent?.trim() || 'Table of contents';
-        this.#toggle_button = document.createElement('button');
-        this.#toggle_button.className = 'book-toc-toggle';
-        this.#toggle_button.setAttribute('aria-controls', aside.id);
-        this.#toggle_button.setAttribute('aria-expanded', 'false');
-        this.#toggle_button.setAttribute('aria-label', label);
-        this.#toggle_button.textContent = label;
-        this.#toggle_button.addEventListener('click', () => {
+        this.#toggleButton = document.createElement('button');
+        this.#toggleButton.className = 'book-toc-toggle';
+        this.#toggleButton.setAttribute('aria-controls', aside.id);
+        this.#toggleButton.setAttribute('aria-expanded', 'false');
+        this.#toggleButton.setAttribute('aria-label', label);
+        this.#toggleButton.textContent = label;
+        this.#toggleButton.addEventListener('click', () => {
             const isOpen = aside.classList.toggle('open');
-            this.#toggle_button.setAttribute('aria-expanded', String(isOpen));
+            this.#toggleButton.setAttribute('aria-expanded', String(isOpen));
             aside.inert = !isOpen;
             if (isOpen) {
                 aside.querySelector('a[href], button')?.focus();
             } else {
-                this.#toggle_button.focus();
+                this.#toggleButton.focus();
             }
         });
         this.#placeToggleButton();
@@ -3332,24 +4323,24 @@ class Book {
     #placeToggleButton() {
         const bar = document.querySelector('nav');
         if (bar !== null) {
-            bar.appendChild(this.#toggle_button);
+            bar.appendChild(this.#toggleButton);
             return;
         }
         const header = document.querySelector('header');
         if (header !== null) {
-            header.appendChild(this.#toggle_button);
+            header.appendChild(this.#toggleButton);
             return;
         }
         const main = document.querySelector('main');
         if (main !== null) {
-            main.prepend(this.#toggle_button);
+            main.prepend(this.#toggleButton);
             return;
         }
-        document.body.prepend(this.#toggle_button);
+        document.body.prepend(this.#toggleButton);
     }
-    #get_headings(only_numerate_headings) {
-        if (!(this.#headings_container instanceof HTMLElement)) return [];
-        const titles = Array.from(this.#headings_container.querySelectorAll(this.#html_tags));
+    #getHeadings(only_numerate_headings) {
+        if (!(this.#headingsContainer instanceof HTMLElement)) return [];
+        const titles = Array.from(this.#headingsContainer.querySelectorAll(this.#htmlTags));
         let headings = [];
         titles.forEach(current => {
             if (only_numerate_headings) {
@@ -3368,6 +4359,97 @@ class Book {
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
 window.Wexa.Book = Book;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/poster.js ---------------
+'use strict';
+class Poster {
+    // CONSTANTS
+    static SHORTCUT_KEYS = ['a', 'A'];
+    static HIDDEN_CLASS = 'controls-hidden';
+    // FIELDS
+    #shown;
+    #nav;
+    #keyboard;
+    // CONSTRUCTOR
+    constructor(shown = {}) {
+        this.#shown = {
+            theme: shown.theme !== false,
+            contrast: shown.contrast !== false,
+            color: shown.color !== false
+        };
+        this.#nav = null;
+        this.#keyboard = null;
+    }
+    // GETTERS
+    get nav() {
+        return this.#nav;
+    }
+    // -----------------------------------------------------------------------
+    get visible() {
+        if (this.#nav === null) {
+            return false;
+        }
+        return this.#nav.classList.contains(Poster.HIDDEN_CLASS) === false;
+    }
+    // PUBLIC METHODS
+    async init(options = {}) {
+        const id = options.id || 'accessibility-controls';
+        if (document.getElementById(id) !== null) {
+            return null;
+        }
+        const bar = new AccessibilityNav(this.#shown);
+        this.#nav = await bar.build({
+            id: id,
+            className: options.className || `nav-wexa ${Poster.HIDDEN_CLASS}`,
+            label: options.label || 'Accessibility controls'
+        });
+        document.body.prepend(this.#nav);
+        this.#answerKey();
+        return this.#nav;
+    }
+    // -----------------------------------------------------------------------
+    show() {
+        if (this.#nav !== null) {
+            this.#nav.classList.remove(Poster.HIDDEN_CLASS);
+        }
+    }
+    // -----------------------------------------------------------------------
+    hide() {
+        if (this.#nav !== null) {
+            this.#nav.classList.add(Poster.HIDDEN_CLASS);
+        }
+    }
+    // -----------------------------------------------------------------------
+    toggle() {
+        if (this.visible === true) {
+            this.hide();
+            return;
+        }
+        this.show();
+    }
+    // -----------------------------------------------------------------------
+    destroy() {
+        if (this.#keyboard !== null) {
+            this.#keyboard.destroy();
+            this.#keyboard = null;
+        }
+    }
+    // PRIVATE METHODS
+    #answerKey() {
+        this.#keyboard = new KeyboardController();
+        this.#keyboard.register({
+            keys: Poster.SHORTCUT_KEYS,
+            action: () => this.toggle(),
+            label: 'Accessibility controls'
+        });
+        this.#keyboard.init();
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.Poster = Poster;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
@@ -4974,7 +6056,7 @@ class BibtexSource {
             return '';
         }
         const manager = new RequestManager();
-        const answer = await manager.send_get_request(wanted.pathname.substring(1) + wanted.search);
+        const answer = await manager.sendGetRequest(wanted.pathname.substring(1) + wanted.search);
         if (manager.status !== 200) {
             console.error(`BibtexSource: "${this.#address}" answered ${manager.status}.`);
             return '';
@@ -5219,7 +6301,7 @@ class BibliographyControls {
         apply.type = 'button';
         apply.className = 'flex-item';
         apply.setAttribute('aria-label', this.#texts.text('apply'));
-        SVGIconsManager.inject(apply, 'valid');
+        icons.inject(apply, 'valid');
         apply.addEventListener('click', () => this.#applyColumns());
         group.appendChild(details);
         group.appendChild(apply);
@@ -5622,7 +6704,7 @@ class KeyPiano {
         button.classList.add(CSS_CONTROL);
         button.setAttribute('aria-label', label);
         button.addEventListener('click', onClick);
-        button.innerHTML = await SVGIconsManager.get(iconName);
+        button.innerHTML = await icons.get(iconName);
         return button;
     }
     // ------------------------------------------------------------------
@@ -5644,66 +6726,161 @@ window.Wexa.KeyPiano = KeyPiano;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- SVG icons (pre-registered for file:// mode) ---------------
-SVGIconsManager.register('anonymous', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <circle cx=\"16\" cy=\"11\" r=\"5\" />\n  <path d=\"M5 27c0-5 5-8 11-8s11 3 11 8\" />\n  <line x1=\"8\" y1=\"8\" x2=\"24\" y2=\"24\" />\n</svg>");
-SVGIconsManager.register('audio', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <polygon points=\"7 12 12 12 17 7 17 25 12 20 7 20 7 12\"/>\n  <path d=\"M21 11.333a6.7 7 0 0 1 0 9\"/>\n</svg>\n\n\n");
-SVGIconsManager.register('back', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n    <path d=\"M20 28 L8 16 L20 4 Z\" />\n</svg>");
-SVGIconsManager.register('backward', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <polyline points=\"20 24 12 16 20 8\" />\n</svg>");
-SVGIconsManager.register('bell', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M24 11a8 8 0 0 0-16 0c0 9-4 8-4 11h24c0-3-4-1-4-11\" />\n  <path d=\"M18 28a3 3 0 0 1-5 0\" />\n</svg>");
-SVGIconsManager.register('book-open', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M4 6h10a4 4 0 0 1 4 4v16a4 4 0 0 0-4-4H4z\"/>\n  <path d=\"M28 6H18a4 4 0 0 0-4 4v16a4 4 0 0 1 4-4h10z\"/>\n</svg>\n");
-SVGIconsManager.register('cadenas', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"7\" y=\"15\" width=\"19\" height=\"13\" rx=\"3\" />\n  <path d=\"M11 15V9a5 5 0 0 1 11 0v5\" />\n</svg>");
-SVGIconsManager.register('cancel', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\"  fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n\t<circle cx=\"16\" cy=\"16\" r=\"10\" />\n\t<line x1=\"10\" y1=\"22\" x2=\"22\" y2=\"10\" />\n</svg>");
-SVGIconsManager.register('checked', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M10 27H22C24 27 25 27 25 26C26 26 26 26 26 25C27 25 27 24 27 22V10C27 8 27 7 26 7C26 6 26 6 25 6C25 5 24 5 22 5H10C8 5 7 5 7 6C6 6 6 6 6 7C5 7 5 8 5 10V22C5 24 5 25 6 25C6 26 6 26 7 26C7 27 8 27 10 27Z M11 17L14 20L21 12\" />\n</svg>\n");
-SVGIconsManager.register('color', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" \n\t  fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n  <!-- Outer circle -->\n  <circle cx=\"16\" cy=\"16\" r=\"13\"/>\n  <!-- Diagonal half fill -->\n  <clipPath id=\"cut\">\n\t<polygon points=\"0,32 32,0 32,32\"/>\n  </clipPath>\n  <circle cx=\"16\" cy=\"16\" r=\"13\" fill=\"currentColor\" clip-path=\"url(#cut)\" stroke=\"none\"/>\n</svg>");
-SVGIconsManager.register('compas', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <!-- Outer circle -->\n  <circle cx=\"16\" cy=\"16\" r=\"13\"/>\n\n  <!-- Compass ticks -->\n  <line x1=\"16\" y1=\"2\" x2=\"16\" y2=\"4\"/>\n  <line x1=\"16\" y1=\"28\" x2=\"16\" y2=\"30\"/>\n  <line x1=\"2\" y1=\"16\" x2=\"4\" y2=\"16\"/>\n  <line x1=\"28\" y1=\"16\" x2=\"30\" y2=\"16\"/>\n\n  <!-- Needle (angled ~30\u00b0) -->\n  <polygon points=\"18 8 22 18 14 24 10 14\"/>\n  <circle cx=\"16\" cy=\"16\" r=\"1\"/>\n</svg>\n\n");
-SVGIconsManager.register('congrats', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n  <circle cx=\"16\" cy=\"11\" r=\"8\" />\n  <path d=\"M11 19l-3 8 8-4 8 4-3-8\" />\n</svg>");
-SVGIconsManager.register('content', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n  <circle cx=\"7\" cy=\"16\" r=\"2\" />\n  <circle cx=\"16\" cy=\"16\" r=\"2\" />\n  <circle cx=\"25\" cy=\"16\" r=\"2\" />\n</svg>");
-SVGIconsManager.register('contrast', "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" stroke=\"currentColor\"\n\tviewBox=\"0 0 32 32\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <path d=\"M2 16s4-8 14-8 14 8 14 8-4 8-14 8S2 16 2 16z\"/>\n  <circle cx=\"16\" cy=\"16\" r=\"5\" fill=\"currentColor\" stroke=\"none\"/>\n</svg>");
-SVGIconsManager.register('cuedspeech', "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" id=\"Calque_1\" x=\"0px\" y=\"0px\" width=\"119.055px\" height=\"119.055px\" viewBox=\"-5.838 29.144 90.205 90.205\" enable-background=\"new 0 0 119.055 119.055\" xml:space=\"preserve\"><polygon points=\"-0.024,97.39 0.231,98.014 0.231,97.18 \" />\n<path d=\"M21.312,117.349c1.022,0,1.726-0.25,2.149-0.764l0.173-0.209c3.688-4.487,11.127-12.775,19.522-17.867  C49.166,94.864,53.823,91.098,57,87.317c1.407-1.416,2.341-2.569,2.998-3.419c3.947-5.104,15.603-22.875,16.603-26.323  c0.372-1.286,0.154-2.516-0.628-3.557c-0.599-0.796-1.479-1.386-2.255-1.679c1.443-1.975,2.707-3.799,3.654-5.352  c1.11-1.82,1.227-3.79,0.32-5.404c-0.478-0.849-1.204-1.502-2.016-1.853c0.651-0.855,1.994-2.895,1.796-4.972  c-0.107-1.124-0.655-2.102-1.584-2.829c-0.665-0.521-1.428-0.785-2.269-0.785c-1.618,0-3.419,0.991-5.414,3.01  c-0.229,0.266-0.479,0.544-0.753,0.844l-0.389,0.428l-0.003-0.002c-2.369,2.549-5.944,6.138-9.527,9.642  c-0.193-0.716-0.689-1.3-1.426-1.667c-0.99-0.493-2.333-1.059-3.946-1.059c-2.112,0-4.143,0.932-6.208,2.849  c-1.342,1.244-8.23,6.507-11.541,9.037l-1.378,1.054l-4.207,3.465c-0.169,0.15-0.333,0.298-0.562,0.508l-2.755,2.711  c-4.447,4.745-6.033,8.552-7.568,12.232c-0.81,1.944-1.576,3.78-2.75,5.737c-0.764,1.274-1.683,2.636-2.733,4.047  c-0.304,0.241-0.533,0.545-0.686,0.907c-3.574,4.637-7.668,8.742-9.809,10.794l-0.581,0.553L0.231,97.18v0.834l0.124,0.302  C6.716,113.853,17.896,117.349,21.312,117.349z M3.192,98.035c0.164-0.153,0.348-0.328,0.545-0.52  c2.21-2.117,6.473-6.392,10.182-11.23l0.144-0.236l0.04-0.106l0.144-0.09l0.143-0.19c1.151-1.536,2.159-3.023,2.995-4.419  c1.27-2.116,2.106-4.125,2.917-6.068c1.516-3.638,2.949-7.074,7.098-11.494l2.659-2.61c0.151-0.139,0.305-0.277,0.521-0.469  l5.386-4.35c3.598-2.749,10.296-7.866,11.727-9.193c1.572-1.459,3.036-2.168,4.474-2.168c1.075,0,2.022,0.4,2.807,0.791  c0.065,0.033,0.097,0.058,0.104,0.058c0.229,1.019-2.395,3.946-7.8,8.702c-1.838,1.618-2.432,2.152-2.685,2.641l-0.35,0.716  l0.765,1.233l0.718-0.001c0.607,0,1.008-0.001,9.979-8.63c4.211-4.05,9.896-9.652,13.225-13.233l0.023-0.013  c0.012-0.016,0.023-0.032,0.035-0.048l0.357-0.391c0.286-0.313,0.553-0.609,0.737-0.829c1.377-1.391,2.668-2.188,3.541-2.188  c0.264,0,0.484,0.077,0.695,0.242c0.379,0.297,0.575,0.633,0.617,1.059c0.123,1.257-1.072,2.958-1.491,3.444  c-1.112,1.256-6.668,7.529-6.804,7.688c-0.841,0.983-2.757,2.939-4.976,5.205C51.038,62.18,49.746,63.989,50.247,65.427  c0.188,0.542,0.653,0.91,1.243,0.985l0.161,0.01c0.726,0,1.044-0.511,1.299-0.921c0.335-0.537,1.032-1.656,2.126-2.892  c2.408-2.717,6.164-6.695,9.798-10.542c1.771-1.876,3.493-3.699,4.976-5.289c1.562-1.673,2.67-2.938,3.403-3.774  c0.384-0.438,0.747-0.853,0.826-0.927c0.31-0.249,0.984,0.032,1.39,0.754c0.26,0.462,0.569,1.445-0.273,2.827  c-2.286,3.747-6.564,9.244-10.701,14.559c-1.354,1.739-2.695,3.464-3.957,5.112c-0.638,0.835-1.274,1.633-1.884,2.398  c-2.009,2.521-3.744,4.697-4.51,6.826l-0.615,1.712l1.817-0.003c0.705-0.001,0.705-0.001,4.302-4.63  c1.754-2.257,4.444-5.774,7.303-9.715l0.119-0.164c2.834-3.909,4.626-6.38,5.766-7.019c0.313,0.128,0.882,0.445,1.189,0.947  c0.218,0.354,0.258,0.729,0.126,1.182c-0.787,2.714-11.695,19.685-16.17,25.473c-0.618,0.798-1.497,1.884-2.826,3.218l-0.075,0.081  c-2.998,3.581-7.455,7.179-13.247,10.691c-8.719,5.288-16.38,13.816-20.17,18.429l-0.018,0.022c-0.071,0.01-0.179,0.02-0.333,0.02  c-2.373,0-12.278-2.851-18.254-16.638L3.192,98.035z\" />\n</svg>");
-SVGIconsManager.register('dashboard', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\"\n     stroke=\"currentColor\"\n     fill=\"none\"\n     stroke-width=\"2\"\n     stroke-linecap=\"round\"\n     stroke-linejoin=\"round\">\n  <rect x=\"5\" y=\"5\" width=\"8\" height=\"21\" rx=\"1\" />\n  <rect x=\"19\" y=\"5\" width=\"8\" height=\"8\" rx=\"1\" />\n  <rect x=\"19\" y=\"19\" width=\"8\" height=\"8\" rx=\"1\" />\n</svg>");
-SVGIconsManager.register('discovery', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <circle cx=\"15\" cy=\"15\" r=\"8\" />\n  <line x1=\"23\" y1=\"23\" x2=\"28\" y2=\"28\" />\n</svg>");
-SVGIconsManager.register('download', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <path d=\"M16 5v16\"/>\n  <polyline points=\"10 15 16 21 22 15\"/>\n  <line x1=\"6\" y1=\"27\" x2=\"26\" y2=\"27\"/>\n</svg>\n");
-SVGIconsManager.register('error', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <polygon points=\"16 3 29 27 3 27 16 3\" />\n  <line x1=\"16\" y1=\"12\" x2=\"16\" y2=\"17\" />\n  <circle cx=\"16\" cy=\"23\" r=\"1\" />\n</svg>");
-SVGIconsManager.register('feedback', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <path d=\"M28 20a3 3 0 0 1-3 3H9l-5 5V7a3 3 0 0 1 3-3h19a3 3 0 0 1 3 3z\" />\n</svg>\n");
-SVGIconsManager.register('first', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n    <path d=\"M20 28 L8 16 L20 4 Z\" />\n    <line x1=\"4\" y1=\"4\" x2=\"4\" y2=\"28\" />\n</svg>\n");
-SVGIconsManager.register('games', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <rect x=\"5\" y=\"11\" width=\"21\" height=\"11\" rx=\"3\" />\n  <circle cx=\"11\" cy=\"16\" r=\"1\" />\n  <circle cx=\"13\" cy=\"16\" r=\"1\" />\n  <circle cx=\"19\" cy=\"13\" r=\"1\" />\n  <circle cx=\"19\" cy=\"19\" r=\"1\" />\n</svg>");
-SVGIconsManager.register('goto', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <path d=\"M6 8 H18 V18\" />\n    <polyline points=\"12 18 18 24 24 18\" />\n</svg>\n");
-SVGIconsManager.register('half-checked', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M10 27H22C24 27 25 27 25 26C26 26 26 26 26 25C27 25 27 24 27 22V10C27 8 27 7 26 7C26 6 26 6 25 6C25 5 24 5 22 5H10C8 5 7 5 7 6C6 6 6 6 6 7C5 7 5 8 5 10V22C5 24 5 25 6 25C6 26 6 26 7 26C7 27 8 27 10 27Z\" />\n  <circle cx=\"16\" cy=\"16\" r=\"3.5\" fill=\"currentColor\" stroke=\"none\" />\n</svg>\n");
-SVGIconsManager.register('heart-svgrepo-com', "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800px\" height=\"800px\" viewBox=\"0 0 32 32\" fill=\"none\">\n  <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M16 8C14 5 10 4 7 7C4 9 3 14 6 17C7 19 13 25 15 26C16 27 16 27 16 27C16 27 16 27 16 27C16 27 16 27 17 26C19 25 25 19 26 17C29 14 28 9 25 7C22 4 18 5 16 8Z\" stroke=\"#000000\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />\n</svg>");
-SVGIconsManager.register('help', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"16\" cy=\"16\" r=\"13\" />\n  <path d=\"M12 12a4 4 0 0 1 8 0c0 3-4 3-4 5\" />\n  <circle cx=\"16\" cy=\"23\" r=\"1\" />\n</svg>");
-SVGIconsManager.register('house', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M4 16L16 5l12 11\" />\n  <path d=\"M7 16v9a1 1 0 0 0 1 1h5v-7h5v7h5a1 1 0 0 0 1-1v-9\" />\n</svg>");
-SVGIconsManager.register('info-square', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\">\n  <path d=\"M20 3H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 16H5V5h14v14z\"/>\n  <path d=\"M11 7h2v2h-2zm0 4h2v6h-2z\"/>\n</svg>\n");
-SVGIconsManager.register('install', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n\t<path d=\"M28.36 14.65V11.38l-3.63-.59a9.64 9.64 0 0 0-1-2.41l2.12-3.03-2.16-2.16-2.98 2.14a8.94 8.94 0 0 0-2.42-1l-.63-3.63h-3.06l-.64 3.63a9.1 9.1 0 0 0-2.43 1L8.12 3.19 5.97 5.35l2.09 2.99a9.5 9.5 0 0 0-.22 2.48L4.06 11.4v3.27l3.6.64a9.6 9.6 0 0 0 1.02 2.45l-2.13 2.98 2.17 2.17 3.01-2.11a9 9 0 0 0 2.43 1l.6 3.63h3.06l.64-3.63a9.1 9.1 0 0 0 2.42-1l3 2.11 2.16-2.17-2.16-3a9.5 9.5 0 0 0 1-2.46l3.63-.62zM16 16.54a4.26 4.26 0 1 1 0-8.52 4.26 4.26 0 0 1 0 8.52zM29.54 23.36v4.92a1.23 1.23 0 0 1-1.23 1.23H3.69a1.23 1.23 0 0 1-1.23-1.23v-4.92H0v4.92a3.69 3.69 0 0 0 3.69 3.69h24.62a3.69 3.69 0 0 0 3.69-3.69v-4.92h-2.46z\"/>\n</svg>");
-SVGIconsManager.register('lang', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <path d=\"M28 20a3 3 0 0 1-3 3h-5l-5 5v-5H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h19a3 3 0 0 1 3 3z\" />\n  <line x1=\"11\" y1=\"12\" x2=\"21\" y2=\"12\" />\n  <line x1=\"13\" y1=\"17\" x2=\"19\" y2=\"17\" />\n</svg>");
-SVGIconsManager.register('last', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n    <path d=\"M12 4 L24 16 L12 28 Z\" />\n    <line x1=\"28\" y1=\"4\" x2=\"28\" y2=\"28\" />\n</svg>\n");
-SVGIconsManager.register('light-bulb', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <!-- Bulb -->\n  <circle cx=\"16\" cy=\"12\" r=\"8\"/>\n  <!-- Filament -->\n  <polyline points=\"13 13 15 15 17 11 19 13\"/>\n  <!-- Neck -->\n  <line x1=\"12\" y1=\"20\" x2=\"20\" y2=\"20\"/>\n  <line x1=\"12\" y1=\"22\" x2=\"20\" y2=\"22\"/>\n  <!-- Base -->\n  <line x1=\"13\" y1=\"24\" x2=\"19\" y2=\"24\"/>\n  <line x1=\"14\" y1=\"26\" x2=\"18\" y2=\"26\"/>\n</svg>\n");
-SVGIconsManager.register('like', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n  <path d=\"M16 28c-4-4-8-8-8-13a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 5-4 9-8 13z\" />\n</svg>");
-SVGIconsManager.register('logout', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <path d=\"M21 23l7-7-7-7\" />\n  <path d=\"M28 16H12\" />\n  <path d=\"M16 4H8a3 3 0 0 0-3 3v19a3 3 0 0 0 3 3h8\" />\n</svg>");
-SVGIconsManager.register('menu', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <line x1=\"4\" y1=\"8\" x2=\"28\" y2=\"8\" />\n  <line x1=\"4\" y1=\"16\" x2=\"28\" y2=\"16\" />\n  <line x1=\"4\" y1=\"24\" x2=\"28\" y2=\"24\" />\n</svg>");
-SVGIconsManager.register('misty-moon-svgrepo-com', "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:ns1=\"http://www.bohemiancoding.com/sketch/ns\" width=\"800px\" height=\"800px\" viewBox=\"0 0 32 32\" version=\"1.1\">\n  <title>misty-moon</title>\n  <desc>Created with Sketch Beta.</desc>\n  <defs>\n\n</defs>\n  <g id=\"Page-1\" stroke=\"none\" stroke-width=\"2\" fill=\"none\" fill-rule=\"evenodd\" ns1:type=\"MSPage\">\n    <g id=\"Icon-Set\" ns1:type=\"MSLayerGroup\" transform=\"translate(-516.000000, -828.000000)\" fill=\"#000000\">\n      <path d=\"M697,1131 C696,1129 696,1127 696,1125 C696,1114 702,1111 707,1108 C710,1106 715,1106 717,1107 C712,1109 707,1118 707,1126 C707,1128 707,1129 707,1131 L697,1131 L697,1131 Z M729,1131 L710,1131 C710,1129 709,1128 709,1126 C709,1117 715,1109 724,1106 C721,1105 717,1104 714,1104 C703,1104 693,1113 693,1125 C693,1127 694,1129 694,1131 L689,1131 C689,1131 688,1131 688,1132 C688,1133 689,1133 689,1133 L729,1133 C730,1133 731,1133 731,1132 C731,1131 730,1131 729,1131 L729,1131 Z M713,1136 L695,1136 C694,1136 693,1137 693,1137 C693,1138 694,1139 695,1139 L713,1139 C714,1139 715,1138 715,1137 C715,1137 714,1136 713,1136 L713,1136 Z M711,1141 L697,1141 C697,1141 696,1142 696,1143 C696,1143 697,1144 697,1144 L711,1144 C711,1144 712,1143 712,1143 C712,1142 711,1141 711,1141 L711,1141 Z\" id=\"misty-moon\" ns1:type=\"MSShapeGroup\">\n\n</path>\n    </g>\n  </g>\n</svg>");
-SVGIconsManager.register('next', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n    <path d=\"M12 4 L24 16 L12 28 Z\" />\n</svg>");
-SVGIconsManager.register('parameters', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"5\" y1=\"9\" x2=\"27\" y2=\"9\" />\n  <circle cx=\"11\" cy=\"9\" r=\"2\" />\n  <line x1=\"5\" y1=\"23\" x2=\"27\" y2=\"23\" />\n  <circle cx=\"21\" cy=\"23\" r=\"2\" />\n</svg>");
-SVGIconsManager.register('pathway', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <circle cx=\"5\" cy=\"16\" r=\"3\" />\n  <circle cx=\"16\" cy=\"5\" r=\"3\" />\n  <circle cx=\"27\" cy=\"21\" r=\"3\" />\n  <path d=\"M7 15L14 7L25 19\" />\n</svg>");
-SVGIconsManager.register('pin', "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" stroke=\"currentColor\"\n\t viewBox=\"0 0 24 24\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"\n\t aria-label=\"Pushpin\">\n\t<path d=\"M9 3h6l-1 8H10L9 3z\"/>\n\t<path d=\"M7 13h10\"/>\n\t<path d=\"M12 13v9\"/>\n</svg>");
-SVGIconsManager.register('readings', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n  <path d=\"M5 25h21M5 20h13M5 15h21M5 9h13\" />\n</svg>");
-SVGIconsManager.register('redo', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n    <path d=\"M16 4a12 12 0 1 0 11.3 8h-2.6A9.5 9.5 0 1 1 16 6.5\n               c2.5 0 4.7 1 6.3 2.6L19 12h9V3l-2.7 2.7A12 12 0 0 0 16 4Z\"/>\n</svg>");
-SVGIconsManager.register('researchinfo', "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" stroke=\"currentColor\"\n     viewBox=\"0 0 32 32\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <!-- Left brace { -->\n    <path d=\"M13 5\n             C10 5 10 8 10 10\n             C10 12 8 12 8 12\n             C10 12 10 14 10 16\n             C10 18 8 18 8 18\n             C10 18 10 20 10 22\n             C10 24 10 27 13 27\" />\n    <!-- Right brace } -->\n    <path d=\"M19 5\n             C22 5 22 8 22 10\n             C22 12 24 12 24 12\n             C22 12 22 14 22 16\n             C22 18 24 18 24 18\n             C22 18 22 20 22 22\n             C22 24 22 27 19 27\" />\n    <!-- Dot -->\n    <circle cx=\"16\" cy=\"16\" r=\"1.5\" />\n</svg>\n");
-SVGIconsManager.register('scrolltop', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" \n\t fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <!-- upward arrow -->\n  <polyline points=\"8 18 16 10 24 18\" />\n  <!-- top baseline -->\n  <line x1=\"8\" y1=\"22\" x2=\"24\" y2=\"22\" />\n</svg>");
-SVGIconsManager.register('settings', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <circle cx=\"16\" cy=\"16\" r=\"4\" />\n  <path d=\"M26 20a2 2 0 0 0 0 2l00a3 3 0 1 1-4 4l00a2 2 0 0 0-20 2 2 0 0 0-1 2V28a3 3 0 1 1-5 0v0a2 2 0 0 0-1-2 2 2 0 0 0-20l00a3 3 0 1 1-4-4l00a2 2 0 0 0 0-2 2 2 0 0 0-2-1H4a3 3 0 1 1 0-5h0a2 2 0 0 0 2-1 2 2 0 0 00-2l00a3 3 0 1 1 4-4l00a2 2 0 0 0 20h0A2 2 0 0 0 12 4V4a3 3 0 1 1 5 0v0a2 2 0 0 0 1 2h0a2 2 0 0 0 20l00a3 3 0 1 1 4 4l00a2 2 0 0 00 2v0A2 2 0 0 0 28 15H28a3 3 0 1 1 0 5h0a2 2 0 0 0-2 1z\" />\n</svg>");
-SVGIconsManager.register('smiley_neutral', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <circle cx=\"16\" cy=\"16\" r=\"13\"/>\n  <circle cx=\"11\" cy=\"12\" r=\"1\"/>\n  <circle cx=\"21\" cy=\"12\" r=\"1\"/>\n  <line x1=\"11\" y1=\"21\" x2=\"21\" y2=\"21\"/>\n</svg>\n\n\n");
-SVGIconsManager.register('smiley_sad', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <circle cx=\"16\" cy=\"16\" r=\"13\"/>\n  <circle cx=\"11\" cy=\"12\" r=\"1\"/>\n  <circle cx=\"21\" cy=\"12\" r=\"1\"/>\n  <path d=\"M11 21 Q16 16 21 21\" fill=\"none\"/>\n</svg>\n\n");
-SVGIconsManager.register('smiley_smile', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <circle cx=\"16\" cy=\"16\" r=\"13\"/>\n  <circle cx=\"11\" cy=\"12\" r=\"1\"/>\n  <circle cx=\"21\" cy=\"12\" r=\"1\"/>\n  <path d=\"M11 21 Q16 26 21 21\" fill=\"none\"/>\n</svg>\n");
-SVGIconsManager.register('sun-svgrepo-com', "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:ns1=\"http://www.bohemiancoding.com/sketch/ns\" width=\"800px\" height=\"800px\" viewBox=\"0 0 32 32\" version=\"1.1\">\n  <title>sun</title>\n  <desc>Created with Sketch Beta.</desc>\n  <defs>\n\n</defs>\n  <g id=\"Page-1\" stroke=\"none\" stroke-width=\"2\" fill=\"none\" fill-rule=\"evenodd\" ns1:type=\"MSPage\">\n    <g id=\"Icon-Set\" ns1:type=\"MSLayerGroup\" transform=\"translate(-206.000000, -831.000000)\" fill=\"#000000\">\n      <path d=\"M282,1129 C283,1123 288,1119 295,1119 C301,1119 306,1123 308,1129 L311,1129 C309,1122 303,1116 295,1116 C287,1116 280,1122 279,1129 L282,1129 L282,1129 Z M313,1132 L276,1132 C275,1132 275,1133 275,1133 C275,1134 275,1135 276,1135 L313,1135 C314,1135 315,1134 315,1133 C315,1133 314,1132 313,1132 L313,1132 Z M279,1119 C279,1120 280,1120 281,1119 C281,1119 281,1118 281,1117 L279,1115 C278,1115 277,1115 277,1115 C276,1116 276,1117 277,1117 L279,1119 L279,1119 Z M311,1119 L313,1117 C313,1117 313,1116 313,1115 C312,1115 311,1115 311,1115 L309,1117 C308,1118 308,1119 309,1119 C309,1120 310,1120 311,1119 L311,1119 Z M295,1113 C295,1113 296,1113 296,1112 L296,1109 C296,1109 295,1108 295,1108 C294,1108 293,1109 293,1109 L293,1112 C293,1113 294,1113 295,1113 L295,1113 Z\" id=\"sun\" ns1:type=\"MSShapeGroup\">\n\n</path>\n    </g>\n  </g>\n</svg>");
-SVGIconsManager.register('switch_contrast', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-label=\"Contrast switcher icon\">\n  <path d=\"M2 16s4-8 14-8 14 8 14 8-4 8-14 8S2 16 2 16z\"/>\n  <!-- text x=\"16\" y=\"20\" font-size=\"13\" text-anchor=\"middle\" fill=\"currentColor\" font-family=\"Commissioner, sans-serif\">A</text -->\n  <!-- Letter A drawn with three lines -->\n  <line x1=\"13\" y1=\"20\" x2=\"16\" y2=\"12\"/>\n  <line x1=\"19\" y1=\"20\" x2=\"16\" y2=\"12\"/>\n  <line x1=\"14\" y1=\"18\" x2=\"18\" y2=\"18\"/>\n  \n  <!-- Plus sign (top-left) -->\n  <line x1=\"5.5\" y1=\"5.5\" x2=\"5.5\" y2=\"8.5\"/>\n  <line x1=\"4\" y1=\"7\" x2=\"7\" y2=\"7\"/>\n\n  <!-- Minus sign (bottom-right) -->\n  <line x1=\"25\" y1=\"25\" x2=\"28\" y2=\"25\"/>\n</svg>");
-SVGIconsManager.register('switch_theme', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n  <!-- Outer circle -->\n  <circle cx=\"16\" cy=\"16\" r=\"13\"/>\n  <!-- Diagonal half fill -->\n  <clipPath id=\"cut\">\n    <polygon points=\"0,32 32,0 32,32\"/>\n  </clipPath>\n  <circle cx=\"16\" cy=\"16\" r=\"13\" fill=\"currentColor\" clip-path=\"url(#cut)\" stroke=\"none\"/>\n</svg>\n");
-SVGIconsManager.register('theme', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\"\n     fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n     stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n    <circle cx=\"16\" cy=\"16\" r=\"13\"/>\n    <circle cx=\"16\" cy=\"16\" r=\"5\" fill=\"currentColor\" stroke=\"none\"/>\n    <line x1=\"16\" y1=\"3\"  x2=\"16\" y2=\"8\"/>\n    <line x1=\"16\" y1=\"24\" x2=\"16\" y2=\"29\"/>\n    <line x1=\"3\"  y1=\"16\" x2=\"8\"  y2=\"16\"/>\n    <line x1=\"24\" y1=\"16\" x2=\"29\" y2=\"16\"/>\n</svg>\n");
-SVGIconsManager.register('unchecked', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M10 27H22C24 27 25 27 25 26C26 26 26 26 26 25C27 25 27 24 27 22V10C27 8 27 7 26 7C26 6 26 6 25 6C25 5 24 5 22 5H10C8 5 7 5 7 6C6 6 6 6 6 7C5 7 5 8 5 10V22C5 24 5 25 6 25C6 26 6 26 7 26C7 27 8 27 10 27Z\" />\n</svg>\n");
-SVGIconsManager.register('user', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <circle cx=\"16\" cy=\"11\" r=\"5\" />\n  <path d=\"M5 27c0-5 5-8 11-8s11 3 11 8\" />\n</svg>");
-SVGIconsManager.register('valid', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <polyline points=\"7 17 12 23 25 9\" />\n</svg>");
-SVGIconsManager.register('video', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <rect x=\"4\" y=\"8\" width=\"20\" height=\"16\" rx=\"3\" />\n  <polygon points=\"21 13 28 9 28 23 21 19\" />\n</svg>");
+// ------------- SVG icons (gathered in, for a document on a disk) ------------
+IconReader.gather('mono-svg', 'accessibility', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"16\" cy=\"8\" r=\"3\" />\n  <path d=\"M8 15h16\" />\n  <path d=\"M16 15v10\" />\n  <path d=\"M10 25l2-6\" />\n  <path d=\"M22 25l-2-6\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'add', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"16\" y1=\"7\" x2=\"16\" y2=\"25\" />\n  <line x1=\"7\" y1=\"16\" x2=\"25\" y2=\"16\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'anonymous', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"16\" cy=\"11\" r=\"5\" />\n  <path d=\"M5 27c0-5 5-8 11-8s11 3 11 8\" />\n  <line x1=\"8\" y1=\"8\" x2=\"24\" y2=\"24\" />\n</svg>");
+IconReader.gather('mono-svg', 'arrow-down', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"16\" y1=\"5\" x2=\"16\" y2=\"27\" />\n  <polyline points=\"8 19 16 27 24 19\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'arrow-left', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"27\" y1=\"16\" x2=\"5\" y2=\"16\" />\n  <polyline points=\"13 8 5 16 13 24\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'arrow-right', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"5\" y1=\"16\" x2=\"27\" y2=\"16\" />\n  <polyline points=\"19 8 27 16 19 24\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'arrow-up', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"16\" y1=\"27\" x2=\"16\" y2=\"5\" />\n  <polyline points=\"8 13 16 5 24 13\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'audio', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <polygon points=\"7 12 12 12 17 7 17 25 12 20 7 20 7 12\"/>\n  <path d=\"M21 11.333a6.7 7 0 0 1 0 9\"/>\n</svg>\n\n\n");
+IconReader.gather('mono-svg', 'back', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <path d=\"M20 28 L8 16 L20 4 Z\" />\n</svg>");
+IconReader.gather('mono-svg', 'backward', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <polyline points=\"20 24 12 16 20 8\" />\n</svg>");
+IconReader.gather('mono-svg', 'bell-off', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M24 11a8 8 0 0 0-16 0c0 9-4 8-4 11h24c0-3-4-1-4-11\" />\n  <path d=\"M18 28a3 3 0 0 1-5 0\" />\n  <line x1=\"5\" y1=\"5\" x2=\"27\" y2=\"27\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'bell', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M24 11a8 8 0 0 0-16 0c0 9-4 8-4 11h24c0-3-4-1-4-11\" />\n  <path d=\"M18 28a3 3 0 0 1-5 0\" />\n</svg>");
+IconReader.gather('mono-svg', 'book-open', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M4 6h10a4 4 0 0 1 4 4v16a4 4 0 0 0-4-4H4z\"/>\n  <path d=\"M28 6H18a4 4 0 0 0-4 4v16a4 4 0 0 1 4-4h10z\"/>\n</svg>\n");
+IconReader.gather('mono-svg', 'book', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"5\" y=\"3\" width=\"18\" height=\"26\" rx=\"2\" />\n  <line x1=\"11\" y1=\"3\" x2=\"11\" y2=\"29\" />\n  <line x1=\"15\" y1=\"10\" x2=\"20\" y2=\"10\" />\n  <line x1=\"15\" y1=\"16\" x2=\"20\" y2=\"16\" />\n  <line x1=\"15\" y1=\"22\" x2=\"20\" y2=\"22\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'box', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M3 10L16 3L29 10V22L16 29L3 22z\" />\n  <line x1=\"3\" y1=\"10\" x2=\"16\" y2=\"17\" />\n  <line x1=\"29\" y1=\"10\" x2=\"16\" y2=\"17\" />\n  <line x1=\"16\" y1=\"17\" x2=\"16\" y2=\"29\" />\n  <line x1=\"9.5\" y1=\"6.5\" x2=\"22.5\" y2=\"13.5\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'broom', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"27\" y1=\"5\" x2=\"17\" y2=\"15\" />\n  <path d=\"M17 15l-6 6 6 6 6-6-6-6z\" />\n  <line x1=\"11\" y1=\"21\" x2=\"8\" y2=\"24\" />\n  <line x1=\"14\" y1=\"24\" x2=\"11\" y2=\"27\" />\n  <line x1=\"17\" y1=\"27\" x2=\"14\" y2=\"30\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'cadenas-open', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"7\" y=\"15\" width=\"19\" height=\"13\" rx=\"3\" />\n  <path d=\"M11 15V9a5 5 0 0 1 11 0\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'cadenas', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"7\" y=\"15\" width=\"19\" height=\"13\" rx=\"3\" />\n  <path d=\"M11 15V9a5 5 0 0 1 11 0v5\" />\n</svg>");
+IconReader.gather('mono-svg', 'calendar', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"5\" y=\"7\" width=\"22\" height=\"20\" rx=\"2\" />\n  <line x1=\"5\" y1=\"13\" x2=\"27\" y2=\"13\" />\n  <line x1=\"11\" y1=\"4\" x2=\"11\" y2=\"8\" />\n  <line x1=\"21\" y1=\"4\" x2=\"21\" y2=\"8\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'cancel', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\"  fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n\t<circle cx=\"16\" cy=\"16\" r=\"10\" />\n\t<line x1=\"10\" y1=\"22\" x2=\"22\" y2=\"10\" />\n</svg>");
+IconReader.gather('mono-svg', 'checked', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M10 27H22C24 27 25 27 25 26C26 26 26 26 26 25C27 25 27 24 27 22V10C27 8 27 7 26 7C26 6 26 6 25 6C25 5 24 5 22 5H10C8 5 7 5 7 6C6 6 6 6 6 7C5 7 5 8 5 10V22C5 24 5 25 6 25C6 26 6 26 7 26C7 27 8 27 10 27Z M11 17L14 20L21 12\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'chevron-down', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <polyline points=\"8 13 16 21 24 13\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'chevron-left', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <polyline points=\"21 8 13 16 21 24\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'chevron-right', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <polyline points=\"11 8 19 16 11 24\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'chevron-up', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <polyline points=\"8 21 16 13 24 21\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'clip', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M28.6 14.7l-12.3 12.3a8 8 0 0 1-11.3-11.3l12.3-12.3a5.3 5.3 0 0 1 7.5 7.5l-12.3 12.3a2.7 2.7 0 0 1-3.8-3.8l11.3-11.3\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'clipboard', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M12 6H9a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3\" />\n  <rect x=\"12\" y=\"3\" width=\"8\" height=\"6\" rx=\"1.5\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'clock', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"16\" cy=\"16\" r=\"12\" />\n  <polyline points=\"16 8 16 16 22 19\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'close', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"9\" y1=\"9\" x2=\"23\" y2=\"23\" />\n  <line x1=\"23\" y1=\"9\" x2=\"9\" y2=\"23\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'cloud-off', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M9 25a6 6 0 0 1 0-12 8 8 0 0 1 15-2 5.5 5.5 0 0 1-1 14H9z\" />\n  <line x1=\"5\" y1=\"5\" x2=\"27\" y2=\"27\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'cloud', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M9 25a6 6 0 0 1 0-12 8 8 0 0 1 15-2 5.5 5.5 0 0 1-1 14H9z\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'color', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" \n\t  fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <!-- Outer circle -->\n  <circle cx=\"16\" cy=\"16\" r=\"13\"/>\n  <!-- Diagonal half fill -->\n  <clipPath id=\"cut\">\n\t<polygon points=\"0,32 32,0 32,32\"/>\n  </clipPath>\n  <circle cx=\"16\" cy=\"16\" r=\"13\" fill=\"currentColor\" clip-path=\"url(#cut)\" stroke=\"none\"/>\n</svg>");
+IconReader.gather('mono-svg', 'compas', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <!-- Outer circle -->\n  <circle cx=\"16\" cy=\"16\" r=\"13\"/>\n\n  <!-- Compass ticks -->\n  <line x1=\"16\" y1=\"2\" x2=\"16\" y2=\"4\"/>\n  <line x1=\"16\" y1=\"28\" x2=\"16\" y2=\"30\"/>\n  <line x1=\"2\" y1=\"16\" x2=\"4\" y2=\"16\"/>\n  <line x1=\"28\" y1=\"16\" x2=\"30\" y2=\"16\"/>\n\n  <!-- Needle (angled ~30\u00b0) -->\n  <polygon points=\"18 8 22 18 14 24 10 14\"/>\n  <circle cx=\"16\" cy=\"16\" r=\"1\"/>\n</svg>\n\n");
+IconReader.gather('mono-svg', 'compress', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <polyline points=\"12 8 6 16 12 24\" />\n  <polyline points=\"20 8 26 16 20 24\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'congrats', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"16\" cy=\"11\" r=\"8\" />\n  <path d=\"M11 19l-3 8 8-4 8 4-3-8\" />\n</svg>");
+IconReader.gather('mono-svg', 'content', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"7\" cy=\"16\" r=\"2\" />\n  <circle cx=\"16\" cy=\"16\" r=\"2\" />\n  <circle cx=\"25\" cy=\"16\" r=\"2\" />\n</svg>");
+IconReader.gather('mono-svg', 'contrast', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-label=\"Contrast switcher icon\" stroke-linejoin=\"round\">\n  <path d=\"M2 16s4-8 14-8 14 8 14 8-4 8-14 8S2 16 2 16z\"/>\n  <!-- text x=\"16\" y=\"20\" font-size=\"13\" text-anchor=\"middle\" fill=\"currentColor\" font-family=\"Commissioner, sans-serif\">A</text -->\n  <!-- Letter A drawn with three lines -->\n  <line x1=\"13\" y1=\"20\" x2=\"16\" y2=\"12\"/>\n  <line x1=\"19\" y1=\"20\" x2=\"16\" y2=\"12\"/>\n  <line x1=\"14\" y1=\"18\" x2=\"18\" y2=\"18\"/>\n  \n  <!-- Plus sign (top-left) -->\n  <line x1=\"5.5\" y1=\"5.5\" x2=\"5.5\" y2=\"8.5\"/>\n  <line x1=\"4\" y1=\"7\" x2=\"7\" y2=\"7\"/>\n\n  <!-- Minus sign (bottom-right) -->\n  <line x1=\"25\" y1=\"25\" x2=\"28\" y2=\"25\"/>\n</svg>");
+IconReader.gather('mono-svg', 'copy', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"11\" y=\"11\" width=\"16\" height=\"16\" rx=\"2\" />\n  <path d=\"M23 11V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'cursor-hand', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M11 20V9a2.5 2.5 0 0 1 5 0v7\" />\n  <path d=\"M16 13.5a2.5 2.5 0 0 1 5 0V17\" />\n  <path d=\"M21 15.5a2.5 2.5 0 0 1 5 0V22a7 7 0 0 1-7 7h-3a7 7 0 0 1-5-2l-4-4a2.5 2.5 0 0 1 3.5-3.5L11 21\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'cursor-text', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"16\" y1=\"6\" x2=\"16\" y2=\"26\" />\n  <path d=\"M12 6h8\" />\n  <path d=\"M12 26h8\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'cursor', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M8 4l17 14-7.5 1 3.5 7.5-3.5 1.5-3.5-7.5-6 5V4z\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'dashboard', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\"\n     stroke=\"currentColor\"\n     fill=\"none\"\n     stroke-width=\"2\"\n     stroke-linecap=\"round\"\n     stroke-linejoin=\"round\">\n  <rect x=\"5\" y=\"5\" width=\"8\" height=\"21\" rx=\"1\" />\n  <rect x=\"19\" y=\"5\" width=\"8\" height=\"8\" rx=\"1\" />\n  <rect x=\"19\" y=\"19\" width=\"8\" height=\"8\" rx=\"1\" />\n</svg>");
+IconReader.gather('mono-svg', 'delete', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"5\" y1=\"9\" x2=\"27\" y2=\"9\" />\n  <path d=\"M12 9V6a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v3\" />\n  <path d=\"M8 9l1.5 17a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2L24 9\" />\n  <line x1=\"14\" y1=\"14\" x2=\"14\" y2=\"23\" />\n  <line x1=\"18\" y1=\"14\" x2=\"18\" y2=\"23\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'discovery', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"9\" cy=\"21\" r=\"6\" />\n  <circle cx=\"23\" cy=\"21\" r=\"6\" />\n  <path d=\"M9 15V8a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v7\" />\n  <path d=\"M17 15V8a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v7\" />\n  <line x1=\"15\" y1=\"19\" x2=\"17\" y2=\"19\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'dislike', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <g transform=\"translate(0, 32) scale(1, -1)\">\n    <path d=\"M10 27V14h4l5-9a3 3 0 0 1 3 4l-1.5 5h6a2 2 0 0 1 2 2.5l-2 8a3 3 0 0 1-3 2.5H10z\" />\n    <rect x=\"4\" y=\"14\" width=\"6\" height=\"13\" rx=\"1.5\" />\n  </g>\n</svg>\n");
+IconReader.gather('mono-svg', 'download', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M16 5v16\"/>\n  <polyline points=\"10 15 16 21 22 15\"/>\n  <line x1=\"6\" y1=\"27\" x2=\"26\" y2=\"27\"/>\n</svg>\n");
+IconReader.gather('mono-svg', 'edit', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M22 4.7a2.8 2.8 0 0 1 4 4L9.3 25.3 4 26.7l1.3-5.3L22 4.7z\" />\n  <line x1=\"19.2\" y1=\"7.5\" x2=\"23.2\" y2=\"11.5\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'error', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"16\" cy=\"16\" r=\"13\" />\n  <line x1=\"11\" y1=\"11\" x2=\"21\" y2=\"21\" />\n  <line x1=\"21\" y1=\"11\" x2=\"11\" y2=\"21\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'export', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M27 8V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2v-1\" />\n  <line x1=\"13\" y1=\"16\" x2=\"29\" y2=\"16\" />\n  <polyline points=\"24 11 29 16 24 21\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'external-link', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M25 18v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h7\" />\n  <polyline points=\"20 5 27 5 27 12\" />\n  <line x1=\"14\" y1=\"18\" x2=\"27\" y2=\"5\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'eye-off', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M2 16s4-8 14-8 14 8 14 8-4 8-14 8S2 16 2 16z\" />\n  <circle cx=\"16\" cy=\"16\" r=\"5\" fill=\"currentColor\" stroke=\"none\" />\n  <line x1=\"5\" y1=\"5\" x2=\"27\" y2=\"27\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'eye', "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" stroke=\"currentColor\"\n\tviewBox=\"0 0 32 32\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M2 16s4-8 14-8 14 8 14 8-4 8-14 8S2 16 2 16z\"/>\n  <circle cx=\"16\" cy=\"16\" r=\"5\" fill=\"currentColor\" stroke=\"none\"/>\n</svg>");
+IconReader.gather('mono-svg', 'faq', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"4\" y=\"4\" width=\"24\" height=\"24\" rx=\"3\" />\n  <path d=\"M12 13a4 4 0 0 1 8 0c0 3-4 3-4 5\" />\n  <circle cx=\"16\" cy=\"23\" r=\"1\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'favorite', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M16.0 3.0L19.2 12.1L28.8 12.3L21.1 18.2L23.9 27.4L16.0 21.9L8.1 27.4L10.9 18.2L3.2 12.3L12.8 12.1Z\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'feedback', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M28 20a3 3 0 0 1-3 3H9l-5 5V7a3 3 0 0 1 3-3h19a3 3 0 0 1 3 3z\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'file', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M9 4h9l6 6v16a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z\" />\n  <polyline points=\"18 4 18 10 24 10\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'filter', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M5 6h22l-8 10v9l-6 3V16L5 6z\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'first', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <path d=\"M20 28 L8 16 L20 4 Z\" />\n    <line x1=\"4\" y1=\"4\" x2=\"4\" y2=\"28\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'folder-off', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M4 25V8a2 2 0 0 1 2-2h6l3 4h9a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z\" />\n  <line x1=\"5\" y1=\"5\" x2=\"27\" y2=\"27\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'folder', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M4 25V8a2 2 0 0 1 2-2h6l3 4h9a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'forward', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M5 8l9 8-9 8V8z\" />\n  <path d=\"M17 8l9 8-9 8V8z\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'fullscreen', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <polyline points=\"12 5 5 5 5 12\" />\n  <polyline points=\"20 5 27 5 27 12\" />\n  <polyline points=\"27 20 27 27 20 27\" />\n  <polyline points=\"5 20 5 27 12 27\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'gallery', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M11 8h15a2 2 0 0 1 2 2v13\" />\n  <rect x=\"4\" y=\"12\" width=\"19\" height=\"15\" rx=\"2\" />\n  <circle cx=\"9.5\" cy=\"17\" r=\"1.7\" />\n  <polyline points=\"5.5 25 11 19.5 15 23.5 18 20.5 22 24.5\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'games', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"4\" y=\"10\" width=\"24\" height=\"13\" rx=\"4\" />\n  <line x1=\"9\" y1=\"13.5\" x2=\"9\" y2=\"19.5\" />\n  <line x1=\"6\" y1=\"16.5\" x2=\"12\" y2=\"16.5\" />\n  <circle cx=\"21\" cy=\"14.5\" r=\"1.3\" fill=\"currentColor\" stroke=\"none\" />\n  <circle cx=\"24\" cy=\"18.5\" r=\"1.3\" fill=\"currentColor\" stroke=\"none\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'goto', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <path d=\"M6 8 H18 V18\" />\n    <polyline points=\"12 18 18 24 24 18\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'grid-view', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"5\" y=\"5\" width=\"9\" height=\"9\" rx=\"1.5\" />\n  <rect x=\"18\" y=\"5\" width=\"9\" height=\"9\" rx=\"1.5\" />\n  <rect x=\"5\" y=\"18\" width=\"9\" height=\"9\" rx=\"1.5\" />\n  <rect x=\"18\" y=\"18\" width=\"9\" height=\"9\" rx=\"1.5\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'half-checked', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M10 27H22C24 27 25 27 25 26C26 26 26 26 26 25C27 25 27 24 27 22V10C27 8 27 7 26 7C26 6 26 6 25 6C25 5 24 5 22 5H10C8 5 7 5 7 6C6 6 6 6 6 7C5 7 5 8 5 10V22C5 24 5 25 6 25C6 26 6 26 7 26C7 27 8 27 10 27Z\" />\n  <circle cx=\"16\" cy=\"16\" r=\"3.5\" fill=\"currentColor\" stroke=\"none\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'heart', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M16 28c-4-4-8-8-8-13a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 5-4 9-8 13z\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'help', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"16\" cy=\"16\" r=\"13\" />\n  <path d=\"M12 12a4 4 0 0 1 8 0c0 3-4 3-4 5\" />\n  <circle cx=\"16\" cy=\"23\" r=\"1\" />\n</svg>");
+IconReader.gather('mono-svg', 'house', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M4 16L16 5l12 11\" />\n  <path d=\"M7 16v9a1 1 0 0 0 1 1h5v-7h5v7h5a1 1 0 0 0 1-1v-9\" />\n</svg>");
+IconReader.gather('mono-svg', 'image', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"4\" y=\"6\" width=\"24\" height=\"20\" rx=\"2\" />\n  <circle cx=\"11\" cy=\"13\" r=\"2\" />\n  <polyline points=\"6 24 13 17 18 22 22 18 26 22\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'import', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M5 8V7a2 2 0 0 1 2-2h18a2 2 0 0 1 2 2v18a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-1\" />\n  <line x1=\"3\" y1=\"16\" x2=\"19\" y2=\"16\" />\n  <polyline points=\"14 11 19 16 14 21\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'info-square', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"4\" y=\"4\" width=\"24\" height=\"24\" rx=\"3\" />\n  <line x1=\"16\" y1=\"15\" x2=\"16\" y2=\"23\" />\n  <circle cx=\"16\" cy=\"10\" r=\"1\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'install', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M16 4v13\" />\n  <polyline points=\"10 11 16 17 22 11\" />\n  <path d=\"M5 19v6a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2v-6\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'lang', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M28 20a3 3 0 0 1-3 3h-5l-5 5v-5H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h19a3 3 0 0 1 3 3z\" />\n  <line x1=\"11\" y1=\"12\" x2=\"21\" y2=\"12\" />\n  <line x1=\"13\" y1=\"17\" x2=\"19\" y2=\"17\" />\n</svg>");
+IconReader.gather('mono-svg', 'last', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <path d=\"M12 4 L24 16 L12 28 Z\" />\n    <line x1=\"28\" y1=\"4\" x2=\"28\" y2=\"28\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'layers', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"3\" y=\"6\" width=\"26\" height=\"5\" rx=\"1\" />\n  <rect x=\"3\" y=\"13\" width=\"26\" height=\"5\" rx=\"1\" />\n  <rect x=\"3\" y=\"20\" width=\"26\" height=\"5\" rx=\"1\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'light-bulb', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <!-- Bulb -->\n  <circle cx=\"16\" cy=\"12\" r=\"8\"/>\n  <!-- Filament -->\n  <polyline points=\"13 13 15 15 17 11 19 13\"/>\n  <!-- Neck -->\n  <line x1=\"12\" y1=\"20\" x2=\"20\" y2=\"20\"/>\n  <line x1=\"12\" y1=\"22\" x2=\"20\" y2=\"22\"/>\n  <!-- Base -->\n  <line x1=\"13\" y1=\"24\" x2=\"19\" y2=\"24\"/>\n  <line x1=\"14\" y1=\"26\" x2=\"18\" y2=\"26\"/>\n</svg>\n");
+IconReader.gather('mono-svg', 'like', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M10 27V14h4l5-9a3 3 0 0 1 3 4l-1.5 5h6a2 2 0 0 1 2 2.5l-2 8a3 3 0 0 1-3 2.5H10z\" />\n  <rect x=\"4\" y=\"14\" width=\"6\" height=\"13\" rx=\"1.5\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'link-off', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M14 18a5 5 0 0 0 7 0l4-4a5 5 0 0 0-7-7l-2 2\" />\n  <path d=\"M18 14a5 5 0 0 0-7 0l-4 4a5 5 0 0 0 7 7l2-2\" />\n  <line x1=\"5\" y1=\"5\" x2=\"27\" y2=\"27\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'link', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M14 18a5 5 0 0 0 7 0l4-4a5 5 0 0 0-7-7l-2 2\" />\n  <path d=\"M18 14a5 5 0 0 0-7 0l-4 4a5 5 0 0 0 7 7l2-2\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'list-view', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"12\" y1=\"9\" x2=\"27\" y2=\"9\" />\n  <line x1=\"12\" y1=\"16\" x2=\"27\" y2=\"16\" />\n  <line x1=\"12\" y1=\"23\" x2=\"27\" y2=\"23\" />\n  <circle cx=\"6\" cy=\"9\" r=\"1.3\" fill=\"currentColor\" stroke=\"none\" />\n  <circle cx=\"6\" cy=\"16\" r=\"1.3\" fill=\"currentColor\" stroke=\"none\" />\n  <circle cx=\"6\" cy=\"23\" r=\"1.3\" fill=\"currentColor\" stroke=\"none\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'logout', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M21 23l7-7-7-7\" />\n  <path d=\"M28 16H12\" />\n  <path d=\"M16 4H8a3 3 0 0 0-3 3v19a3 3 0 0 0 3 3h8\" />\n</svg>");
+IconReader.gather('mono-svg', 'mail-in', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"4\" y=\"13\" width=\"24\" height=\"15\" rx=\"2\" />\n  <polyline points=\"4 15 16 24 28 15\" />\n  <line x1=\"16\" y1=\"2\" x2=\"16\" y2=\"10\" />\n  <polyline points=\"12 6 16 10 20 6\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'mail-open', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M4 14l12-8 12 8v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V14z\" />\n  <polyline points=\"4 14 16 22 28 14\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'mail-out', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"4\" y=\"13\" width=\"24\" height=\"15\" rx=\"2\" />\n  <polyline points=\"4 15 16 24 28 15\" />\n  <line x1=\"16\" y1=\"10\" x2=\"16\" y2=\"2\" />\n  <polyline points=\"12 6 16 2 20 6\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'mail', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"4\" y=\"7\" width=\"24\" height=\"18\" rx=\"2\" />\n  <polyline points=\"4 9 16 18 28 9\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'menu', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"4\" y1=\"8\" x2=\"28\" y2=\"8\" />\n  <line x1=\"4\" y1=\"16\" x2=\"28\" y2=\"16\" />\n  <line x1=\"4\" y1=\"24\" x2=\"28\" y2=\"24\" />\n</svg>");
+IconReader.gather('mono-svg', 'microphone-off', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"12\" y=\"3\" width=\"8\" height=\"15\" rx=\"4\" />\n  <path d=\"M7 15a9 9 0 0 0 18 0\" />\n  <line x1=\"16\" y1=\"24\" x2=\"16\" y2=\"29\" />\n  <line x1=\"5\" y1=\"5\" x2=\"27\" y2=\"27\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'microphone', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"12\" y=\"3\" width=\"8\" height=\"15\" rx=\"4\" />\n  <path d=\"M7 15a9 9 0 0 0 18 0\" />\n  <line x1=\"16\" y1=\"24\" x2=\"16\" y2=\"29\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'misty-moon', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M25 12.8A9 9 0 1 1 15.2 3 7 7 0 0 0 25 12.8z\" />\n  <line x1=\"6\" y1=\"25\" x2=\"26\" y2=\"25\" />\n  <line x1=\"10\" y1=\"29\" x2=\"22\" y2=\"29\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'moon', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M28 17.1A12 12 0 1 1 14.9 4 9.3 9.3 0 0 0 28 17.1z\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'move', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"16\" y1=\"4\" x2=\"16\" y2=\"28\" />\n  <line x1=\"4\" y1=\"16\" x2=\"28\" y2=\"16\" />\n  <polyline points=\"12 8 16 4 20 8\" />\n  <polyline points=\"12 24 16 28 20 24\" />\n  <polyline points=\"8 12 4 16 8 20\" />\n  <polyline points=\"24 12 28 16 24 20\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'next', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <path d=\"M12 4 L24 16 L12 28 Z\" />\n</svg>");
+IconReader.gather('mono-svg', 'no', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"currentColor\">\n  <path d=\"M4 21Q16 5 28 21Q16 13 4 21Z\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'open', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M4 25V8a2 2 0 0 1 2-2h6l3 4h9a2 2 0 0 1 2 2v3\" />\n  <path d=\"M4 25l4-10h22l-4 10H4z\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'page', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"5\" y=\"2\" width=\"22\" height=\"28\" rx=\"2\" />\n  <line x1=\"10\" y1=\"10\" x2=\"22\" y2=\"10\" />\n  <line x1=\"10\" y1=\"16\" x2=\"22\" y2=\"16\" />\n  <line x1=\"10\" y1=\"22\" x2=\"18\" y2=\"22\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'parameters', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"5\" y1=\"9\" x2=\"27\" y2=\"9\" />\n  <circle cx=\"11\" cy=\"9\" r=\"2\" />\n  <line x1=\"5\" y1=\"23\" x2=\"27\" y2=\"23\" />\n  <circle cx=\"21\" cy=\"23\" r=\"2\" />\n</svg>");
+IconReader.gather('mono-svg', 'pathway', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"5\" cy=\"16\" r=\"3\" />\n  <circle cx=\"16\" cy=\"5\" r=\"3\" />\n  <circle cx=\"27\" cy=\"21\" r=\"3\" />\n  <path d=\"M7 15L14 7L25 19\" />\n</svg>");
+IconReader.gather('mono-svg', 'pause', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"12\" y1=\"6\" x2=\"12\" y2=\"26\" />\n  <line x1=\"20\" y1=\"6\" x2=\"20\" y2=\"26\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'pin', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M12 4h8l-1.5 10.5h-5L12 4z\" />\n  <path d=\"M9.5 17.5h13\" />\n  <path d=\"M16 17.5v11.5\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'play', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M11 6l15 10-15 10V6z\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'plugin', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M6 6h7a3 3 0 0 1 6 0h7v7a3 3 0 0 0 0 6v7h-7a3 3 0 0 0-6 0H6v-7a3 3 0 0 1 0-6V6z\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'position', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M16 29s10-9.5 10-16a10 10 0 0 0-20 0c0 6.5 10 16 10 16z\" />\n  <circle cx=\"16\" cy=\"13\" r=\"3.5\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'post-it', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M6 5h20v13l-8 9H6V5z\" />\n  <polyline points=\"26 18 18 18 18 27\" />\n  <line x1=\"10\" y1=\"11\" x2=\"22\" y2=\"11\" />\n  <line x1=\"10\" y1=\"15\" x2=\"19\" y2=\"15\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'power', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M10 8a11 11 0 1 0 12 0\" />\n  <line x1=\"16\" y1=\"3\" x2=\"16\" y2=\"16\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'print', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M9 12V5h14v7\" />\n  <path d=\"M9 23H7a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2h18a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2\" />\n  <rect x=\"9\" y=\"19\" width=\"14\" height=\"9\" rx=\"1\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'radio-checked', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"16\" cy=\"16\" r=\"10\" />\n  <circle cx=\"16\" cy=\"16\" r=\"5\" fill=\"currentColor\" stroke=\"none\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'radio-unchecked', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"16\" cy=\"16\" r=\"10\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'readings', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M5 25h21M5 20h13M5 15h21M5 9h13\" />\n</svg>");
+IconReader.gather('mono-svg', 'redo', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M27.3 20a12 12 0 1 1-2.8-12.5L30.7 13.3\" />\n  <polyline points=\"30.7 5.3 30.7 13.3 22.7 13.3\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'refresh', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <polyline points=\"27 6 27 13 20 13\" />\n  <polyline points=\"5 26 5 19 12 19\" />\n  <path d=\"M6.3 13A11 11 0 0 1 25.5 10.5L27 13\" />\n  <path d=\"M25.7 19A11 11 0 0 1 6.5 21.5L5 19\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'remove', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"7\" y1=\"16\" x2=\"25\" y2=\"16\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'rename', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M22 4.7a2.8 2.8 0 0 1 4 4L14 20.7 8.7 22l1.3-5.3L22 4.7z\" />\n  <line x1=\"5\" y1=\"27\" x2=\"27\" y2=\"27\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'researchinfo', "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" stroke=\"currentColor\"\n     viewBox=\"0 0 32 32\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <!-- Left brace { -->\n    <path d=\"M13 5\n             C10 5 10 8 10 10\n             C10 12 8 12 8 12\n             C10 12 10 14 10 16\n             C10 18 8 18 8 18\n             C10 18 10 20 10 22\n             C10 24 10 27 13 27\" />\n    <!-- Right brace } -->\n    <path d=\"M19 5\n             C22 5 22 8 22 10\n             C22 12 24 12 24 12\n             C22 12 22 14 22 16\n             C22 18 24 18 24 18\n             C22 18 22 20 22 22\n             C22 24 22 27 19 27\" />\n    <!-- Dot -->\n    <circle cx=\"16\" cy=\"16\" r=\"1.5\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'rewind', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M27 8l-9 8 9 8V8z\" />\n  <path d=\"M15 8l-9 8 9 8V8z\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'root', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <polyline points=\"4 16 8 16 14 27 22 5 29 5\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'ruler', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"3\" y=\"11\" width=\"26\" height=\"10\" rx=\"2\" />\n  <line x1=\"9\" y1=\"11\" x2=\"9\" y2=\"16\" />\n  <line x1=\"14\" y1=\"11\" x2=\"14\" y2=\"16\" />\n  <line x1=\"19\" y1=\"11\" x2=\"19\" y2=\"16\" />\n  <line x1=\"24\" y1=\"11\" x2=\"24\" y2=\"16\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'save', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M5 7a2 2 0 0 1 2-2h14l6 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7z\" />\n  <path d=\"M10 5v7h10V7\" />\n  <rect x=\"10\" y=\"18\" width=\"12\" height=\"9\" rx=\"1\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'screen', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"2\" y=\"4\" width=\"28\" height=\"18\" rx=\"2\" />\n  <line x1=\"16\" y1=\"22\" x2=\"16\" y2=\"28\" />\n  <line x1=\"10\" y1=\"28\" x2=\"22\" y2=\"28\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'scrolltop', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" \n\t fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <!-- upward arrow -->\n  <polyline points=\"8 18 16 10 24 18\" />\n  <!-- top baseline -->\n  <line x1=\"8\" y1=\"22\" x2=\"24\" y2=\"22\" />\n</svg>");
+IconReader.gather('mono-svg', 'search', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"14\" cy=\"14\" r=\"8\" />\n  <line x1=\"19.7\" y1=\"19.7\" x2=\"27\" y2=\"27\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'settings', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"5.3\" y1=\"28\" x2=\"5.3\" y2=\"18.7\" />\n  <line x1=\"5.3\" y1=\"13.3\" x2=\"5.3\" y2=\"4\" />\n  <line x1=\"16\" y1=\"28\" x2=\"16\" y2=\"16\" />\n  <line x1=\"16\" y1=\"10.7\" x2=\"16\" y2=\"4\" />\n  <line x1=\"26.7\" y1=\"28\" x2=\"26.7\" y2=\"21.3\" />\n  <line x1=\"26.7\" y1=\"16\" x2=\"26.7\" y2=\"4\" />\n  <line x1=\"1.3\" y1=\"18.7\" x2=\"9.3\" y2=\"18.7\" />\n  <line x1=\"12\" y1=\"10.7\" x2=\"20\" y2=\"10.7\" />\n  <line x1=\"22.7\" y1=\"21.3\" x2=\"30.7\" y2=\"21.3\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'share', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"24\" cy=\"7\" r=\"3\" />\n  <circle cx=\"8\" cy=\"16\" r=\"3\" />\n  <circle cx=\"24\" cy=\"25\" r=\"3\" />\n  <line x1=\"10.6\" y1=\"14.5\" x2=\"21.4\" y2=\"8.5\" />\n  <line x1=\"10.6\" y1=\"17.5\" x2=\"21.4\" y2=\"23.5\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'smiley-neutral', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"16\" cy=\"16\" r=\"13\"/>\n  <circle cx=\"11\" cy=\"12\" r=\"1\"/>\n  <circle cx=\"21\" cy=\"12\" r=\"1\"/>\n  <line x1=\"11\" y1=\"21\" x2=\"21\" y2=\"21\"/>\n</svg>\n\n\n");
+IconReader.gather('mono-svg', 'smiley-sad', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"16\" cy=\"16\" r=\"13\"/>\n  <circle cx=\"11\" cy=\"12\" r=\"1\"/>\n  <circle cx=\"21\" cy=\"12\" r=\"1\"/>\n  <path d=\"M11 21 Q16 16 21 21\" fill=\"none\"/>\n</svg>\n\n");
+IconReader.gather('mono-svg', 'smiley-smile', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"16\" cy=\"16\" r=\"13\"/>\n  <circle cx=\"11\" cy=\"12\" r=\"1\"/>\n  <circle cx=\"21\" cy=\"12\" r=\"1\"/>\n  <path d=\"M11 21 Q16 26 21 21\" fill=\"none\"/>\n</svg>\n");
+IconReader.gather('mono-svg', 'sort', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <polyline points=\"8 12 12 8 16 12\" />\n  <line x1=\"12\" y1=\"8\" x2=\"12\" y2=\"24\" />\n  <polyline points=\"18 20 22 24 26 20\" />\n  <line x1=\"22\" y1=\"24\" x2=\"22\" y2=\"8\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'stop', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"8\" y=\"8\" width=\"16\" height=\"16\" rx=\"2\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'sun', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"16\" cy=\"16\" r=\"6\" />\n  <line x1=\"16\" y1=\"2\" x2=\"16\" y2=\"5\" />\n  <line x1=\"16\" y1=\"27\" x2=\"16\" y2=\"30\" />\n  <line x1=\"2\" y1=\"16\" x2=\"5\" y2=\"16\" />\n  <line x1=\"27\" y1=\"16\" x2=\"30\" y2=\"16\" />\n  <line x1=\"6.1\" y1=\"6.1\" x2=\"8.2\" y2=\"8.2\" />\n  <line x1=\"23.8\" y1=\"23.8\" x2=\"25.9\" y2=\"25.9\" />\n  <line x1=\"6.1\" y1=\"25.9\" x2=\"8.2\" y2=\"23.8\" />\n  <line x1=\"23.8\" y1=\"8.2\" x2=\"25.9\" y2=\"6.1\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'sunrise', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M22.7 24a6.7 6.7 0 0 0-13.4 0\" />\n  <line x1=\"1.3\" y1=\"24\" x2=\"4\" y2=\"24\" />\n  <line x1=\"28\" y1=\"24\" x2=\"30.7\" y2=\"24\" />\n  <line x1=\"5.6\" y1=\"13.6\" x2=\"7.5\" y2=\"15.5\" />\n  <line x1=\"24.5\" y1=\"15.5\" x2=\"26.4\" y2=\"13.6\" />\n  <line x1=\"1.3\" y1=\"29.3\" x2=\"30.7\" y2=\"29.3\" />\n  <polyline points=\"10.7 8 16 2.7 21.3 8\" />\n  <line x1=\"16\" y1=\"2.7\" x2=\"16\" y2=\"16\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'tag', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M5 5h10l12 12-10 10L5 15V5z\" />\n  <circle cx=\"10\" cy=\"10\" r=\"1.5\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'target', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\"\n     fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n     stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n    <circle cx=\"16\" cy=\"16\" r=\"13\"/>\n    <circle cx=\"16\" cy=\"16\" r=\"5\" fill=\"currentColor\" stroke=\"none\"/>\n    <line x1=\"16\" y1=\"3\"  x2=\"16\" y2=\"8\"/>\n    <line x1=\"16\" y1=\"24\" x2=\"16\" y2=\"29\"/>\n    <line x1=\"3\"  y1=\"16\" x2=\"8\"  y2=\"16\"/>\n    <line x1=\"24\" y1=\"16\" x2=\"29\" y2=\"16\"/>\n</svg>\n");
+IconReader.gather('mono-svg', 'text', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"7\" y1=\"7\" x2=\"25\" y2=\"7\" />\n  <line x1=\"16\" y1=\"7\" x2=\"16\" y2=\"26\" />\n  <line x1=\"11\" y1=\"26\" x2=\"21\" y2=\"26\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'theme', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M16 4C8 4 3 10 3 16s6 12 13 12c2 0 3-1 3-2s-1-2-1-3c0-1 1-2 2-2h2c5 0 7-3 7-6 0-6-6-11-13-11z\" />\n  <circle cx=\"10\" cy=\"12\" r=\"1.8\" fill=\"currentColor\" stroke=\"none\" />\n  <circle cx=\"16\" cy=\"9\"  r=\"1.8\" fill=\"currentColor\" stroke=\"none\" />\n  <circle cx=\"22\" cy=\"12\" r=\"1.8\" fill=\"currentColor\" stroke=\"none\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'unchecked', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M10 27H22C24 27 25 27 25 26C26 26 26 26 26 25C27 25 27 24 27 22V10C27 8 27 7 26 7C26 6 26 6 25 6C25 5 24 5 22 5H10C8 5 7 5 7 6C6 6 6 6 6 7C5 7 5 8 5 10V22C5 24 5 25 6 25C6 26 6 26 7 26C7 27 8 27 10 27Z\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'undo', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <g transform=\"translate(32, 0) scale(-1, 1)\">\n    <path d=\"M27.3 20a12 12 0 1 1-2.8-12.5L30.7 13.3\" />\n    <polyline points=\"30.7 5.3 30.7 13.3 22.7 13.3\" />\n  </g>\n</svg>\n");
+IconReader.gather('mono-svg', 'upload', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M16 21V5\" />\n  <polyline points=\"10 11 16 5 22 11\" />\n  <line x1=\"6\" y1=\"27\" x2=\"26\" y2=\"27\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'user', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"16\" cy=\"11\" r=\"5\" />\n  <path d=\"M5 27c0-5 5-8 11-8s11 3 11 8\" />\n</svg>");
+IconReader.gather('mono-svg', 'valid', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <polyline points=\"7 17 12 23 25 9\" />\n</svg>");
+IconReader.gather('mono-svg', 'video-off', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"4\" y=\"8\" width=\"20\" height=\"16\" rx=\"3\" />\n  <polygon points=\"21 13 28 9 28 23 21 19\" />\n  <line x1=\"5\" y1=\"5\" x2=\"27\" y2=\"27\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'video', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"4\" y=\"8\" width=\"20\" height=\"16\" rx=\"3\" />\n  <polygon points=\"21 13 28 9 28 23 21 19\" />\n</svg>");
+IconReader.gather('mono-svg', 'volume-high', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M6 12h5l6-5v18l-6-5H6a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1z\" />\n  <path d=\"M20.5 12.5a5 5 0 0 1 0 7\" />\n  <path d=\"M24 10a9 9 0 0 1 0 12\" />\n  <path d=\"M27 7.5a13 13 0 0 1 0 17\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'volume-low', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M6 12h5l6-5v18l-6-5H6a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1z\" />\n  <path d=\"M20.5 12.5a5 5 0 0 1 0 7\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'volume-medium', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M6 12h5l6-5v18l-6-5H6a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1z\" />\n  <path d=\"M20.5 12.5a5 5 0 0 1 0 7\" />\n  <path d=\"M24 10a9 9 0 0 1 0 12\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'volume-mute', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M6 12h5l6-5v18l-6-5H6a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1z\" />\n  <line x1=\"22\" y1=\"12\" x2=\"29\" y2=\"19\" />\n  <line x1=\"29\" y1=\"12\" x2=\"22\" y2=\"19\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'warning', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M16 5L29 27H3L16 5z\" />\n  <line x1=\"16\" y1=\"13\" x2=\"16\" y2=\"19\" />\n  <line x1=\"16\" y1=\"22.5\" x2=\"16\" y2=\"23.5\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'wifi-off', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M4 12a18 18 0 0 1 24 0\" />\n  <path d=\"M9 18a11 11 0 0 1 14 0\" />\n  <path d=\"M13.5 23.5a4 4 0 0 1 5 0\" />\n  <circle cx=\"16\" cy=\"27\" r=\"1.3\" fill=\"currentColor\" stroke=\"none\" />\n  <line x1=\"5\" y1=\"5\" x2=\"27\" y2=\"27\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'wifi', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M4 12a18 18 0 0 1 24 0\" />\n  <path d=\"M9 18a11 11 0 0 1 14 0\" />\n  <path d=\"M13.5 23.5a4 4 0 0 1 5 0\" />\n  <circle cx=\"16\" cy=\"27\" r=\"1.3\" fill=\"currentColor\" stroke=\"none\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'yes', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"currentColor\">\n  <path d=\"M4.5 15.5L12.8 27L28 5.5L24.6 3.6L12.4 21.6L8 13.9Z\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'zoom-in', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"14\" cy=\"14\" r=\"8\" />\n  <line x1=\"19.7\" y1=\"19.7\" x2=\"27\" y2=\"27\" />\n  <line x1=\"14\" y1=\"10.5\" x2=\"14\" y2=\"17.5\" />\n  <line x1=\"10.5\" y1=\"14\" x2=\"17.5\" y2=\"14\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'zoom-out', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"14\" cy=\"14\" r=\"8\" />\n  <line x1=\"19.7\" y1=\"19.7\" x2=\"27\" y2=\"27\" />\n  <line x1=\"10.5\" y1=\"14\" x2=\"17.5\" y2=\"14\" />\n</svg>\n");
 
 // ---------------- wexa.js ---------------
-SVGIconsManager.init(null);
 // --- Debug -------------------------------------------------------
 console.debug('Imports OK:', {
     OnLoadManager,
@@ -5716,7 +6893,9 @@ console.debug('Imports OK:', {
     ProgressBar,
     BaseManager,
     RequestManager,
-    SVGIconsManager
+    IconManager,
+    AccessibilityNav,
+    KeyboardController
 });
 // ----- Exports (framework public API) -----
 // ---------------------------------------------------------------------------
@@ -5739,8 +6918,9 @@ window.Wexa = Object.assign(window.Wexa || {}, {
     // Note: OnLoadManager is not instantiated because it is a scheduler /
     // dispatcher whose methods are static or utility-like.
     onload: OnLoadManager,
-    // SVGIconsManager is a static class — no instance needed.
-    icons: SVGIconsManager,
+    // What answers a name with a drawing. A page brings its own sets to it,
+    // and the components of the framework ask it for what they draw.
+    icons,
     accessibility: new AccessibilityManager(),
     dialog: new DialogManager(),
     links: new LinkController(),
@@ -5757,7 +6937,9 @@ window.Wexa = Object.assign(window.Wexa || {}, {
     ToggleSelector,
     BaseManager,
     RequestManager,
-    SVGIconsManager
+    IconManager,
+    AccessibilityNav,
+    KeyboardController
 });
 // Make every [data-href] element without a real href focusable via Tab.
 OnLoadManager.addLoadFunction(() => LinkController.initFocusable());
@@ -5860,7 +7042,7 @@ class SlidesInitializer {
         window.Wexa = window.Wexa || {};
         await this.#injectBoilerplate();
         if (this.#themesAttr !== '') {
-            const { ThemeManager } = await import(new URL('../theme_manager.js', this.#base).href);
+            const { ThemeManager } = await import(new URL('../../customize/theme_manager.js', this.#base).href);
             this.#registerThemes(ThemeManager);
         }
         const { SlidesPagination } = await import(new URL('slides_pagination.js', this.#base).href);
@@ -5922,55 +7104,22 @@ class SlidesInitializer {
         }
     }
     async #buildAccessibilityNav() {
-        const nav = document.createElement('nav');
-        nav.id = 'accessibility-controls';
-        nav.className = 'nav-wexa controls-hidden';
-        nav.setAttribute('aria-label', 'Accessibility controls');
-        nav.appendChild(await this.#buildIconButton(
-            'btn-color',
-            'menuitem accessibility',
-            'color',
-            'color',
-            () => {
-                if (window.Wexa !== null
-                        && window.Wexa !== undefined
-                        && window.Wexa.accessibility !== null
-                        && window.Wexa.accessibility !== undefined) {
-                    window.Wexa.accessibility.switchColorScheme();
-                }
-            },
-            { ariaPressed: 'false' }
-        ));
-        if (this.#themesAttr !== '') {
-            nav.appendChild(await this.#buildIconButton(
-                'btn-css-theme',
-                'menuitem',
-                'theme',
-                'Switch theme',
-                () => {
-                    if (window.themes !== null && window.themes !== undefined) {
-                        window.themes.next();
-                    }
-                },
-                { title: 'Switch theme' }
-            ));
-        }
-        return nav;
-    }
-    async #buildIconButton(id, className, iconName, ariaLabel, onClick, extras = {}) {
-        const btn = document.createElement('button');
-        btn.id = id;
-        btn.className = className;
-        btn.setAttribute('aria-label', ariaLabel);
-        if (extras.ariaPressed !== undefined) {
-            btn.setAttribute('aria-pressed', extras.ariaPressed);
-        }
-        if (extras.title !== undefined) {
-            btn.title = extras.title;
-        }
-        btn.innerHTML = await window.Wexa.icons.get(iconName);
-        btn.addEventListener('click', onClick);
-        return btn;
+        // The bundle holds the class in the namespace, and there is nothing to
+        // import: an import there would be given a null base and would raise.
+        const NavClass = (window.Wexa !== undefined && window.Wexa.AccessibilityNav)
+            ? window.Wexa.AccessibilityNav
+            : (await import(new URL('../../accessibility_nav.js', this.#base).href))
+                .AccessibilityNav;
+        const bar = new NavClass({
+            theme: this.#themesAttr !== '',
+            contrast: true,
+            color: true
+        });
+        return await bar.build({
+            id: 'accessibility-controls',
+            className: 'nav-wexa controls-hidden',
+            label: 'Accessibility controls'
+        });
     }
     async #buildNavContent() {
         const nav = document.createElement('nav');

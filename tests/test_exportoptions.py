@@ -125,12 +125,12 @@ class TestHTMLDocExport(unittest.TestCase):
         self.assertTrue(actual_head.endswith("</head>"))
         self.assertIn("<title>HTML Export</title>", actual_head)
         self.assertIn('<link rel="logo icon" href="./statics/favicon.ico" />', actual_head)
-        self.assertIn('href="./wexa_statics/css/wexa.css"', actual_head)
-        self.assertIn('href="./wexa_statics/css/print.css"', actual_head)
-        self.assertIn('href="./wexa_statics/css/layout.css"', actual_head)
-        self.assertIn('href="./wexa_statics/css/menu.css"', actual_head)
-        self.assertIn('href="./wexa_statics/css/code.css"', actual_head)
-        self.assertIn('href="./wexa_statics/css/extras/book.css"', actual_head)
+        self.assertIn('href="./wexa_statics/css.min/wexa.css"', actual_head)
+        self.assertIn('href="./wexa_statics/css.min/print.css"', actual_head)
+        self.assertIn('href="./wexa_statics/css.min/layout.css"', actual_head)
+        self.assertIn('href="./wexa_statics/css.min/menu.css"', actual_head)
+        self.assertIn('href="./wexa_statics/css.min/code.css"', actual_head)
+        self.assertIn('href="./wexa_statics/css.min/extras/book.css"', actual_head)
         self.assertIn('href="./statics/clamming.css"', actual_head)
 
     # ----------------------------------------------------------------------------
@@ -192,32 +192,63 @@ class TestHTMLDocExport(unittest.TestCase):
         actual_head = opts_export.get_head()
 
         self.assertNotIn("wexa-theme", actual_head)
-        self.assertNotIn("ThemeManager", actual_head)
-        self.assertNotIn("theme_manager.js", actual_head)
-        self.assertNotIn("highcontrast", actual_head)
 
     def test_get_head_with_css_theme(self):
-        """The theme is linked once, and registered in both loading paths."""
+        """The theme is the only stylesheet linked with the 'wexa-theme' identifier."""
         opts_export = ExportOptions()
         opts_export.css_theme = "clamming_theme.css"
         actual_head = opts_export.get_head()
 
         self.assertEqual(1, actual_head.count('id="wexa-theme"'))
         self.assertIn('href="./statics/clamming_theme.css"', actual_head)
-        self.assertEqual(2, actual_head.count("themes.setDefault('clamming_theme')"))
-        self.assertEqual(2, actual_head.count("wexa_theme_highcontrast.css"))
-        self.assertEqual(1, actual_head.count("theme_manager.js"))
-        self.assertEqual(1, actual_head.count("new window.Wexa.ThemeManager()"))
 
-    def test_get_head_css_theme_registered_name(self):
+    def test_get_head_has_no_script(self):
+        """The loader is the only script of a page, and it stands in its body."""
+        opts_export = ExportOptions()
+        opts_export.css_theme = "clamming_theme.css"
+        actual_head = opts_export.get_head()
+
+        self.assertNotIn("<script", actual_head)
+        self.assertIn("css.min/wexa.css", actual_head)
+
+    def test_get_scripts(self):
+        """The loader is given the base, the extras, and 'bootPage' to call."""
+        opts_export = ExportOptions()
+        scripts = opts_export.get_scripts()
+
+        self.assertEqual(1, scripts.count("js/wexa.loader.js"))
+        self.assertIn('data-base="./wexa_statics/"', scripts)
+        self.assertIn('data-extras="js/extras/book.js"', scripts)
+        self.assertIn("function bootPage(wexa)", scripts)
+        self.assertIn('new wexa.Book("main-content")', scripts)
+        self.assertIn("book.fillTable(false)", scripts)
+        self.assertIn("handleLinksWithParameters(wexaLinks)", scripts)
+
+    def test_get_scripts_without_css_theme(self):
+        """No theme is named, so the loader is asked for none."""
+        scripts = ExportOptions().get_scripts()
+
+        self.assertNotIn("data-themes", scripts)
+        self.assertNotIn("data-default", scripts)
+
+    def test_get_scripts_with_css_theme(self):
+        """The theme of the software is given to the loader, which adds those of Whakerexa."""
+        opts_export = ExportOptions()
+        opts_export.css_theme = "clamming_theme.css"
+        scripts = opts_export.get_scripts()
+
+        self.assertIn('data-themes="clamming_theme:./statics/clamming_theme.css"', scripts)
+        self.assertIn('data-default="clamming_theme"', scripts)
+        self.assertIn('data-themes-base="./wexa_statics/css.min/themes/"', scripts)
+
+    def test_css_theme_registered_name(self):
         """A theme is registered with the name of its file, extension excluded."""
         opts_export = ExportOptions()
         opts_export.statics = "./css"
         opts_export.css_theme = "my.theme.css"
-        actual_head = opts_export.get_head()
 
-        self.assertIn('href="./css/my.theme.css"', actual_head)
-        self.assertEqual(2, actual_head.count("themes.setDefault('my.theme')"))
+        self.assertIn('href="./css/my.theme.css"', opts_export.get_head())
+        self.assertIn('data-default="my.theme"', opts_export.get_scripts())
 
     def test_get_nav_links_are_handled(self):
         """A link of the navigation is identified, so 'LinkController' can carry the parameters."""
@@ -230,16 +261,6 @@ class TestHTMLDocExport(unittest.TestCase):
         self.assertEqual(2, nav.count('class="wexa-link"'))
         self.assertEqual(2, nav.count('data-target="_self"'))
         self.assertIn('aria-disabled="true"', nav)
-
-    def test_get_head_links_with_parameters(self):
-        """The links are handed to 'LinkController' in both loading paths, and only with a theme."""
-        opts_export = ExportOptions()
-        self.assertNotIn("handleLinksWithParameters", opts_export.get_head())
-
-        opts_export.css_theme = "clamming_theme.css"
-        actual_head = opts_export.get_head()
-        self.assertEqual(2, actual_head.count("handleLinksWithParameters(wexaLinks)"))
-        self.assertEqual(2, actual_head.count("a.wexa-link[id]"))
 
     def test_get_header_theme_button(self):
         """The switch is offered only when there is a theme to switch."""

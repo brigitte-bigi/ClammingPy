@@ -48,18 +48,23 @@
 import { OnLoadManager } from './dom-loader.js';
 import { WexaLogger } from './logger.js';
 import { AccessibilityManager } from './accessibility.js';
+import { AccessibilityNav } from './accessibility_nav.js';
 import { MenuManager } from './menu.js';
 import { DialogManager } from './dialog.js';
 import { LinkController } from './links.js';
 
 import { ProgressBar } from './progressbar.js';
 import { ToggleSelector } from './toggleselect.js';
-import { SVGIconsManager } from './svgicons.js';
+import { IconSet } from './customize/icon_set.js';
+import { IconSets } from './customize/icon_sets.js';
+import { IconManager } from './customize/icon_manager.js';
+import { icons } from './customize/icons.js';
+import { KeyboardController } from './keyboard.js';
 
 import { BaseManager } from './transport/base_manager.js';
 import { RequestManager } from './transport/request.js';
 
-SVGIconsManager.init(import.meta.url);
+
 
 // --- Debug -------------------------------------------------------
 console.debug('Imports OK:', {
@@ -73,7 +78,9 @@ console.debug('Imports OK:', {
     ProgressBar,
     BaseManager,
     RequestManager,
-    SVGIconsManager
+    IconManager,
+    AccessibilityNav,
+    KeyboardController
 });
 
 // ----- Exports (framework public API) -----
@@ -88,7 +95,11 @@ export {
     ToggleSelector,
     BaseManager,
     RequestManager,
-    SVGIconsManager
+    IconSet,
+    IconSets,
+    IconManager,
+    AccessibilityNav,
+    KeyboardController
 };
 
 // ---------------------------------------------------------------------------
@@ -115,8 +126,9 @@ window.Wexa = Object.assign(window.Wexa || {}, {
     // dispatcher whose methods are static or utility-like.
     onload: OnLoadManager,
 
-    // SVGIconsManager is a static class — no instance needed.
-    icons: SVGIconsManager,
+    // What answers a name with a drawing. A page brings its own sets to it,
+    // and the components of the framework ask it for what they draw.
+    icons,
 
     accessibility: new AccessibilityManager(),
     dialog: new DialogManager(),
@@ -136,7 +148,9 @@ window.Wexa = Object.assign(window.Wexa || {}, {
     ToggleSelector,
     BaseManager,
     RequestManager,
-    SVGIconsManager
+    IconManager,
+    AccessibilityNav,
+    KeyboardController
 });
 
 // Make every [data-href] element without a real href focusable via Tab.

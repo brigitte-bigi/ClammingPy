@@ -1909,6 +1909,7 @@ def __module_index(self, out_html, exporter):
         fp.write(self.html_index(path_name='', exporter=exporter))
         fp.write('    </main>\n')
         fp.write('    {:s}\n'.format(exporter.get_footer()))
+        fp.write('    {:s}\n'.format(exporter.get_scripts()))
         fp.write('</body>\n')
         fp.write('</html>\n')
 ```
@@ -1938,6 +1939,7 @@ def __module_class(self, out_html, exporter, content):
         fp.write('    </section>')
         fp.write('    </main>\n')
         fp.write('    {:s}\n'.format(exporter.get_footer()))
+        fp.write('    {:s}\n'.format(exporter.get_scripts()))
         fp.write('</body>\n')
         fp.write('</html>\n')
 ```
@@ -2086,6 +2088,7 @@ def html_export_index(self, path_name: str, exporter: ExportOptions, readme: str
         fp.write('    </section>\n')
         fp.write('    </main>\n')
         fp.write('    {:s}\n'.format(exporter.get_footer()))
+        fp.write('    {:s}\n'.format(exporter.get_scripts()))
         fp.write('</body>\n')
         fp.write('</html>\n')
     return out
@@ -2910,10 +2913,36 @@ def set_prev_module(self, name: str | None=None) -> NoReturn:
 ```python
 def get_head(self) -> str:
     """Return the HTML 'head' of the page."""
-    return ExportOptions.HTML_HEAD.format(TITLE=self.__title, FAVICON=self.__favicon, THEME=self.__theme, STATICS=self.__statics, WEXA_STATICS=self.__wexa_statics, META_DESCRIPTION=self.__descr, THEME_LINK=self.__theme_part(ExportOptions.HTML_THEME_LINK), THEME_BUNDLE=self.__theme_part(ExportOptions.HTML_THEME_BUNDLE), THEME_MODULE=self.__theme_part(ExportOptions.HTML_THEME_MODULE))
+    return ExportOptions.HTML_HEAD.format(TITLE=self.__title, FAVICON=self.__favicon, THEME=self.__theme, STATICS=self.__statics, WEXA_STATICS=self.__wexa_statics, META_DESCRIPTION=self.__descr, THEME_LINK=self.__theme_part(ExportOptions.HTML_THEME_LINK))
 ```
 
 *Return the HTML 'head' of the page.*
+
+#### get_scripts
+
+```python
+def get_scripts(self) -> str:
+    """Return the scripts of the page, to be added at the end of its body.
+
+        The loader of Whakerexa is the only script a page carries: it decides
+        whether the browser is given the modules or the bundle, registers the
+        themes, and calls 'bootPage' with what it loaded.
+
+        :return: (str) HTML code
+
+        """
+    return ExportOptions.HTML_SCRIPTS.format(WEXA_STATICS=self.__wexa_statics, THEME_DATA=self.__theme_part(ExportOptions.HTML_THEME_DATA))
+```
+
+*Return the scripts of the page, to be added at the end of its body.*
+
+The loader of Whakerexa is the only script a page carries: it decides
+whether the browser is given the modules or the bundle, registers the
+themes, and calls 'bootPage' with what it loaded.
+
+##### Returns
+
+- (*str*) HTML code
 
 #### get_header
 
@@ -2998,7 +3027,7 @@ def get_footer(self) -> str:
 
 ```python
 def __theme_part(self, template: str) -> str:
-    """Return the given part of the 'head' filled with the theme information.
+    """Return the given part of the page filled with the theme information.
 
         The name a theme is registered with is the name of its file, without the
         extension: it is what the browser address shows when the reader switched.
@@ -3015,7 +3044,7 @@ def __theme_part(self, template: str) -> str:
     return template.format(STATICS=self.__statics, WEXA_STATICS=self.__wexa_statics, CSS_THEME=self.__css_theme, THEME_NAME=theme_name)
 ```
 
-*Return the given part of the 'head' filled with the theme information.*
+*Return the given part of the page filled with the theme information.*
 
 The name a theme is registered with is the name of its file, without the
 extension: it is what the browser address shows when the reader switched.

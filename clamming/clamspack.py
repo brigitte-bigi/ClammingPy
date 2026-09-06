@@ -270,6 +270,7 @@ class ClamsPack:
             fp.write(self.html_index(path_name="", exporter=exporter))
             fp.write("    </main>\n")
             fp.write("    {:s}\n".format(exporter.get_footer()))
+            fp.write("    {:s}\n".format(exporter.get_scripts()))
             fp.write("</body>\n")
             fp.write("</html>\n")
 
@@ -293,6 +294,7 @@ class ClamsPack:
             fp.write("    </section>")
             fp.write("    </main>\n")
             fp.write("    {:s}\n".format(exporter.get_footer()))
+            fp.write("    {:s}\n".format(exporter.get_scripts()))
             fp.write("</body>\n")
             fp.write("</html>\n")
 

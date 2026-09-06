@@ -141,6 +141,7 @@ class ClamsModules:
             fp.write("    </section>\n")
             fp.write("    </main>\n")
             fp.write("    {:s}\n".format(exporter.get_footer()))
+            fp.write("    {:s}\n".format(exporter.get_scripts()))
             fp.write("</body>\n")
             fp.write("</html>\n")
         return out

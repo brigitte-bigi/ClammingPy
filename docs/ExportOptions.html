@@ -10,70 +10,14 @@
             <meta name="description" content="Python Class Documentation of ExportOptions. Store the options and content for an export to documented files." />
 
             <link rel="logo icon" href="./statics/clamming32x32.ico" />
-            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/wexa.css" type="text/css" media="screen" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/wexa.css" type="text/css" media="screen" />
             <link rel="stylesheet" id="wexa-theme" href="./statics/clamming_theme.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/print.css" type="text/css" media="print" />
-            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/layout.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/menu.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/code.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/extras/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/print.css" type="text/css" media="print" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/code.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/extras/book.css" type="text/css" />
             <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
-
-            <!-- Whakerexa JS loader: bundle on file://, ES6 modules on http(s) -->
-            <script>
-            (function () {
-              const usingFile = (window.location.protocol === 'file:');
-              if (usingFile === false) {
-                return;
-              }
-              const s = document.createElement('script');
-              s.src = './Whakerexa-current/wexa_statics/js/wexa.bundle.js';
-
-              s.onload = function () {
-                const themes = new window.Wexa.ThemeManager();
-                themes.register('clamming_theme', './statics/clamming_theme.css');
-                themes.register('highcontrast', './Whakerexa-current/wexa_statics/css/themes/wexa_theme_highcontrast.css');
-                themes.setDefault('clamming_theme');
-                window.themes = themes;
-
-                window.Wexa.onload.addLoadFunction(function () {
-                  const wexaLinks = [];
-                  document.querySelectorAll('a.wexa-link[id]').forEach(function (a) { wexaLinks.push(a.id); });
-                  window.Wexa.links.handleLinksWithParameters(wexaLinks);
-                });
-
-                window.Wexa.onload.addLoadFunction(function () {
-                  const book = new window.Wexa.Book("main-content");
-                  book.fill_table(false);
-                });
-              };
-
-              document.head.appendChild(s);
-            })();
-            </script>
-
-            <!-- The Book extra is not part of the 'wexa.js' API: it is imported apart -->
-            <script type="module">
-              if (window.location.protocol !== 'file:') {
-                await import('./Whakerexa-current/wexa_statics/js/wexa.js');
-                const { ThemeManager } = await import('./Whakerexa-current/wexa_statics/js/extras/theme_manager.js');
-                const themes = new ThemeManager();
-                themes.register('clamming_theme', './statics/clamming_theme.css');
-                themes.register('highcontrast', './Whakerexa-current/wexa_statics/css/themes/wexa_theme_highcontrast.css');
-                themes.setDefault('clamming_theme');
-                window.themes = themes;
-
-                window.Wexa.onload.addLoadFunction(function () {
-                  const wexaLinks = [];
-                  document.querySelectorAll('a.wexa-link[id]').forEach(function (a) { wexaLinks.push(a.id); });
-                  window.Wexa.links.handleLinksWithParameters(wexaLinks);
-                });
-
-                const { Book } = await import('./Whakerexa-current/wexa_statics/js/extras/book.js');
-                const book = new Book("main-content");
-                book.fill_table(false);
-              }
-            </script>
 
        </head>
        
@@ -1316,7 +1260,45 @@ View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_head</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the HTML &#39;head&#39; of the page.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">HTML_HEAD</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">TITLE</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__title</span><span class="p">,</span> <span class="n">FAVICON</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__favicon</span><span class="p">,</span> <span class="n">THEME</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__theme</span><span class="p">,</span> <span class="n">STATICS</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__statics</span><span class="p">,</span> <span class="n">WEXA_STATICS</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__wexa_statics</span><span class="p">,</span> <span class="n">META_DESCRIPTION</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__descr</span><span class="p">,</span> <span class="n">THEME_LINK</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__theme_part</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">HTML_THEME_LINK</span><span class="p">),</span> <span class="n">THEME_BUNDLE</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__theme_part</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">HTML_THEME_BUNDLE</span><span class="p">),</span> <span class="n">THEME_MODULE</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__theme_part</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">HTML_THEME_MODULE</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">HTML_HEAD</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">TITLE</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__title</span><span class="p">,</span> <span class="n">FAVICON</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__favicon</span><span class="p">,</span> <span class="n">THEME</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__theme</span><span class="p">,</span> <span class="n">STATICS</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__statics</span><span class="p">,</span> <span class="n">WEXA_STATICS</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__wexa_statics</span><span class="p">,</span> <span class="n">META_DESCRIPTION</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__descr</span><span class="p">,</span> <span class="n">THEME_LINK</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__theme_part</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">HTML_THEME_LINK</span><span class="p">))</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_scripts</h4>
+
+    <article class="docstring">
+<p><em>Return the scripts of the page, to be added at the end of its body.</em></p>
+
+<p>The loader of Whakerexa is the only script a page carries: it decides
+whether the browser is given the modules or the bundle, registers the
+themes, and calls 'bootPage' with what it loaded.</p>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>str</em>) HTML code</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_scripts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the scripts of the page, to be added at the end of its body.</span>
+
+<span class="sd">        The loader of Whakerexa is the only script a page carries: it decides</span>
+<span class="sd">        whether the browser is given the modules or the bundle, registers the</span>
+<span class="sd">        themes, and calls &#39;bootPage&#39; with what it loaded.</span>
+
+<span class="sd">        :return: (str) HTML code</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">ExportOptions</span><span class="o">.</span><span class="n">HTML_SCRIPTS</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">WEXA_STATICS</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__wexa_statics</span><span class="p">,</span> <span class="n">THEME_DATA</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__theme_part</span><span class="p">(</span><span class="n">ExportOptions</span><span class="o">.</span><span class="n">HTML_THEME_DATA</span><span class="p">))</span>
 </code></pre></div>
 
     </details>
@@ -1433,7 +1415,7 @@ View Source
 <h4>__theme_part</h4>
 
     <article class="docstring">
-<p><em>Return the given part of the 'head' filled with the theme information.</em></p>
+<p><em>Return the given part of the page filled with the theme information.</em></p>
 
 <p>The name a theme is registered with is the name of its file, without the
 extension: it is what the browser address shows when the reader switched.</p>
@@ -1458,7 +1440,7 @@ extension: it is what the browser address shows when the reader switched.</p>
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__theme_part</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the given part of the &#39;head&#39; filled with the theme information.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the given part of the page filled with the theme information.</span>
 
 <span class="sd">        The name a theme is registered with is the name of its file, without the</span>
 <span class="sd">        extension: it is what the browser address shows when the reader switched.</span>
@@ -1537,7 +1519,35 @@ View Source
     
             <footer>
                 <p class="copyright">Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+                <p class="copyright">This page was propulsed by <a href="">Whakerexa</a></p>
             </footer>
         
+    
+    <script>
+        /**
+         * Start what this page has of its own: its table of contents, and the
+         * links that carry the theme and the accessibility choices to the page
+         * they open.
+         *
+         * @param {Object} wexa - The framework and the extras the loader was asked for.
+         * @returns {void}
+         */
+        function bootPage(wexa) {
+            const book = new wexa.Book("main-content");
+            book.fillTable(false);
+
+            const wexaLinks = [];
+            document.querySelectorAll('a.wexa-link[id]').forEach(function (a) { wexaLinks.push(a.id); });
+            wexa.links.handleLinksWithParameters(wexaLinks);
+        }
+    </script>
+
+    <script src="./Whakerexa-current/wexa_statics/js/wexa.loader.js"
+            data-base="./Whakerexa-current/wexa_statics/"
+            data-extras="js/extras/book.js"
+            data-themes-base="./Whakerexa-current/wexa_statics/css.min/themes/"
+            data-themes="clamming_theme:./statics/clamming_theme.css"
+            data-default="clamming_theme" ></script>
+
 </body>
 </html>

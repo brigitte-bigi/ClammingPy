@@ -11,44 +11,14 @@
     <meta name="keywords" content="python, documentation, docstring, markdown, html, accessibility, design" />
 
     <link rel="logo icon" href="./statics/clamming32x32.ico" />
-    <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/wexa.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/print.css" type="text/css" media="print" />
-    <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/layout.css" type="text/css" />
-    <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/menu.css" type="text/css" />
-    <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/code.css" type="text/css" />
-    <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/extras/book.css" type="text/css" />
+    <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/wexa.css" type="text/css" media="screen" />
+    <link rel="stylesheet" id="wexa-theme" href="./statics/clamming_theme.css" type="text/css" />
+    <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/print.css" type="text/css" media="print" />
+    <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/layout.css" type="text/css" />
+    <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/menu.css" type="text/css" />
+    <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/code.css" type="text/css" />
+    <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/extras/book.css" type="text/css" />
     <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
-
-    <!-- Whakerexa JS loader: bundle on file://, ES6 modules on http(s) -->
-    <script>
-    (function () {
-      const usingFile = (window.location.protocol === 'file:');
-      if (usingFile === false) {
-        return;
-      }
-      const s = document.createElement('script');
-      s.src = './Whakerexa-current/wexa_statics/js/wexa.bundle.js';
-
-      s.onload = function () {
-        window.Wexa.onload.addLoadFunction(function () {
-          const book = new window.Wexa.Book("main-content");
-          book.fill_table(false);
-        });
-      };
-
-      document.head.appendChild(s);
-    })();
-    </script>
-
-    <!-- The Book extra is not part of the 'wexa.js' API: it is imported apart -->
-    <script type="module">
-      if (window.location.protocol !== 'file:') {
-        await import('./Whakerexa-current/wexa_statics/js/wexa.js');
-        const { Book } = await import('./Whakerexa-current/wexa_statics/js/extras/book.js');
-        const book = new Book("main-content");
-        book.fill_table(false);
-      }
-    </script>
 
 </head>
 
@@ -732,7 +702,7 @@
                 <tr><td><code>clamsclass.py</code></td><td>Write one class, in two formats</td></tr>
                 <tr><td><code>clamspack.py</code></td><td>Write one module and its files</td></tr>
                 <tr><td><code>clamsmodules.py</code></td><td>Write a set of modules and its index</td></tr>
-                <tr><td><code>exportoptions.py</code></td><td>Hold what surrounds the documentation, and produce the head, header, nav and footer</td></tr>
+                <tr><td><code>exportoptions.py</code></td><td>Hold what surrounds the documentation, and produce the head, header, nav, footer and scripts</td></tr>
                 <tr><td><code>clamutils.py</code></td><td>Reach a class, convert Markdown, colour source code</td></tr>
                 </tbody>
             </table>
@@ -825,6 +795,7 @@
 | - theme, statics, wexa_statics |
 | - readme: bool                 |
 | - aside_toc: bool              |
+| - css_theme: str               |
 | - next/prev class and module   |
 +--------------------------------+
 | + get_root_class(): str        |
@@ -832,6 +803,7 @@
 | + get_header(): str            |
 | + get_nav(): str               |
 | + get_footer(): str            |
+| + get_scripts(): str           |
 +--------------------------------+</code></pre>
 
             <p>Two aggregations carry the whole structure: a set of modules holds its modules, a
@@ -843,37 +815,40 @@
 
         <section class="ssection"><h2>UML: the sequence when a page is read</h2>
 
-            <p>Same objects whichever way they were loaded — modules over HTTP, bundle over
-                <code>file://</code>.</p>
+            <p>One tag at the end of the body loads everything: <code>wexa.loader.js</code>
+                decides by itself whether the browser is given the modules or the bundle, registers
+                the themes the page brings and then those of the framework, and calls
+                <code>bootPage</code> with what it loaded.</p>
 
-            <pre><code>Reader        Browser         Book       ThemeManager   AccessibilityManager
-  |              |              |              |              |
-  |-- open ----->|              |              |              |
-  |              |-- create --->|              |              |
-  |              |              |-- read the headings         |
-  |              |              |-- build the table of contents
-  |              |              |  [ if the table is set aside ]
-  |              |              |-- make the panel out of reach
-  |              |              |-- add the button that opens it
-  |              |              |              |              |
-  |              |-- create ------------------>|              |
-  |              |              |     register clamming       |
-  |              |              |     register highcontrast   |
-  |              |              |     read the address        |
-  |              |              |     activate a theme        |
-  |              |              |              |              |
-  |              |-- create ----------------------------------|
-  |              |              |              |     read the address
-  |              |              |              |     apply the adjustments
-  |              |              |              |              |
-  |-- switch the theme ------------------------>|             |
-  |              |&lt;-- replace the stylesheet ---|              |
-  |              |                                            |
-  |-- adjust the text ------------------------------------->  |
-  |              |&lt;-- set the class on the root element -------|
-  |                                                            |
-  |-- open the table of contents -->|            |             |
-  |              |&lt;-- show the panel, and put it in reach -----|</code></pre>
+            <pre><code>Reader      Loader        Book      ThemeManager   AccessibilityManager
+  |            |            |             |              |
+  |-- open --->|            |             |              |
+  |            |-- modules, or the bundle |              |
+  |            |            |             |              |
+  |            |-- register the themes -->|              |
+  |            |            |    the one of the page,    |
+  |            |            |    then those of Whakerexa |
+  |            |            |    read the address        |
+  |            |            |             |              |
+  |            |-- hand the links over -------------->   |
+  |            |            |             |     read the address
+  |            |            |             |     apply the adjustments
+  |            |            |             |              |
+  |            |-- bootPage(namespace)    |              |
+  |            |            |-- read the headings        |
+  |            |            |-- build the table of contents
+  |            |            | [ if the table is set aside ]
+  |            |            |-- make the panel out of reach
+  |            |            |-- add the button that opens it
+  |            |            |             |              |
+  |-- switch the theme -------------->    |              |
+  |            |&lt;-- replace the stylesheet |              |
+  |            |            |             |              |
+  |-- adjust the text ------------------------------->   |
+  |            |&lt;-- set the class on the root element ----|
+  |            |            |             |              |
+  |-- open the table of contents -->|     |              |
+  |            |&lt;-- show the panel, and put it in reach --|</code></pre>
         </section>
 
         <section class="ssection"><h2>UML: the states of the presentation</h2>
@@ -1031,6 +1006,26 @@
 <footer>
     <p class="copyright">Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
 </footer>
+
+<script>
+    /**
+     * Start what this page has of its own: its table of contents.
+     *
+     * @param {Object} wexa - The framework and the extras the loader was asked for.
+     * @returns {void}
+     */
+    function bootPage(wexa) {
+        const book = new wexa.Book("main-content");
+        book.fillTable(false);
+    }
+</script>
+
+<script src="./Whakerexa-current/wexa_statics/js/wexa.loader.js"
+        data-base="./Whakerexa-current/wexa_statics/"
+        data-themes-base="./Whakerexa-current/wexa_statics/css.min/themes/"
+        data-themes="clamming_theme:./statics/clamming_theme.css"
+        data-default="clamming_theme"
+        data-extras="js/extras/book.js"></script>
 
 </body>
 </html>

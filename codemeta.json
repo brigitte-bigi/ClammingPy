@@ -5,10 +5,10 @@
     "contIntegration": "",
     "dateCreated": "2023-11-01",
     "datePublished": "2023-11-23",
-    "dateModified": "2026-08-25",
+    "dateModified": "2026-09-06",
     "downloadUrl": "https://github.com/brigitte-bigi/ClammingPy/releases",
     "name": "ClammingPy",
-    "version": "3.1",
+    "version": "3.2",
     "description": "ClammingPy converts a Python class or module into Markdown or HTML, for documentation purpose. ClammingPy supports reStructured and Epydoc formats: docstrings are analyzed with flexibility rather than completeness... ClammingPy generates HTML-5 with a high WCAG 2.1 conformity level.",
     "applicationCategory": "Computer Science",
     "releaseNotes": "",
@@ -32,7 +32,7 @@
     "author": [
         {
             "@type": "Person",
-            "@id": "http://orcid.org/0000-0003-1834-6918",
+            "@id": "https://orcid.org/0000-0003-1834-6918",
             "givenName": "Brigitte",
             "familyName": "Bigi",
             "email": "contact@sppas.org",

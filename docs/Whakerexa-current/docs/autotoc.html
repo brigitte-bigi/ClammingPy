@@ -14,10 +14,11 @@
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="screen" />
     <link rel="stylesheet" id="wexa-theme" href="../wexa_statics/css/themes/wexa_theme.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/print.css" type="text/css" media="print" />
-    <link rel="stylesheet" href="doc.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/extras/book.css" type="text/css" media="all" />
+
+    <link rel="stylesheet" href="doc.css" type="text/css" media="all" />
 
     <style>
         :root {
@@ -42,20 +43,17 @@
     </header>
 
     <nav class="nav-wexa top" aria-label="Page navigation">
-        <a class="menuitem" id="btn-back" data-href="book.html" data-target="_self" aria-label="Back" title="Back">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-                <polyline points="20 24 12 16 20 8"/>
-            </svg>
+        <a class="menuitem" id="btn-back" data-href="book.html" data-target="_self" aria-label="Back" title="Back" data-icon="chevron-left">
         </a>
         <button id="btn-css-theme" class="menuitem" type="button"
-                aria-label="Switch CSS theme" title="Switch CSS theme"
+                aria-label="Switch theme" title="Switch theme"
                 onclick="window.themes && window.themes.next()">
         </button>
         <button id="btn-contrast" class="menuitem accessibility"
-                aria-label="contrast" aria-pressed="false"
+                type="button" aria-label="Switch contrast" title="Switch contrast" aria-pressed="false"
                 onclick="Wexa.accessibility.switchContrastScheme()"></button>
         <button id="btn-color" class="menuitem accessibility"
-                aria-label="color" aria-pressed="false"
+                type="button" aria-label="Switch light and dark" title="Switch light and dark" aria-pressed="false"
                 onclick="Wexa.accessibility.switchColorScheme()"></button>
     </nav>
 
@@ -63,7 +61,7 @@
 
         <aside class="book-toc-aside" aria-label="Table of contents">
             <h1>Table of Contents</h1>
-            <p><a href="index.html">Whakerexa</a></p>
+            <p><a href="../index.html">Whakerexa</a></p>
             <ul id="toc"></ul>
         </aside>
 
@@ -104,18 +102,18 @@
                 <article class="card-doc" aria-label="JavaScript — Book API">
                     <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
                         <p>Instantiate <code>Book</code> with the id of the content container,
-                            then call <code>fill_table()</code>.</p>
+                            then call <code>fillTable()</code>.</p>
                     </div>
                     <pre class="dark"><code>const book = new Book("main-content");
 
 // optionally adjust which headings are tracked:
-book.add_html_tags("h5", "h6");    // include h5, h6
-book.delete_html_tags("h4");       // exclude h4
+book.addHtmlTags("h5", "h6");    // include h5, h6
+book.deleteHtmlTags("h4");       // exclude h4
 
 // fill the ToC — numbered headings only (default):
-book.fill_table();
+book.fillTable();
 // or include all headings:
-book.fill_table(false);</code></pre>
+book.fillTable(false);</code></pre>
                 </article>
 
             </section>
@@ -167,52 +165,25 @@ book.fill_table(false);</code></pre>
 <script>
     function bootBookDemo(Book) {
         const book = new Book("main-content");
-        book.fill_table();
+        book.fillTable();
     }
 </script>
 
 <script>
-    window.addEventListener('load', () => {
-        Wexa.links.handleLinksWithParameters(['btn-back']);
-    });
+    /**
+     * Start what this page has of its own.
+     *
+     * @param {Object} wexa - The framework and what data-extras asked for.
+     * @returns {void}
+     */
+    function bootPage(wexa) {
+        bootBookDemo(wexa.Book);
+    }
 </script>
 
-<!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
-<script>
-    (function () {
-        const usingFile = (window.location.protocol === 'file:');
-        const s = document.createElement('script');
-        if (usingFile) {
-            s.src = '../wexa_statics/js/wexa.bundle.js';
-            s.addEventListener('load', function () {
-                if (window.Wexa && window.Wexa.ThemeManager) {
-                    const t = new window.Wexa.ThemeManager();
-                        t.register('wexa_theme',   '../wexa_statics/css/themes/wexa_theme.css');
-                        t.register('aurora',       '../wexa_statics/css/themes/wexa_theme_aurora.css');
-                    t.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
-                    window.themes = t;
-                }
-                if (window.Wexa && window.Wexa.Book) {
-                    bootBookDemo(window.Wexa.Book);
-                }
-            });
-        } else {
-            s.type = 'module';
-            s.src = '../wexa_statics/js/wexa.js';
-        }
-        document.head.appendChild(s);
-    })();
-</script>
-<script type="module">
-    import { ThemeManager } from '../wexa_statics/js/extras/theme_manager.js';
-    import { Book } from '../wexa_statics/js/extras/book.js';
-    const themes = new ThemeManager();
-        themes.register('wexa_theme',   '../wexa_statics/css/themes/wexa_theme.css');
-        themes.register('aurora',       '../wexa_statics/css/themes/wexa_theme_aurora.css');
-    themes.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
-    window.themes = themes;
-    bootBookDemo(Book);
-</script>
-
+<script src="../wexa_statics/js/wexa.loader.js"
+        data-base="../wexa_statics/"
+        data-links="btn-back"
+        data-extras="js/extras/book.js"></script>
 </body>
 </html>

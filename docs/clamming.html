@@ -10,70 +10,14 @@
             <meta name="description" content="Python class documentation" />
 
             <link rel="logo icon" href="./statics/clamming32x32.ico" />
-            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/wexa.css" type="text/css" media="screen" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/wexa.css" type="text/css" media="screen" />
             <link rel="stylesheet" id="wexa-theme" href="./statics/clamming_theme.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/print.css" type="text/css" media="print" />
-            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/layout.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/menu.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/code.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/extras/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/print.css" type="text/css" media="print" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/code.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/extras/book.css" type="text/css" />
             <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
-
-            <!-- Whakerexa JS loader: bundle on file://, ES6 modules on http(s) -->
-            <script>
-            (function () {
-              const usingFile = (window.location.protocol === 'file:');
-              if (usingFile === false) {
-                return;
-              }
-              const s = document.createElement('script');
-              s.src = './Whakerexa-current/wexa_statics/js/wexa.bundle.js';
-
-              s.onload = function () {
-                const themes = new window.Wexa.ThemeManager();
-                themes.register('clamming_theme', './statics/clamming_theme.css');
-                themes.register('highcontrast', './Whakerexa-current/wexa_statics/css/themes/wexa_theme_highcontrast.css');
-                themes.setDefault('clamming_theme');
-                window.themes = themes;
-
-                window.Wexa.onload.addLoadFunction(function () {
-                  const wexaLinks = [];
-                  document.querySelectorAll('a.wexa-link[id]').forEach(function (a) { wexaLinks.push(a.id); });
-                  window.Wexa.links.handleLinksWithParameters(wexaLinks);
-                });
-
-                window.Wexa.onload.addLoadFunction(function () {
-                  const book = new window.Wexa.Book("main-content");
-                  book.fill_table(false);
-                });
-              };
-
-              document.head.appendChild(s);
-            })();
-            </script>
-
-            <!-- The Book extra is not part of the 'wexa.js' API: it is imported apart -->
-            <script type="module">
-              if (window.location.protocol !== 'file:') {
-                await import('./Whakerexa-current/wexa_statics/js/wexa.js');
-                const { ThemeManager } = await import('./Whakerexa-current/wexa_statics/js/extras/theme_manager.js');
-                const themes = new ThemeManager();
-                themes.register('clamming_theme', './statics/clamming_theme.css');
-                themes.register('highcontrast', './Whakerexa-current/wexa_statics/css/themes/wexa_theme_highcontrast.css');
-                themes.setDefault('clamming_theme');
-                window.themes = themes;
-
-                window.Wexa.onload.addLoadFunction(function () {
-                  const wexaLinks = [];
-                  document.querySelectorAll('a.wexa-link[id]').forEach(function (a) { wexaLinks.push(a.id); });
-                  window.Wexa.links.handleLinksWithParameters(wexaLinks);
-                });
-
-                const { Book } = await import('./Whakerexa-current/wexa_statics/js/extras/book.js');
-                const book = new Book("main-content");
-                book.fill_table(false);
-              }
-            </script>
 
        </head>
        
@@ -184,7 +128,7 @@ module in Mardown format or in HTML format as a standalone content:</p>
 
 <h2>License/Copyright</h2>
 
-<p>Copyright (C) 2023-2026 - <a href="https://sppas.org/bigi/">Brigitte Bigi</a> - <a href="m&#97;&#x69;&#x6c;&#x74;&#111;&#x3a;&#99;&#111;&#x6e;&#116;&#97;&#99;&#116;&#64;&#115;&#112;&#x70;&#97;&#115;&#46;&#111;&#114;g">&#99;&#111;&#x6e;&#116;&#97;&#99;&#116;&#64;&#115;&#112;&#x70;&#97;&#115;&#46;&#111;&#114;g</a>, CNRS,
+<p>Copyright (C) 2023-2026 - <a href="https://sppas.org/bigi/">Brigitte Bigi</a> - <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#99;&#111;n&#116;&#x61;&#99;&#x74;&#x40;&#115;&#112;&#112;&#97;&#115;&#46;&#x6f;&#x72;&#103;">&#99;&#111;n&#116;&#x61;&#99;&#x74;&#x40;&#115;&#112;&#112;&#97;&#115;&#46;&#x6f;&#x72;&#103;</a>, CNRS,
 Laboratoire Parole et Langage, Aix-en-Provence, France</p>
 
 <p>This program is free software: you can redistribute it and/or modify
@@ -282,7 +226,35 @@ along with this program. If not, see <a href="https://www.gnu.org/licenses/">htt
     
             <footer>
                 <p class="copyright">Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+                <p class="copyright">This page was propulsed by <a href="">Whakerexa</a></p>
             </footer>
         
+    
+    <script>
+        /**
+         * Start what this page has of its own: its table of contents, and the
+         * links that carry the theme and the accessibility choices to the page
+         * they open.
+         *
+         * @param {Object} wexa - The framework and the extras the loader was asked for.
+         * @returns {void}
+         */
+        function bootPage(wexa) {
+            const book = new wexa.Book("main-content");
+            book.fillTable(false);
+
+            const wexaLinks = [];
+            document.querySelectorAll('a.wexa-link[id]').forEach(function (a) { wexaLinks.push(a.id); });
+            wexa.links.handleLinksWithParameters(wexaLinks);
+        }
+    </script>
+
+    <script src="./Whakerexa-current/wexa_statics/js/wexa.loader.js"
+            data-base="./Whakerexa-current/wexa_statics/"
+            data-extras="js/extras/book.js"
+            data-themes-base="./Whakerexa-current/wexa_statics/css.min/themes/"
+            data-themes="clamming_theme:./statics/clamming_theme.css"
+            data-default="clamming_theme" ></script>
+
 </body>
 </html>

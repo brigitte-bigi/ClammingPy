@@ -10,70 +10,14 @@
             <meta name="description" content="Python Class Documentation of ExportOptions. Store the options and content for an export to documented files." />
 
             <link rel="logo icon" href="./statics/clamming32x32.ico" />
-            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/wexa.css" type="text/css" media="screen" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/wexa.css" type="text/css" media="screen" />
             <link rel="stylesheet" id="wexa-theme" href="./statics/clamming_theme.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/print.css" type="text/css" media="print" />
-            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/layout.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/menu.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/code.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css/extras/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/print.css" type="text/css" media="print" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/code.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-current/wexa_statics/css.min/extras/book.css" type="text/css" />
             <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
-
-            <!-- Whakerexa JS loader: bundle on file://, ES6 modules on http(s) -->
-            <script>
-            (function () {
-              const usingFile = (window.location.protocol === 'file:');
-              if (usingFile === false) {
-                return;
-              }
-              const s = document.createElement('script');
-              s.src = './Whakerexa-current/wexa_statics/js/wexa.bundle.js';
-
-              s.onload = function () {
-                const themes = new window.Wexa.ThemeManager();
-                themes.register('clamming_theme', './statics/clamming_theme.css');
-                themes.register('highcontrast', './Whakerexa-current/wexa_statics/css/themes/wexa_theme_highcontrast.css');
-                themes.setDefault('clamming_theme');
-                window.themes = themes;
-
-                window.Wexa.onload.addLoadFunction(function () {
-                  const wexaLinks = [];
-                  document.querySelectorAll('a.wexa-link[id]').forEach(function (a) { wexaLinks.push(a.id); });
-                  window.Wexa.links.handleLinksWithParameters(wexaLinks);
-                });
-
-                window.Wexa.onload.addLoadFunction(function () {
-                  const book = new window.Wexa.Book("main-content");
-                  book.fill_table(false);
-                });
-              };
-
-              document.head.appendChild(s);
-            })();
-            </script>
-
-            <!-- The Book extra is not part of the 'wexa.js' API: it is imported apart -->
-            <script type="module">
-              if (window.location.protocol !== 'file:') {
-                await import('./Whakerexa-current/wexa_statics/js/wexa.js');
-                const { ThemeManager } = await import('./Whakerexa-current/wexa_statics/js/extras/theme_manager.js');
-                const themes = new ThemeManager();
-                themes.register('clamming_theme', './statics/clamming_theme.css');
-                themes.register('highcontrast', './Whakerexa-current/wexa_statics/css/themes/wexa_theme_highcontrast.css');
-                themes.setDefault('clamming_theme');
-                window.themes = themes;
-
-                window.Wexa.onload.addLoadFunction(function () {
-                  const wexaLinks = [];
-                  document.querySelectorAll('a.wexa-link[id]').forEach(function (a) { wexaLinks.push(a.id); });
-                  window.Wexa.links.handleLinksWithParameters(wexaLinks);
-                });
-
-                const { Book } = await import('./Whakerexa-current/wexa_statics/js/extras/book.js');
-                const book = new Book("main-content");
-                book.fill_table(false);
-              }
-            </script>
 
        </head>
        
@@ -149,7 +93,35 @@ Then, see results in the terminal, and write XML report to tests/coverage.xml wi
     
             <footer>
                 <p class="copyright">Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+                <p class="copyright">This page was propulsed by <a href="">Whakerexa</a></p>
             </footer>
         
+    
+    <script>
+        /**
+         * Start what this page has of its own: its table of contents, and the
+         * links that carry the theme and the accessibility choices to the page
+         * they open.
+         *
+         * @param {Object} wexa - The framework and the extras the loader was asked for.
+         * @returns {void}
+         */
+        function bootPage(wexa) {
+            const book = new wexa.Book("main-content");
+            book.fillTable(false);
+
+            const wexaLinks = [];
+            document.querySelectorAll('a.wexa-link[id]').forEach(function (a) { wexaLinks.push(a.id); });
+            wexa.links.handleLinksWithParameters(wexaLinks);
+        }
+    </script>
+
+    <script src="./Whakerexa-current/wexa_statics/js/wexa.loader.js"
+            data-base="./Whakerexa-current/wexa_statics/"
+            data-extras="js/extras/book.js"
+            data-themes-base="./Whakerexa-current/wexa_statics/css.min/themes/"
+            data-themes="clamming_theme:./statics/clamming_theme.css"
+            data-default="clamming_theme" ></script>
+
 </body>
 </html>

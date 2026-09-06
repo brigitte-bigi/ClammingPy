@@ -29,20 +29,17 @@
     <p>Whakerexa &gt; Getting started &gt; Quick start</p>
 </header>
 <nav class="nav-wexa top" aria-label="Page navigation">
-    <a class="menuitem" id="btn-back" data-href="../index.html" data-target="_self" aria-label="Back" title="Back">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-            <polyline points="20 24 12 16 20 8" />
-        </svg>
+    <a class="menuitem" id="btn-back" data-href="../index.html" data-target="_self" aria-label="Back" title="Back" data-icon="chevron-left">
     </a>
     <button id="btn-css-theme" class="menuitem" type="button"
-            aria-label="Switch CSS theme" title="Switch CSS theme"
+            aria-label="Switch theme" title="Switch theme"
             onclick="window.themes && window.themes.next()">
     </button>
     <button id="btn-contrast" class="menuitem accessibility"
-            aria-label="contrast" aria-pressed="false"
+            type="button" aria-label="Switch contrast" title="Switch contrast" aria-pressed="false"
             onclick="Wexa.accessibility.switchContrastScheme()"></button>
     <button id="btn-color" class="menuitem accessibility"
-            aria-label="color" aria-pressed="false"
+            type="button" aria-label="Switch light and dark" title="Switch light and dark" aria-pressed="false"
             onclick="Wexa.accessibility.switchColorScheme()"></button>
 </nav>
 
@@ -83,7 +80,7 @@
     &lt;meta charset="utf-8" /&gt;
     &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
     &lt;link rel="stylesheet" href="wexa_statics/css/wexa.css"&gt;
-    &lt;script src="wexa_statics/js/wexa.bundle.js"&gt;&lt;/script&gt;
+    &lt;script src="wexa_statics/js/wexa.loader.js" data-base="wexa_statics/"&gt;&lt;/script&gt;
 &lt;/head&gt;
 &lt;body&gt;
 
@@ -113,54 +110,52 @@
             <div class="card-view" style="flex-direction: column; align-items: flex-start;">
                 <nav class="nav-wexa top" aria-label="Accessibility example" style="position: static; width: auto;">
                     <button id="btn-contrast-ex" class="menuitem accessibility"
-                            aria-label="contrast" aria-pressed="false"
-                            onclick="Wexa.accessibility.switchContrastScheme()">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
-                             fill="none" stroke="currentColor" stroke-width="2"
-                             stroke-linecap="round" aria-hidden="true">
-                            <path d="M2 16s4-8 14-8 14 8 14 8-4 8-14 8S2 16 2 16z"/>
-                            <circle cx="16" cy="16" r="5" fill="currentColor" stroke="none"/>
-                        </svg>
+                            type="button" aria-label="Switch contrast" title="Switch contrast" aria-pressed="false"
+                            onclick="Wexa.accessibility.switchContrastScheme()" data-icon="contrast">
                     </button>
                     <button id="btn-color-ex" class="menuitem accessibility"
-                            aria-label="color" aria-pressed="false"
-                            onclick="Wexa.accessibility.switchColorScheme()">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
-                             fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                            <circle cx="16" cy="16" r="13"/>
-                            <clipPath id="cut-color-ex">
-                                <polygon points="0,32 32,0 32,32"/>
-                            </clipPath>
-                            <circle cx="16" cy="16" r="13" fill="currentColor" clip-path="url(#cut-color-ex)" stroke="none"/>
-                        </svg>
+                            type="button" aria-label="Switch light and dark" title="Switch light and dark" aria-pressed="false"
+                            onclick="Wexa.accessibility.switchColorScheme()" data-icon="color">
                     </button>
                 </nav>
             </div>
             <pre class="dark"><code>&lt;nav class="nav-wexa top" aria-label="Accessibility"&gt;
     &lt;button id="btn-contrast" class="menuitem accessibility"
-            aria-label="contrast" aria-pressed="false"
+            type="button" aria-label="Switch contrast" title="Switch contrast" aria-pressed="false"
             onclick="Wexa.accessibility.switchContrastScheme()"&gt;&lt;/button&gt;
     &lt;button id="btn-color" class="menuitem accessibility"
-            aria-label="color" aria-pressed="false"
+            type="button" aria-label="Switch light and dark" title="Switch light and dark" aria-pressed="false"
             onclick="Wexa.accessibility.switchColorScheme()"&gt;&lt;/button&gt;
 &lt;/nav&gt;</code></pre>
         </article>
 
         <h2>With a local server (recommended)</h2>
-        <p>ES6 modules are blocked on <code>file://</code>. Serve the files over HTTP:</p>
+        <p>A browser refuses ES6 modules on <code>file://</code>, where the loader falls back on
+            the bundle. Served over HTTP, a page loads the modules, and only the ones it asks
+            for:</p>
 
         <article class="card-doc" aria-label="Local server setup">
             <div class="card-view" style="flex-direction: column; align-items: flex-start;">
-                <p>Then open <code>http://localhost:8000/</code> and replace the bundle with the module loader.</p>
+                <p>Then open <code>http://localhost:8000/</code>. Nothing to change in the page: the loader
+                    reads the protocol and takes the modules from there.</p>
             </div>
             <pre class="dark"><code>python -m http.server 8000</code></pre>
         </article>
 
-        <article class="card-doc" aria-label="ES6 module loader">
+        <article class="card-doc" aria-label="What the loader is asked">
             <div class="card-view" style="flex-direction: column; align-items: flex-start;">
-                <p>Module loader — use instead of <code>wexa.bundle.js</code> when serving over HTTP.</p>
+                <p>The loader takes what a page has to say on its own tag: where
+                    <code>wexa_statics/</code> stands, the theme to apply when the address names
+                    none, the identifiers whose address carries the theme, and the files to load
+                    besides <code>wexa.js</code>. A page that has something of its own to start
+                    declares a function <code>bootPage</code>: the loader calls it once everything
+                    is there, and hands it the framework and those files.</p>
             </div>
-            <pre class="dark"><code>&lt;script type="module" src="wexa_statics/js/wexa.js"&gt;&lt;/script&gt;</code></pre>
+            <pre class="dark"><code>&lt;script src="wexa_statics/js/wexa.loader.js"
+        data-base="wexa_statics/"
+        data-default="wexa_theme"
+        data-links="btn-back"
+        data-extras="js/extras/sortatable.js"&gt;&lt;/script&gt;</code></pre>
         </article>
 
     </section>
@@ -178,69 +173,9 @@
     </p>
 </footer>
 
-<script>
-    (function () {
-        function injectIcons() {
-            if (!window.Wexa || !window.Wexa.icons) {
-                return false;
-            }
-            Wexa.icons.injectIcon(document.getElementById('btn-contrast-ex'), 'contrast');
-            Wexa.icons.injectIcon(document.getElementById('btn-color-ex'),    'color');
-            return true;
-        }
-        function start() {
-            const t = setInterval(function () {
-                if (injectIcons()) {
-                    clearInterval(t);
-                }
-            }, 20);
-        }
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', start, { once: true });
-        } else {
-            start();
-        }
-    })();
-</script>
 
-<script>
-    window.addEventListener('load', () => {
-        Wexa.links.handleLinksWithParameters(['btn-back']);
-    });
-</script>
-
-<!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
-<script>
-    (function () {
-        const usingFile = (window.location.protocol === 'file:');
-        const s = document.createElement('script');
-        if (usingFile) {
-            s.src = '../wexa_statics/js/wexa.bundle.js';
-            s.addEventListener('load', function () {
-                if (window.Wexa && window.Wexa.ThemeManager) {
-                    const t = new window.Wexa.ThemeManager();
-                    t.register('wexa_theme',   '../wexa_statics/css/themes/wexa_theme.css');
-                    t.register('aurora',       '../wexa_statics/css/themes/wexa_theme_aurora.css');
-                    t.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
-                    t.setDefault('wexa_theme');
-                    window.themes = t;
-                }
-            });
-        } else {
-            s.type = 'module';
-            s.src = '../wexa_statics/js/wexa.js';
-        }
-        document.head.appendChild(s);
-    })();
-</script>
-<script type="module">
-    import { ThemeManager } from '../wexa_statics/js/extras/theme_manager.js';
-    const themes = new ThemeManager();
-    themes.register('wexa_theme',   '../wexa_statics/css/themes/wexa_theme.css');
-    themes.register('aurora',       '../wexa_statics/css/themes/wexa_theme_aurora.css');
-    themes.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
-    window.themes = themes;
-</script>
-
+<script src="../wexa_statics/js/wexa.loader.js"
+        data-base="../wexa_statics/"
+        data-links="btn-back"></script>
 </body>
 </html>

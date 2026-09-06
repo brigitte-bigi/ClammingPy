@@ -71,44 +71,13 @@ class ExportOptions:
             <meta name="description" content="{META_DESCRIPTION}" />
 
             <link rel="logo icon" href="{STATICS}/{FAVICON}" />
-            <link rel="stylesheet" href="{WEXA_STATICS}/css/wexa.css" type="text/css" media="screen" />{THEME_LINK}
-            <link rel="stylesheet" href="{WEXA_STATICS}/css/print.css" type="text/css" media="print" />
-            <link rel="stylesheet" href="{WEXA_STATICS}/css/layout.css" type="text/css" />
-            <link rel="stylesheet" href="{WEXA_STATICS}/css/menu.css" type="text/css" />
-            <link rel="stylesheet" href="{WEXA_STATICS}/css/code.css" type="text/css" />
-            <link rel="stylesheet" href="{WEXA_STATICS}/css/extras/book.css" type="text/css" />
+            <link rel="stylesheet" href="{WEXA_STATICS}/css.min/wexa.css" type="text/css" media="screen" />{THEME_LINK}
+            <link rel="stylesheet" href="{WEXA_STATICS}/css.min/print.css" type="text/css" media="print" />
+            <link rel="stylesheet" href="{WEXA_STATICS}/css.min/layout.css" type="text/css" />
+            <link rel="stylesheet" href="{WEXA_STATICS}/css.min/menu.css" type="text/css" />
+            <link rel="stylesheet" href="{WEXA_STATICS}/css.min/code.css" type="text/css" />
+            <link rel="stylesheet" href="{WEXA_STATICS}/css.min/extras/book.css" type="text/css" />
             <link rel="stylesheet" href="{STATICS}/clamming.css" type="text/css" />
-
-            <!-- Whakerexa JS loader: bundle on file://, ES6 modules on http(s) -->
-            <script>
-            (function () {{
-              const usingFile = (window.location.protocol === 'file:');
-              if (usingFile === false) {{
-                return;
-              }}
-              const s = document.createElement('script');
-              s.src = '{WEXA_STATICS}/js/wexa.bundle.js';
-
-              s.onload = function () {{{THEME_BUNDLE}
-                window.Wexa.onload.addLoadFunction(function () {{
-                  const book = new window.Wexa.Book("main-content");
-                  book.fill_table(false);
-                }});
-              }};
-
-              document.head.appendChild(s);
-            }})();
-            </script>
-
-            <!-- The Book extra is not part of the 'wexa.js' API: it is imported apart -->
-            <script type="module">
-              if (window.location.protocol !== 'file:') {{
-                await import('{WEXA_STATICS}/js/wexa.js');{THEME_MODULE}
-                const {{ Book }} = await import('{WEXA_STATICS}/js/extras/book.js');
-                const book = new Book("main-content");
-                book.fill_table(false);
-              }}
-            </script>
 
        </head>
        
@@ -122,36 +91,45 @@ class ExportOptions:
         """
             <link rel="stylesheet" id="wexa-theme" href="{STATICS}/{CSS_THEME}" type="text/css" />"""
 
-    HTML_THEME_BUNDLE = \
-        """
-                const themes = new window.Wexa.ThemeManager();
-                themes.register('{THEME_NAME}', '{STATICS}/{CSS_THEME}');
-                themes.register('highcontrast', '{WEXA_STATICS}/css/themes/wexa_theme_highcontrast.css');
-                themes.setDefault('{THEME_NAME}');
-                window.themes = themes;
+    # The loader of Whakerexa. It decides by itself whether the browser can be
+    # given the modules or the bundle, registers the themes the page brings and
+    # then those of the framework, and hands the namespace to 'bootPage'. It
+    # stands at the end of the body, and it is the only script of a page.
 
-                window.Wexa.onload.addLoadFunction(function () {{
-                  const wexaLinks = [];
-                  document.querySelectorAll('a.wexa-link[id]').forEach(function (a) {{ wexaLinks.push(a.id); }});
-                  window.Wexa.links.handleLinksWithParameters(wexaLinks);
-                }});
+    HTML_SCRIPTS = \
+        """
+    <script>
+        /**
+         * Start what this page has of its own: its table of contents, and the
+         * links that carry the theme and the accessibility choices to the page
+         * they open.
+         *
+         * @param {{Object}} wexa - The framework and the extras the loader was asked for.
+         * @returns {{void}}
+         */
+        function bootPage(wexa) {{
+            const book = new wexa.Book("main-content");
+            book.fillTable(false);
+
+            const wexaLinks = [];
+            document.querySelectorAll('a.wexa-link[id]').forEach(function (a) {{ wexaLinks.push(a.id); }});
+            wexa.links.handleLinksWithParameters(wexaLinks);
+        }}
+    </script>
+
+    <script src="{WEXA_STATICS}/js/wexa.loader.js"
+            data-base="{WEXA_STATICS}/"
+            data-extras="js/extras/book.js"{THEME_DATA}></script>
 """
 
-    HTML_THEME_MODULE = \
-        """
-                const {{ ThemeManager }} = await import('{WEXA_STATICS}/js/extras/theme_manager.js');
-                const themes = new ThemeManager();
-                themes.register('{THEME_NAME}', '{STATICS}/{CSS_THEME}');
-                themes.register('highcontrast', '{WEXA_STATICS}/css/themes/wexa_theme_highcontrast.css');
-                themes.setDefault('{THEME_NAME}');
-                window.themes = themes;
+    # The theme the page brings, given to the loader. The themes of the
+    # framework are registered after it, so the button cycles through them.
 
-                window.Wexa.onload.addLoadFunction(function () {{
-                  const wexaLinks = [];
-                  document.querySelectorAll('a.wexa-link[id]').forEach(function (a) {{ wexaLinks.push(a.id); }});
-                  window.Wexa.links.handleLinksWithParameters(wexaLinks);
-                }});
-"""
+    HTML_THEME_DATA = \
+        """
+            data-themes-base="{WEXA_STATICS}/css.min/themes/"
+            data-themes="{THEME_NAME}:{STATICS}/{CSS_THEME}"
+            data-default="{THEME_NAME}" """
 
     HTML_BUTTONS_ACCESSIBILITY = \
         """
@@ -174,6 +152,7 @@ class ExportOptions:
         """
             <footer>
                 <p class="copyright">{COPYRIGHT}</p>
+                <p class="copyright">This page was propulsed by <a href="">Whakerexa</a></p>
             </footer>
         """
 
@@ -635,15 +614,30 @@ class ExportOptions:
             STATICS=self.__statics,
             WEXA_STATICS=self.__wexa_statics,
             META_DESCRIPTION=self.__descr,
-            THEME_LINK=self.__theme_part(ExportOptions.HTML_THEME_LINK),
-            THEME_BUNDLE=self.__theme_part(ExportOptions.HTML_THEME_BUNDLE),
-            THEME_MODULE=self.__theme_part(ExportOptions.HTML_THEME_MODULE)
+            THEME_LINK=self.__theme_part(ExportOptions.HTML_THEME_LINK)
+        )
+
+    # ----------------------------------------------------------------------------
+
+    def get_scripts(self) -> str:
+        """Return the scripts of the page, to be added at the end of its body.
+
+        The loader of Whakerexa is the only script a page carries: it decides
+        whether the browser is given the modules or the bundle, registers the
+        themes, and calls 'bootPage' with what it loaded.
+
+        :return: (str) HTML code
+
+        """
+        return ExportOptions.HTML_SCRIPTS.format(
+            WEXA_STATICS=self.__wexa_statics,
+            THEME_DATA=self.__theme_part(ExportOptions.HTML_THEME_DATA)
         )
 
     # ----------------------------------------------------------------------------
 
     def __theme_part(self, template: str) -> str:
-        """Return the given part of the 'head' filled with the theme information.
+        """Return the given part of the page filled with the theme information.
 
         The name a theme is registered with is the name of its file, without the
         extension: it is what the browser address shows when the reader switched.
