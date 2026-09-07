@@ -102,7 +102,7 @@ module in Mardown format or in HTML format as a standalone content:</p>
 <div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">clamming</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="c1"># Options for exportation</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">html_export</span> <span class="o">=</span> <span class="n">clamming</span><span class="o">.</span><span class="n">ExportOptions</span><span class="p">()</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">html_export</span><span class="o">.</span><span class="n">software</span> <span class="o">=</span> <span class="s1">&#39;ClammingPy &#39;</span> <span class="o">+</span> <span class="n">clamming</span><span class="o">.</span><span class="n">__version__</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">html_export</span><span class="o">.</span><span class="n">software</span> <span class="o">=</span> <span class="s1">'ClammingPy '</span> <span class="o">+</span> <span class="n">clamming</span><span class="o">.</span><span class="n">__version__</span>
 </code></pre></div>
 
 <h3>Documenting all classes of a list of modules</h3>
@@ -117,18 +117,18 @@ module in Mardown format or in HTML format as a standalone content:</p>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">packages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tests</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="c1"># Options for exportation</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">export</span> <span class="o">=</span> <span class="n">clamming</span><span class="o">.</span><span class="n">ExportOptions</span><span class="p">()</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">export</span><span class="o">.</span><span class="n">wexa_statics</span> <span class="o">=</span> <span class="s1">&#39;../Whakerexa-3.2/wexa_statics&#39;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">export</span><span class="o">.</span><span class="n">software</span> <span class="o">=</span> <span class="s1">&#39;ClammingPy &#39;</span> <span class="o">+</span> <span class="n">clamming</span><span class="o">.</span><span class="n">__version__</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="c1"># Export documentation to HTML files into the &quot;docs&quot; folder.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">export</span><span class="o">.</span><span class="n">wexa_statics</span> <span class="o">=</span> <span class="s1">'../Whakerexa-3.2/wexa_statics'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">export</span><span class="o">.</span><span class="n">software</span> <span class="o">=</span> <span class="s1">'ClammingPy '</span> <span class="o">+</span> <span class="n">clamming</span><span class="o">.</span><span class="n">__version__</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="c1"># Export documentation to HTML files into the "docs" folder.</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">m</span> <span class="o">=</span> <span class="n">clamming</span><span class="o">.</span><span class="n">ClamsModules</span><span class="p">(</span><span class="n">packages</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">m</span><span class="o">.</span><span class="n">html_export_packages</span><span class="p">(</span><span class="s2">&quot;docs&quot;</span><span class="p">,</span> <span class="n">export</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="c1"># Export documentation to Markdown files into the &quot;docs&quot; folder.</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">m</span><span class="o">.</span><span class="n">markdown_export_packages</span><span class="p">(</span><span class="s2">&quot;docs&quot;</span><span class="p">,</span> <span class="n">export</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">m</span><span class="o">.</span><span class="n">html_export_packages</span><span class="p">(</span><span class="s2">"docs"</span><span class="p">,</span> <span class="n">export</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="c1"># Export documentation to Markdown files into the "docs" folder.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">m</span><span class="o">.</span><span class="n">markdown_export_packages</span><span class="p">(</span><span class="s2">"docs"</span><span class="p">,</span> <span class="n">export</span><span class="p">)</span>
 </code></pre></div>
 
 <h2>License/Copyright</h2>
 
-<p>Copyright (C) 2023-2026 - <a href="https://sppas.org/bigi/">Brigitte Bigi</a> - <a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#x3a;&#99;&#x6f;&#x6e;&#x74;&#x61;&#99;&#116;&#x40;s&#112;&#112;&#97;&#115;&#x2e;&#111;&#114;&#x67;">&#99;&#x6f;&#x6e;&#x74;&#x61;&#99;&#116;&#x40;s&#112;&#112;&#97;&#115;&#x2e;&#111;&#114;&#x67;</a>, CNRS,
+<p>Copyright (C) 2023-2026 - <a href="https://sppas.org/bigi/">Brigitte Bigi</a> - <a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#x63;&#111;&#x6e;&#x74;&#97;&#x63;&#116;&#x40;&#x73;&#112;&#112;&#x61;&#x73;&#46;&#111;&#114;&#103;">&#x63;&#111;&#x6e;&#x74;&#97;&#x63;&#116;&#x40;&#x73;&#112;&#112;&#x61;&#x73;&#46;&#111;&#114;&#103;</a>, CNRS,
 Laboratoire Parole et Langage, Aix-en-Provence, France</p>
 
 <p>This program is free software: you can redistribute it and/or modify
@@ -226,7 +226,7 @@ along with this program. If not, see <a href="https://www.gnu.org/licenses/">htt
     
             <footer>
                 <p class="copyright">Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
-                <p class="copyright">This page was propulsed by <a href="">Whakerexa</a></p>
+                <p class="copyright">Powered by <a href="https://brigitte-bigi.github.io/Whakerexa/">Whakerexa</a></p>
             </footer>
         
     

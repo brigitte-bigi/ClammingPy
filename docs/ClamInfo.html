@@ -71,16 +71,16 @@
 
 <h5>Example</h5>
 
-<div class="highlight"><pre><span></span><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">clam_info</span> <span class="o">=</span> <span class="n">ClamInfo</span><span class="p">(</span><span class="s2">&quot;add&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">),</span> <span class="n">source</span><span class="o">=</span><span class="s2">&quot;def add(a, b): return a+b&quot;</span><span class="p">,</span> <span class="n">docstring</span><span class="o">=</span><span class="s2">&quot;Add two args.&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">clam_info</span> <span class="o">=</span> <span class="n">ClamInfo</span><span class="p">(</span><span class="s2">"add"</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">),</span> <span class="n">source</span><span class="o">=</span><span class="s2">"def add(a, b): return a+b"</span><span class="p">,</span> <span class="n">docstring</span><span class="o">=</span><span class="s2">"Add two args."</span><span class="p">)</span>
  <span class="o">&gt;&gt;&gt;</span> <span class="n">clam_info</span><span class="o">.</span><span class="n">name</span>
  <span class="o">&gt;</span> <span class="n">add</span>
  <span class="o">&gt;&gt;&gt;</span> <span class="n">clam_info</span><span class="o">.</span><span class="n">args</span>
- <span class="o">&gt;</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">]</span>
+ <span class="o">&gt;</span> <span class="p">[</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">]</span>
  <span class="o">&gt;&gt;&gt;</span> <span class="n">clam_info</span><span class="o">.</span><span class="n">source</span>
- <span class="o">&gt;</span> <span class="s2">&quot;def add(a, b): return a+b&quot;</span>
+ <span class="o">&gt;</span> <span class="s2">"def add(a, b): return a+b"</span>
  <span class="o">&gt;&gt;&gt;</span> <span class="n">clam_info</span><span class="o">.</span><span class="n">docstring</span>
- <span class="o">&gt;</span> <span class="s2">&quot;Add two args.&quot;</span>
- <span class="o">&gt;&gt;&gt;</span> <span class="n">clam_info</span> <span class="o">=</span> <span class="n">ClamInfo</span><span class="p">(</span><span class="s2">&quot;add&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">),</span> <span class="n">source</span><span class="o">=</span><span class="s2">&quot;def add(a, b): return a+b&quot;</span><span class="p">)</span>
+ <span class="o">&gt;</span> <span class="s2">"Add two args."</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">clam_info</span> <span class="o">=</span> <span class="n">ClamInfo</span><span class="p">(</span><span class="s2">"add"</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">),</span> <span class="n">source</span><span class="o">=</span><span class="s2">"def add(a, b): return a+b"</span><span class="p">)</span>
  <span class="o">&gt;&gt;&gt;</span> <span class="n">clam_info</span><span class="o">.</span><span class="n">docstring</span>
  <span class="o">&gt;</span> <span class="kc">None</span>
 </code></pre></div>
@@ -122,8 +122,8 @@
     <summary>
 View Source
     </summary>
-<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="p">(),</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">docstring</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a data class for a documented function.</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="p">(),</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="n">docstring</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Create a data class for a documented function.</span>
 
 <span class="sd">    :param name: (str) Name of the documented function</span>
 <span class="sd">    :param args: (list|tuple) List of its arguments</span>
@@ -131,10 +131,10 @@ View Source
 <span class="sd">    :param docstring: (str) Docstring of the function</span>
 <span class="sd">    :raises: TypeError: Wrong type of one of the given parameters</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+<span class="sd">    """</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__name</span> <span class="o">=</span> <span class="s1">''</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__args</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__source</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__source</span> <span class="o">=</span> <span class="s1">''</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__docstring</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">set_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
@@ -161,7 +161,7 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the name of the stored class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return the name of the stored class."""</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__name</span>
 </code></pre></div>
 
@@ -193,14 +193,14 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set a new name.</span>
+<span class="w">    </span><span class="sd">"""Set a new name.</span>
 
 <span class="sd">        :param name: (str) New name of the documented function/class/...</span>
 <span class="sd">        :raises: TypeError: given class_name is not a string</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;str&#39; for the ClamInfo.name, got </span><span class="si">{:s}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">))))</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Expected a 'str' for the ClamInfo.name, got </span><span class="si">{:s}</span><span class="s2"> instead."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">))))</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__name</span> <span class="o">=</span> <span class="n">name</span>
 </code></pre></div>
 
@@ -220,7 +220,7 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_args</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a copy of the list of arguments.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return a copy of the list of arguments."""</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__args</span><span class="p">]</span>
 </code></pre></div>
 
@@ -252,14 +252,14 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the list of args.</span>
+<span class="w">    </span><span class="sd">"""Set the list of args.</span>
 
 <span class="sd">        :param args: (list|tuple) Source code</span>
 <span class="sd">        :raises: TypeError: The given args is not a list or tuple</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;list&#39; or &#39;tuple&#39; for the ClamInfo.args. Got </span><span class="si">{:s}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">args</span><span class="p">))))</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Expected a 'list' or 'tuple' for the ClamInfo.args. Got </span><span class="si">{:s}</span><span class="s2"> instead."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">args</span><span class="p">))))</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__args</span> <span class="o">=</span> <span class="n">args</span>
 </code></pre></div>
 
@@ -279,7 +279,7 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the source code.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return the source code."""</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__source</span>
 </code></pre></div>
 
@@ -311,14 +311,14 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set a new source code.</span>
+<span class="w">    </span><span class="sd">"""Set a new source code.</span>
 
 <span class="sd">        :param source: (str) Source code</span>
 <span class="sd">        :raises: TypeError: The given source code is not a string</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;str&#39; for the ClamInfo.source, got </span><span class="si">{:s}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">source</span><span class="p">))))</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Expected a 'str' for the ClamInfo.source, got </span><span class="si">{:s}</span><span class="s2"> instead."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">source</span><span class="p">))))</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__source</span> <span class="o">=</span> <span class="n">source</span>
 </code></pre></div>
 
@@ -338,7 +338,7 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_docstring</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the docstring of the class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return the docstring of the class."""</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__docstring</span>
 </code></pre></div>
 
@@ -363,10 +363,10 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_docstring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docstring</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set a new docstring to the class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Set a new docstring to the class."""</span>
     <span class="k">if</span> <span class="n">docstring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">docstring</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected a &#39;str&#39; for the ClamInfo.docstring. Got </span><span class="si">{:s}</span><span class="s2"> instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">docstring</span><span class="p">))))</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Expected a 'str' for the ClamInfo.docstring. Got </span><span class="si">{:s}</span><span class="s2"> instead."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">docstring</span><span class="p">))))</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__docstring</span> <span class="o">=</span> <span class="n">docstring</span>
 </code></pre></div>
 
@@ -378,7 +378,7 @@ View Source
     
             <footer>
                 <p class="copyright">Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
-                <p class="copyright">This page was propulsed by <a href="">Whakerexa</a></p>
+                <p class="copyright">Powered by <a href="https://brigitte-bigi.github.io/Whakerexa/">Whakerexa</a></p>
             </footer>
         
     

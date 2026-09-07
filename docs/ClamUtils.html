@@ -77,12 +77,12 @@
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a ClamUtils instance.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Create a ClamUtils instance."""</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">markdowner</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">lexer</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">HTML</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">markdowner</span> <span class="o">=</span> <span class="n">markdown2</span><span class="o">.</span><span class="n">Markdown</span><span class="p">(</span><span class="n">extras</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tables&#39;</span><span class="p">,</span> <span class="s1">&#39;fenced-code-blocks&#39;</span><span class="p">,</span> <span class="s1">&#39;strike&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">markdowner</span> <span class="o">=</span> <span class="n">markdown2</span><span class="o">.</span><span class="n">Markdown</span><span class="p">(</span><span class="n">extras</span><span class="o">=</span><span class="p">[</span><span class="s1">'tables'</span><span class="p">,</span> <span class="s1">'fenced-code-blocks'</span><span class="p">,</span> <span class="s1">'strike'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span> <span class="o">=</span> <span class="n">pygments_formatter</span><span class="o">.</span><span class="n">HtmlFormatter</span><span class="p">(</span><span class="o">**</span><span class="n">ClamUtils</span><span class="o">.</span><span class="n">HTML_FORMATTER_ARGS</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lexer</span> <span class="o">=</span> <span class="n">pygments_lexers</span><span class="o">.</span><span class="n">PythonLexer</span><span class="p">()</span>
 </code></pre></div>
@@ -128,7 +128,7 @@ View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_class</span><span class="p">(</span><span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">module_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a class object by its name, regardless of import context.</span>
+<span class="w">    </span><span class="sd">"""Return a class object by its name, regardless of import context.</span>
 
 <span class="sd">        This method searches for a class within a module, whether the module</span>
 <span class="sd">        has been imported from a package, from a local test, or executed as</span>
@@ -142,11 +142,11 @@ View Source
 <span class="sd">        :param module_name: (str|None) Name of the module where to look for the class.</span>
 <span class="sd">                            If None, defaults to the caller’s module.</span>
 <span class="sd">        :return: (class|None) Class object if found, otherwise None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
     <span class="k">if</span> <span class="n">module_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">frame</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">()</span>
         <span class="n">caller</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_back</span> <span class="k">if</span> <span class="n">frame</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="n">module_name</span> <span class="o">=</span> <span class="n">caller</span><span class="o">.</span><span class="n">f_globals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;__name__&#39;</span><span class="p">,</span> <span class="s1">&#39;__main__&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">caller</span> <span class="k">else</span> <span class="s1">&#39;__main__&#39;</span>
+        <span class="n">module_name</span> <span class="o">=</span> <span class="n">caller</span><span class="o">.</span><span class="n">f_globals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'__name__'</span><span class="p">,</span> <span class="s1">'__main__'</span><span class="p">)</span> <span class="k">if</span> <span class="n">caller</span> <span class="k">else</span> <span class="s1">'__main__'</span>
     <span class="n">module</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">module_name</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
         <span class="n">module</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">module_name</span><span class="p">]</span>
@@ -154,20 +154,20 @@ View Source
         <span class="k">try</span><span class="p">:</span>
             <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">module_name</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
-            <span class="n">main_module</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;__main__&#39;</span><span class="p">)</span>
-            <span class="n">spec</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">main_module</span><span class="p">,</span> <span class="s1">&#39;__spec__&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">):</span>
-                <span class="n">alt_name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span>
+            <span class="n">main_module</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'__main__'</span><span class="p">)</span>
+            <span class="n">spec</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">main_module</span><span class="p">,</span> <span class="s1">'__spec__'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s1">'name'</span><span class="p">):</span>
+                <span class="n">alt_name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="s1">'name'</span><span class="p">)</span>
                 <span class="n">module</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">alt_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">module</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;get_class(): module not found: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">module_name</span><span class="p">)</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">'get_class(): module not found: </span><span class="si">%s</span><span class="s1">'</span><span class="p">,</span> <span class="n">module_name</span><span class="p">)</span>
                 <span class="k">return</span> <span class="kc">None</span>
     <span class="n">class_inst</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">class_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">class_inst</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;get_class(): class not found: </span><span class="si">%s</span><span class="s1"> in </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">class_name</span><span class="p">,</span> <span class="n">module_name</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">'get_class(): class not found: </span><span class="si">%s</span><span class="s1"> in </span><span class="si">%s</span><span class="s1">'</span><span class="p">,</span> <span class="n">class_name</span><span class="p">,</span> <span class="n">module_name</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">class_inst</span><span class="p">):</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;get_class(): &quot;</span><span class="si">%s</span><span class="s1">&quot; found in </span><span class="si">%s</span><span class="s1"> but is not a class.&#39;</span><span class="p">,</span> <span class="n">class_name</span><span class="p">,</span> <span class="n">module_name</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">'get_class(): "</span><span class="si">%s</span><span class="s1">" found in </span><span class="si">%s</span><span class="s1"> but is not a class.'</span><span class="p">,</span> <span class="n">class_name</span><span class="p">,</span> <span class="n">module_name</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">return</span> <span class="n">class_inst</span>
 </code></pre></div>
@@ -200,15 +200,15 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">markdown_convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">md</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return HTML of the given markdown content.</span>
+<span class="w">    </span><span class="sd">"""Return HTML of the given markdown content.</span>
 
 <span class="sd">        :param md: (str) A standard-limited markdown content</span>
 <span class="sd">        :return: (str) The HTML content</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">HTML</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Markdown to HTML conversion is disabled: </span><span class="si">{</span><span class="n">HTML</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Markdown to HTML conversion is disabled: </span><span class="si">{</span><span class="n">HTML</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">''</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">markdowner</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">md</span><span class="p">)</span>
 </code></pre></div>
 
@@ -240,29 +240,29 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">markdown_to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Turn a markdown content into HTML.</span>
+<span class="w">    </span><span class="sd">"""Turn a markdown content into HTML.</span>
 
 <span class="sd">        :param content: (str) A complex markdown content</span>
 <span class="sd">        :return: (str) The HTML content</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">HTML</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Markdown to HTML conversion is disabled: </span><span class="si">{</span><span class="n">HTML</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Markdown to HTML conversion is disabled: </span><span class="si">{</span><span class="n">HTML</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">''</span>
     <span class="n">h</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="n">code</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="n">md</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">all_lines</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">all_lines</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
     <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_lines</span><span class="p">):</span>
         <span class="n">line</span> <span class="o">=</span> <span class="n">all_lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;```&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'```'</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">has_language</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">==</span> <span class="mi">3</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">md</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">markdowner</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">md</span><span class="p">)))</span>
+                <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">markdowner</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">md</span><span class="p">)))</span>
                 <span class="n">md</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-            <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-            <span class="k">while</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;```&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="s1">''</span>
+            <span class="k">while</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'```'</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
                 <span class="n">code</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
                 <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
                 <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_lines</span><span class="p">):</span>
@@ -270,17 +270,17 @@ View Source
                 <span class="n">line</span> <span class="o">=</span> <span class="n">all_lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">has_language</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-                    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;pre&gt;&#39;</span><span class="p">)</span>
-                    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">code</span><span class="p">))</span>
-                    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;/pre&gt;&#39;</span><span class="p">)</span>
+                    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'&lt;pre&gt;'</span><span class="p">)</span>
+                    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">code</span><span class="p">))</span>
+                    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'&lt;/pre&gt;'</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pygments_highlight</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">code</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">lexer</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span><span class="p">))</span>
+                    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pygments_highlight</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">code</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">lexer</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span><span class="p">))</span>
                 <span class="n">code</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__is_code</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">idx</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">md</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">markdowner</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">md</span><span class="p">)))</span>
+                    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">markdowner</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">md</span><span class="p">)))</span>
                     <span class="n">md</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
                 <span class="k">if</span> <span class="n">idx</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">code</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="n">idx</span><span class="p">:])</span>
@@ -288,16 +288,16 @@ View Source
                     <span class="n">code</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pygments_highlight</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">code</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">lexer</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span><span class="p">))</span>
+                    <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pygments_highlight</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">code</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">lexer</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span><span class="p">))</span>
                     <span class="n">code</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
                 <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
         <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pygments_highlight</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">code</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">lexer</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span><span class="p">))</span>
+        <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pygments_highlight</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">code</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">lexer</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span><span class="p">))</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">md</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">markdowner</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">md</span><span class="p">)))</span>
-    <span class="n">html_result</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">html_result</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&lt;p&gt;&lt;/p&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">h</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">markdowner</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">md</span><span class="p">)))</span>
+    <span class="n">html_result</span> <span class="o">=</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">html_result</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'&lt;p&gt;&lt;/p&gt;'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
 </code></pre></div>
 
     </details>
@@ -328,15 +328,15 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">source_to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Turn a source code content into HTML.</span>
+<span class="w">    </span><span class="sd">"""Turn a source code content into HTML.</span>
 
 <span class="sd">        :param source: (str) The source code content</span>
 <span class="sd">        :return: (str) The HTML content</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">HTML</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Source code to HTML conversion is disabled: </span><span class="si">{:s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">HTML</span><span class="p">))</span>
-        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">'Source code to HTML conversion is disabled: </span><span class="si">{:s}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">HTML</span><span class="p">))</span>
+        <span class="k">return</span> <span class="s1">''</span>
     <span class="k">return</span> <span class="n">pygments_highlight</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lexer</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span><span class="p">)</span>
 </code></pre></div>
 
@@ -355,10 +355,10 @@ View Source
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">__is_code</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
     <span class="n">entry</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">entry</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;&gt;&gt;&gt;&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">line</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;&gt;&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="k">if</span> <span class="n">entry</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;&gt; &#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">line</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;&gt;&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">entry</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'&gt;&gt;&gt;'</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">line</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">'&gt;'</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">entry</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'&gt; '</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">line</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">'&gt;'</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
 </code></pre></div>
 
@@ -370,7 +370,7 @@ View Source
     
             <footer>
                 <p class="copyright">Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
-                <p class="copyright">This page was propulsed by <a href="">Whakerexa</a></p>
+                <p class="copyright">Powered by <a href="https://brigitte-bigi.github.io/Whakerexa/">Whakerexa</a></p>
             </footer>
         
     

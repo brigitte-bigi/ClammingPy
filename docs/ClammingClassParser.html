@@ -98,7 +98,7 @@
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create lists of ClamInfo from a given Python object.</span>
+<span class="w">    </span><span class="sd">"""Create lists of ClamInfo from a given Python object.</span>
 
 <span class="sd">    List of public members:</span>
 
@@ -110,14 +110,14 @@ View Source
 <span class="sd">    :raises TypeError: if the object is not a class.</span>
 <span class="sd">    :raises TypeError: if the object is a built-in class.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">or</span> <span class="n">obj</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">&#39;builtins&#39;</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Expected a class object for clamming but not a built-in one.&#39;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">or</span> <span class="n">obj</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">'builtins'</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">'Expected a class object for clamming but not a built-in one.'</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__obj_src</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__obj</span> <span class="o">=</span> <span class="n">obj</span>
     <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Expected a class object for clamming but not a built-in one.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">'Expected a class object for clamming but not a built-in one.'</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__obj_clams</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inspect_class</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__init_clams</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inspect_constructor</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__fct_clams</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inspect_functions</span><span class="p">()</span>
@@ -148,11 +148,11 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_obj_clams</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ClamInfo</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse the information of the class.</span>
+<span class="w">    </span><span class="sd">"""Parse the information of the class.</span>
 
 <span class="sd">        :return: (ClamInfo) Information of the object.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obj_clams</span>
 </code></pre></div>
 
@@ -178,11 +178,11 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_init_clams</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ClamInfo</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Inspect constructor of the given object.</span>
+<span class="w">    </span><span class="sd">"""Inspect constructor of the given object.</span>
 
 <span class="sd">        :return: (ClamInfo) Information of the constructor of the object.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__init_clams</span>
 </code></pre></div>
 
@@ -208,11 +208,11 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_fct_clams</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Inspect functions of the given object.</span>
+<span class="w">    </span><span class="sd">"""Inspect functions of the given object.</span>
 
 <span class="sd">        :return: (dict) key=function name, value=ClamInfo()</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fct_clams</span>
 </code></pre></div>
 
@@ -235,15 +235,15 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">_inspect_class</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ClamInfo</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Inspect constructor of the given object.</span>
+<span class="w">    </span><span class="sd">"""Inspect constructor of the given object.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
     <span class="n">class_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obj</span><span class="o">.</span><span class="vm">__name__</span>
     <span class="n">tree</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__obj_src</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">ast</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">ClassDef</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">ClamInfo</span><span class="p">(</span><span class="n">class_name</span><span class="p">,</span> <span class="p">[],</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">get_docstring</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">ClamInfo</span><span class="p">(</span><span class="n">class_name</span><span class="p">,</span> <span class="p">[],</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">ClamInfo</span><span class="p">(</span><span class="n">class_name</span><span class="p">,</span> <span class="p">[],</span> <span class="s1">''</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">get_docstring</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">ClamInfo</span><span class="p">(</span><span class="n">class_name</span><span class="p">,</span> <span class="p">[],</span> <span class="s1">''</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 
     </details>
@@ -262,16 +262,16 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">_inspect_constructor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ClamInfo</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Inspect constructor of the given object.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Inspect constructor of the given object."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">init_src</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__obj</span><span class="o">.</span><span class="fm">__init__</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">ClamInfo</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ClamInfo</span><span class="p">(</span><span class="s1">''</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">ClamInfo</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ClamInfo</span><span class="p">(</span><span class="s1">''</span><span class="p">)</span>
     <span class="n">init_tree</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">init_src</span><span class="p">))</span>
     <span class="n">init_args</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="n">init_src</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">init_src</span> <span class="o">=</span> <span class="s1">''</span>
     <span class="n">init_doc</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">ast</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">init_tree</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">FunctionDef</span><span class="p">):</span>
@@ -304,17 +304,17 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">_inspect_functions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Inspect the documented functions of the given object.</span>
+<span class="w">    </span><span class="sd">"""Inspect the documented functions of the given object.</span>
 
 <span class="sd">        :return: (dict) key=function name, value=ClamInfo()</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
     <span class="n">fct_infos</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="n">tree</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__obj_src</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">ast</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">FunctionDef</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">AsyncFunctionDef</span><span class="p">)):</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span>
-            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;__init__&#39;</span><span class="p">,</span> <span class="s1">&#39;__new__&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'__init__'</span><span class="p">,</span> <span class="s1">'__new__'</span><span class="p">):</span>
                 <span class="k">continue</span>
             <span class="n">fct_infos</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">ClamInfo</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">[</span><span class="n">arg</span><span class="o">.</span><span class="n">arg</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">args</span><span class="p">],</span> <span class="n">ast</span><span class="o">.</span><span class="n">unparse</span><span class="p">(</span><span class="n">node</span><span class="p">),</span> <span class="n">ast</span><span class="o">.</span><span class="n">get_docstring</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">fct_infos</span>
@@ -328,7 +328,7 @@ View Source
     
             <footer>
                 <p class="copyright">Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
-                <p class="copyright">This page was propulsed by <a href="">Whakerexa</a></p>
+                <p class="copyright">Powered by <a href="https://brigitte-bigi.github.io/Whakerexa/">Whakerexa</a></p>
             </footer>
         
     
