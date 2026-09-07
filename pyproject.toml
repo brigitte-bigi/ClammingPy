@@ -6,7 +6,7 @@
 
 [project]
     name = "ClammingPy"
-    version = "3.2"
+    version = "3.3"
     authors = [
       { name="Brigitte Bigi", email="contact@sppas.org" },
     ]
