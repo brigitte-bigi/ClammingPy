@@ -152,7 +152,7 @@ class ExportOptions:
         """
             <footer>
                 <p class="copyright">{COPYRIGHT}</p>
-                <p class="copyright">This page was propulsed by <a href="">Whakerexa</a></p>
+                <p class="copyright">Powered by <a href="https://brigitte-bigi.github.io/Whakerexa/">Whakerexa</a></p>
             </footer>
         """
 
